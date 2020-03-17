@@ -1,7 +1,12 @@
 public class Value {
-    String musicFile;
 
-    public String getValue() {
+    MusicFile musicFile;
+
+    Value(MusicFile msc){
+        musicFile = msc;
+    }
+
+    public MusicFile getValue() {
         return musicFile;
     }
 }
