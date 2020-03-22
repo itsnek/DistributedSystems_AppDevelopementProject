@@ -28,11 +28,11 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
         return arg2;
     }
 
-    protected void register (Broker br , ArtistName artN){
+    public void register (Broker br , ArtistName artN){
 
         try {
 
-            requestSocket = new Socket(br, 4321); //opens connection //"127.0.0.1" sees as server the cpu of my own pc
+            requestSocket = new Socket(br.getAddress(), 4321); //opens connection //"127.0.0.1" sees as server the cpu of my own pc
             out = new ObjectOutputStream(requestSocket.getOutputStream()); // streams
             in = new ObjectInputStream(requestSocket.getInputStream());    //  used
 
@@ -51,7 +51,7 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
 
     }
 
-    protected void disconnect(Broker br, ArtistName artN){
+    public void disconnect(Broker br, ArtistName artN){
 
         try {
 
@@ -64,7 +64,7 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
 
     }
 
-    protected void playData (ArtistName artN , Value v){
+    public void playData (ArtistName artN , Value v){
 
         //pubsub code here
 
