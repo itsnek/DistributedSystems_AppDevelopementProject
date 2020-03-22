@@ -15,6 +15,19 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
         arg1 = a;
     }
 
+    Consumer(String a,String b){
+        arg1 = a;
+        arg2 = b;
+    }
+
+    public String getArg1() {
+        return arg1;
+    }
+
+    public String getArg2() {
+        return arg2;
+    }
+
     protected void register (Broker br , ArtistName artN){
 
         try {
@@ -70,11 +83,11 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
 
     public void run(){
 
-        ArtistName artist = new ArtistName("2pac");
+        ArtistName artist = new ArtistName(getArg1());
 
-        register(404,artist);
-        playData(artist,new Value(new MusicFile ("all eyes on me")));
-        disconnect(404,artist);
+        register(new Broker(),artist);
+        playData(artist,new Value(new MusicFile (getArg2())));
+        disconnect(new Broker(),artist);
 
     }
 
@@ -82,12 +95,12 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
     public static void main(String args[]) {
 
         //First thread created and executed
-        Consumer cons1 = new Consumer("2pac");
+        Consumer cons1 = new Consumer("2pac","all eyes on me");
         Thread t1 = new Thread(cons1);
         t1.start();
 
         //Second thread created and executed
-        Consumer cons2 = new Consumer("biggie");
+        Consumer cons2 = new Consumer("biggie","notorious thugs");
         Thread t2 = new Thread(cons2);
         t2.start();
 
