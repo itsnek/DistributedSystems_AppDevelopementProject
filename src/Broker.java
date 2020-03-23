@@ -14,16 +14,20 @@ public class Broker extends Node implements Runnable {
     Socket requestSocket = null;
     List<Consumer> registeredUsers;
     List<Publisher> registeredPublishers;
-    int port,address;
+    int port;
+    String address;
 
     Broker(){
 
     }
 
-    Broker(int address){
+    Broker(String address){
         this.address = address;
     }
 
+    public String getAddress() {
+        return address;
+    }
 
     public int calculateKeys() {
 
