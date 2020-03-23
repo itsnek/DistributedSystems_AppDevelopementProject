@@ -32,10 +32,12 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
 
         try {
 
+            super.connect();
+            /*
             requestSocket = new Socket(br.getAddress(), 4321); //opens connection //"127.0.0.1" sees as server the cpu of my own pc
             out = new ObjectOutputStream(requestSocket.getOutputStream()); // streams
             in = new ObjectInputStream(requestSocket.getInputStream());    //  used
-
+            */
 
             String request = artN.getArtistName(); // create message
             System.out.println("Message created.");

@@ -85,11 +85,16 @@ public class Broker extends Node implements Runnable {
 
     public void disconnect(){
 
-        try {
-            providerSocket.close();             // Closes connection.
+        super.disconnect(); // Closes connection.
+
+        /*try {
+
+            in.close(); out.close();
+            connection.close();
+
         } catch (IOException ioException) {
             ioException.printStackTrace();
-        }
+        }*/
 
     }
 
