@@ -3,6 +3,60 @@ public class MusicFile {
     String artistName;
     String albumInfo;
     String genre;
-    String musicFileExtract;
+    byte[] musicFileExtract;
+
+    MusicFile(String trackName,String artistName,String albumInfo,String genre,byte[] musicFileExtract){
+        this.trackName = trackName;
+        this.artistName = artistName;
+        this.albumInfo = albumInfo;
+        this.genre = genre;
+        this.musicFileExtract = musicFileExtract;
+    }
+
+    MusicFile(String trackName){
+        this.trackName = trackName;
+    }
+
+    //Getters
+    public String getArtistName() {
+        return artistName;
+    }
+
+    public String getAlbumInfo() {
+        return albumInfo;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public byte[] getMusicFileExtract() {
+        return musicFileExtract;
+    }
+
+    public String getTrackName() {
+        return trackName;
+    }
+
+    //Setters
+    public void setAlbumInfo(String albumInfo) {
+        this.albumInfo = albumInfo;
+    }
+
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setMusicFileExtract(byte[] musicFileExtract) {
+        this.musicFileExtract = musicFileExtract;
+    }
+
+    public void setTrackName(String trackName) {
+        this.trackName = trackName;
+    }
 
 }
