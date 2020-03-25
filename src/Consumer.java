@@ -5,9 +5,9 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
 
     String arg1,arg2;
 
-    Socket requestSocket = null;
-    ObjectOutputStream out = null;
-    ObjectInputStream in = null;
+    private Socket requestSocket = null;
+    private ObjectOutputStream out = null;
+    private ObjectInputStream in = null;
 
     Consumer(){}
 
