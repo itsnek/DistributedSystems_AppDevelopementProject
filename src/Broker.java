@@ -9,11 +9,11 @@ import static java.lang.Integer.parseInt;
 
 public class Broker extends Node implements Runnable {
 
-    ServerSocket providerSocket = null;
-    Socket connection = null;
-    Socket requestSocket = null;
-    List<Consumer> registeredUsers;
-    List<Publisher> registeredPublishers;
+    private ServerSocket providerSocket = null;
+    private Socket connection = null;
+    private Socket requestSocket = null;
+    private List<Consumer> registeredUsers;
+    private List<Publisher> registeredPublishers;
     int port;
     String address;
 

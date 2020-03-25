@@ -4,12 +4,17 @@ import java.util.List;
 
 public class Node {
 
-    List<Broker> brokers;
-    Socket socket = null;
-    ObjectOutputStream out = null;
-    ObjectInputStream in = null;
-    int id;
+    protected List<Broker> brokers;
+    private List<String> addr;
+    private Socket socket = null;
+    private ObjectOutputStream out = null;
+    private ObjectInputStream in = null;
+    private int id;
+    private String line;
 
+    File Brokers = new File("");
+
+    //Constructors
     Node(){
 
     }
@@ -24,14 +29,47 @@ public class Node {
 
     }
 
-    public List<Broker> getBrokers(){
+    //Reading the addresses of the Brokers form the csv file.
+    public void setBrokers(File Brokers) {
+
+        List<String> temp = ReadFile(Brokers);
 
         for(int i = 0;i < brokers.size();i++){
-            System.out.println(brokers.get(i));
+            this.brokers.add(new Broker(temp.get(i)));
         }
 
     }
 
+    public List<Broker> getBrokers(){
+
+        /*for(int i = 0;i < brokers.size();i++){
+            System.out.println(brokers.get(i));
+        }*/
+        return brokers;
+    }
+
+    public List ReadFile(File Brokers){
+
+        try (BufferedReader br = new BufferedReader(new FileReader(Brokers))) {
+
+            line = br.readLine();
+            while ((line = br.readLine()) != null) {
+
+                // use comma as separator
+                String[] addresses = line.split(",");
+
+                for(int j = 0; j < addresses.length; j++){
+                    addr.add(addresses[j]);
+                }
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return addr;
+    }
+
+    //Methods for the connection.
     public void connect(){
         try {
             socket = new Socket("127.0.0.1", 4321); //opens connection    //"127.0.0.1" sees as server the cpu of my own pc
