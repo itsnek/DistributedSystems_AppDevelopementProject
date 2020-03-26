@@ -39,7 +39,7 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
             in = new ObjectInputStream(requestSocket.getInputStream());    //  used
             */
 
-            String request = artN.getArtistName(); // create message
+            Message request = new Message(artN.getArtistName()); // create message
             System.out.println("Message created.");
             out.writeObject(request); //send message
             out.flush();
@@ -68,11 +68,9 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
 
     public void playData (ArtistName artN , Value v){
 
-        //pubsub code here
-
         try {
 
-            System.out.println("Message received is: " + ((String) in.readObject())); //try to read received message,the type may differ.
+            System.out.println("Message received is: " + ((Message) in.readObject())); //try to read received message,the type may differ.
 
         }catch (ClassNotFoundException e) {
             System.out.println("/nUnknown object type received.");

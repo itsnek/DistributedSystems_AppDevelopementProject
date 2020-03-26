@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1ba10cd-b686-42b7-89fe-8fb33cad5633" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Publisher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PublisherThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Broker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Broker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Consumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Publisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Publisher.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,10 +126,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="672" y="236" key="MultipleFileMergeDialog/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585049757786" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1585159126241">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1585183905167">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585159126241" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585183905167" />
     <state x="656" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1585154645066">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -140,6 +138,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="741" y="233" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585049717529" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1585182804550">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585182804550" />
   </component>
   <component name="masterDetails">
     <states>
