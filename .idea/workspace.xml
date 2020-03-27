@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e1ba10cd-b686-42b7-89fe-8fb33cad5633" name="Default" comment="commit Publisher.java">
-      <change afterPath="$PROJECT_DIR$/src/PublisherThread.java" afterDir="false" />
+    <list default="true" id="e1ba10cd-b686-42b7-89fe-8fb33cad5633" name="Default" comment="commit Publisher.java and PublisherThread.java">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spotify.iml" beforeDir="false" afterPath="$PROJECT_DIR$/spotify.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Publisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Publisher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PublisherThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PublisherThread.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,14 +38,23 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="true" />
+    <property name="Repository.Attach.Annotations" value="true" />
+    <property name="Repository.Attach.JavaDocs" value="true" />
+    <property name="Repository.Attach.Sources" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="configurable.group.build" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\User\Desktop\Κατανεμημενα συστηματα\Project" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration default="true" type="Applet" factoryName="Applet">
@@ -112,7 +122,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585087509347</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="commit Publisher.java and PublisherThread.java">
+      <created>1585171807939</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1585171807939</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -123,7 +140,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="commit Publisher.java" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit Publisher.java" />
+    <MESSAGE value="commit Publisher.java and PublisherThread.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit Publisher.java and PublisherThread.java" />
   </component>
   <component name="WindowStateProjectService">
     <state x="488" y="71" key="#com.intellij.ide.util.MemberChooser" timestamp="1585073511941">
@@ -134,119 +152,29 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="534" y="256" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1366.728@0.0.1366.728" timestamp="1585074371549" />
-    <state x="327" y="0" key="CommitChangelistDialog2" timestamp="1585087507714">
+    <state x="327" y="0" key="CommitChangelistDialog2" timestamp="1585171805548">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="327" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1585087507714" />
-    <state x="275" y="100" key="Vcs.Push.Dialog.v2" timestamp="1585087533849">
+    <state x="327" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1585171805548" />
+    <state x="163" y="0" key="SettingsEditor" timestamp="1585253292657">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="275" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1585087533849" />
-    <state x="589" y="272" key="com.intellij.ide.util.TipDialog" timestamp="1585138331388">
+    <state x="163" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1585253292657" />
+    <state x="275" y="100" key="Vcs.Push.Dialog.v2" timestamp="1585171890495">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="589" y="272" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1585138331388" />
-    <state x="494" y="283" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1585087360343">
+    <state x="275" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1585171890495" />
+    <state x="589" y="272" key="com.intellij.ide.util.TipDialog" timestamp="1585338239082">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="494" y="283" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.728@0.0.1366.728" timestamp="1585087360343" />
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ArtifactsStructureConfigurable.UI">
-        <settings>
-          <artifact-editor />
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="FacetStructureConfigurable.UI">
-        <settings>
-          <last-edited>No facets are configured</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="GlobalLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="JdkListConfigurable.UI">
-        <settings>
-          <last-edited>9.0</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ModuleStructureConfigurable.UI">
-        <settings>
-          <last-edited>spotify</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-                <option value="0.6" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectJDKs.UI">
-        <settings>
-          <last-edited>9.0</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ScopeChooserConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
+    <state x="589" y="272" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1585338239082" />
+    <state x="387" y="265" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1585253256898">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="387" y="265" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1366.728@0.0.1366.728" timestamp="1585253256898" />
+    <state x="494" y="283" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1585171820813">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="494" y="283" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.728@0.0.1366.728" timestamp="1585171820813" />
   </component>
 </project>
