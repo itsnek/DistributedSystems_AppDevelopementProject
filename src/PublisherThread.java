@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import com.mpatric.mp3agic.Mp3File;
 
 public class PublisherThread extends Thread{
     private Socket clientSocket;
@@ -12,6 +13,7 @@ public class PublisherThread extends Thread{
 
     public void run () {
         try {
+
             ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
             out.flush();
             ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
