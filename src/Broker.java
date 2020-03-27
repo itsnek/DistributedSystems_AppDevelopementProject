@@ -52,16 +52,19 @@ public class Broker extends Node implements Runnable {
 
     public void acceptConnection() {
         try{
+            System.out.println("Mphka.");
 
-            providerSocket = new ServerSocket(4321, 10);       // Accepts connection
-            connection = providerSocket.accept();                            // with client.
-            System.out.println("Connection opened successfully.");
-            registeredUsers.add(new Consumer(Integer.toString(calculateKeys()))); // Insert user's key.
-            System.out.println("Client registered.");
-            Worker wk = new Worker(connection); // Enters worker class.
-            System.out.println("Handler created.");
-            new Thread(wk).start();
+            providerSocket = new ServerSocket(4321, 10);// Accepts connection
 
+            while (true) {
+                connection = providerSocket.accept();                            // with client.
+                System.out.println("Connection opened successfully.");
+                registeredUsers.add(new Consumer(Integer.toString(calculateKeys()))); // Insert user's key.
+                System.out.println("Client registered.");
+                Worker wk = new Worker(connection); // Enters worker class.
+                System.out.println("Handler created.");
+                new Thread(wk).start();
+            }
 
         }catch (IOException ioException) {
             ioException.printStackTrace();
@@ -69,7 +72,7 @@ public class Broker extends Node implements Runnable {
 
     }
 
-    public void notifyPubliser(Message mes) {
+    /*public void notifyPubliser(Message mes) {
 
         try{
             requestSocket = new Socket(pub, 4321);              // Requests connection with publisher.
@@ -81,7 +84,7 @@ public class Broker extends Node implements Runnable {
             ioException.printStackTrace();
         }
 
-    }
+    }*/
 
     public void disconnect(){
 
@@ -116,15 +119,18 @@ public class Broker extends Node implements Runnable {
         // Accept connection with client and starts the whole process.
         acceptConnection();
 
-       /*if(timeWithoutResponse = 500){
-            disconnect();
-        }*/
+        //disconnect();
+
 
     }
 
     public static void main(String args[]) {
 
-        new Thread(new Broker()).start();
+        //Broker br = new Broker();
+        //br.acceptConnection();
+        //br.disconnect();
+
+        new Thread(new Broker("127.0.0.1")).start();
 
     }
 

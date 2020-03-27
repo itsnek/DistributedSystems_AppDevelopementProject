@@ -21,7 +21,8 @@ public class Worker extends Thread {
                 Message request = (Message)in.readObject();     // Gives value to inputStream.
                 System.out.println("Message received.");
                 if(request != null) {                           // Checks if it's a connection from broker's side.
-                    new Broker().notifyPubliser(request);       // Not sure if it works for every circumstance.
+                    System.out.println("mphka");
+                    //new Broker().notifyPubliser(request);       // Not sure if it works for every circumstance.
                 }
                 System.out.println("Job's done!");
                 out.writeObject(request);                       // Gives value to outputStream.

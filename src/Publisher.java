@@ -4,7 +4,7 @@ import java.rmi.server.ServerCloneException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Publisher extends Node implements Runnable {
+public class Publisher extends Node{
 
     private static ArrayList <ArtistName> Artists = new ArrayList<ArtistName> (30);
     private static ArrayList <MusicFile> Songs = new ArrayList<MusicFile> (300);
@@ -91,48 +91,45 @@ public class Publisher extends Node implements Runnable {
 
     }
 
-    public void push(ArtistName artN,Value v){
+    /*public void push(ArtistName artN,Value v){
 
-        //First returns the list of the artist's songs,or failure message.
-        if(Artists.contains(artN)){
-            out.writeBytes(artN + "'s list of songs :");
+        try {
+
+            //First returns the list of the artist's songs,or failure message.
+            if (Artists.contains(artN)) {
+                out.writeBytes(artN + "'s list of songs :");
+                for (int i = 0; i < Songs.size(); i++) {
+                    if (Songs.get(i).getArtistName().equals(artN.getArtistName())) {
+                        out.writeBytes(Songs.get(i).getTrackName());
+                    }
+                }
+            } else {
+                notifyFailure();
+            }
+
+            //if client answers the song he requests then :
             for (int i = 0; i < Songs.size(); i++) {
-                if (Songs.get(i).getArtistName().equals(artN.getArtistName())) {
-                    out.writeBytes(Songs.get(i).getTrackName());
+                if (Songs.get(i) == v.getValue()) {
+                    out.write(Songs.get(i).getMusicFileExtract());
                 }
             }
-        }else {
-            out.writeBytes("Sorry,we don't have any songs of this artist.");
-        }
-
-        //if client answers the song he requests then :
-        for (int i = 0; i < Songs.size(); i++) {
-            if (Songs.get(i) == v.getValue()) {
-                out.write(Songs.get(i).getMusicFileExtract());
-            }
+        }catch (IOException ioe) {
+            ioe.printStackTrace();
         }
 
     }
 
     public  void notifyFailure(Broker br){
-
-    }
-
-    public void run() {
-
-        connectToServer();
-        disconnect();
-
-    }
+        out.writeBytes("Sorry,we don't have any songs of this artist.");
+    }*/
 
     public void main(String args[]){
 
         //Insert datasets
         File f = new File("");
-        
-        //Create publishers
-        Publisher p1 = new Publisher();
-        Publisher p2 = new Publisher();
+
+        connectToServer();
+        disconnect();
 
     }
 

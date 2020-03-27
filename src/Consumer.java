@@ -32,12 +32,10 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
 
         try {
 
-            super.connect();
-            /*
             requestSocket = new Socket(br.getAddress(), 4321); //opens connection //"127.0.0.1" sees as server the cpu of my own pc
             out = new ObjectOutputStream(requestSocket.getOutputStream()); // streams
             in = new ObjectInputStream(requestSocket.getInputStream());    //  used
-            */
+
 
             Message request = new Message(artN.getArtistName()); // create message
             System.out.println("Message created.");
@@ -56,8 +54,8 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
     public void disconnect(Broker br, ArtistName artN){
 
         try {
-
-            in.close(); out.close();
+            if(in!=null) in.close();
+            if (out!=null)out.close();
             requestSocket.close();
 
         } catch (IOException ioException) {
@@ -85,9 +83,9 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
 
         ArtistName artist = new ArtistName(getArg1());
 
-        register(new Broker(),artist);
-        playData(artist,new Value(new MusicFile (getArg2())));
-        disconnect(new Broker(),artist);
+        register(new Broker("127.0.0.1"),artist);
+        //playData(artist,new Value(new MusicFile (getArg2())));
+        disconnect(new Broker("127.0.0.1"),artist);
 
     }
 
@@ -100,9 +98,9 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
         t1.start();
 
         //Second thread created and executed
-        Consumer cons2 = new Consumer("biggie","notorious thugs");
+        /*Consumer cons2 = new Consumer("biggie","notorious thugs");
         Thread t2 = new Thread(cons2);
-        t2.start();
+        t2.start();*/
 
     }
 
