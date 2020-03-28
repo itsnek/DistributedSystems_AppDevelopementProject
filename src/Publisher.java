@@ -15,12 +15,11 @@ public class Publisher extends Node{
     private static int socketCounter = 0; // It counts total sockets.
     private static int clientSocketCounter = 0; //It counts only sockets of clients.
     private static int serverSocketCounter = 0; //It counts only sockets of servers.*/
-   private static final int startingSocketNumber = 1050;
+   private static final int startingSocketNumber = 50190;
     private List <Broker> Brokers;
     private Socket clientSocket = null;
     private ServerSocket serverSocket = null;
     String Hashkey;
-
 
 
     Publisher(){
@@ -57,7 +56,7 @@ public class Publisher extends Node{
             in.set(socketCounter, new ObjectInputStream(clientSockets.get(socketCounter).getInputStream()));
             socketCounter++;
             clientSocketCounter++;*/
-            serverSocket = new ServerSocket(startingSocketNumber);
+            serverSocket = new ServerSocket(startingSocketNumber,2);
 
         } catch (IOException ioe) {
             ioe.printStackTrace();
@@ -67,8 +66,9 @@ public class Publisher extends Node{
 
             try {
 
+                System.out.println("mpainw");
                 clientSocket = serverSocket.accept();
-
+                System.out.println("vgainw");
                 PublisherThread pt = new PublisherThread (clientSocket);
                 pt.start();
 
@@ -123,13 +123,14 @@ public class Publisher extends Node{
         out.writeBytes("Sorry,we don't have any songs of this artist.");
     }*/
 
-    public void main(String args[]){
+    public static void main(String args[]){
 
         //Insert datasets
         File f = new File("");
 
-        connectToServer();
-        disconnect();
+        Publisher p = new Publisher();
+        p.connectToServer();
+        p.disconnect();
 
     }
 

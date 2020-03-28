@@ -52,14 +52,13 @@ public class Broker extends Node implements Runnable {
 
     public void acceptConnection() {
         try{
-            System.out.println("Mphka.");
 
             providerSocket = new ServerSocket(4321, 10);// Accepts connection
 
             while (true) {
                 connection = providerSocket.accept();                            // with client.
                 System.out.println("Connection opened successfully.");
-                registeredUsers.add(new Consumer(Integer.toString(calculateKeys()))); // Insert user's key.
+                // registeredUsers.add(new Consumer(Integer.toString(calculateKeys()))); // Insert user's key.
                 System.out.println("Client registered.");
                 Worker wk = new Worker(connection); // Enters worker class.
                 System.out.println("Handler created.");
@@ -88,7 +87,7 @@ public class Broker extends Node implements Runnable {
 
     public void disconnect(){
 
-        super.disconnect(); // Closes connection.
+        super.disconnect();
 
         /*try {
 
@@ -126,9 +125,9 @@ public class Broker extends Node implements Runnable {
 
     public static void main(String args[]) {
 
-        //Broker br = new Broker();
-        //br.acceptConnection();
-        //br.disconnect();
+        /*Broker br = new Broker();
+        br.acceptConnection();
+        br.disconnect();*/
 
         new Thread(new Broker("127.0.0.1")).start();
 
