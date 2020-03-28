@@ -11,6 +11,7 @@ public class Message implements Serializable {
     public Message(String a){
         this.a = a;
     }
+
     public String getA() {
         return a;
     }
@@ -21,5 +22,9 @@ public class Message implements Serializable {
 
     public void setSum(String sum){
         this.sum = sum;
+    }
+
+    public String toString(){
+        return (a);
     }
 }

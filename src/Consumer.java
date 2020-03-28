@@ -36,7 +36,6 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
             out = new ObjectOutputStream(requestSocket.getOutputStream()); // streams
             in = new ObjectInputStream(requestSocket.getInputStream());    //  used
 
-
             Message request = new Message(artN.getArtistName()); // create message
             System.out.println("Message created.");
             out.writeObject(request); //send message
@@ -68,7 +67,7 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
 
         try {
 
-            System.out.println("Message received is: " + ((Message) in.readObject())); //try to read received message,the type may differ.
+            System.out.println("Message received is: " + ( in.readObject().toString())); //try to read received message,the type may differ.
 
         }catch (ClassNotFoundException e) {
             System.out.println("/nUnknown object type received.");
@@ -84,7 +83,7 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
         ArtistName artist = new ArtistName(getArg1());
 
         register(new Broker("127.0.0.1"),artist);
-        //playData(artist,new Value(new MusicFile (getArg2())));
+        playData(artist,new Value(new MusicFile (getArg2())));
         disconnect(new Broker("127.0.0.1"),artist);
 
     }
@@ -93,12 +92,12 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
     public static void main(String args[]) {
 
         //First thread created and executed
-        Consumer cons1 = new Consumer("2pac","all eyes on me");
+        Consumer cons1 = new Consumer("2pac");
         Thread t1 = new Thread(cons1);
         t1.start();
 
         //Second thread created and executed
-        /*Consumer cons2 = new Consumer("biggie","notorious thugs");
+        /*Consumer cons2 = new Consumer("biggie");
         Thread t2 = new Thread(cons2);
         t2.start();*/
 
