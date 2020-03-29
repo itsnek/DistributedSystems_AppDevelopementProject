@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+import java.util.Scanner;
 
 public class Consumer extends Node implements Runnable { //den ginetai me to extend thread na kanw extend mia allh klash taytoxrona,me to interface runnable mporw
 
@@ -50,20 +51,25 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
 
     }
 
-    public void disconnect(Broker br, ArtistName artN){
+    public void selectSong(String song){
 
         try {
-            if(in!=null) in.close();
-            if (out!=null)out.close();
-            requestSocket.close();
 
-        } catch (IOException ioException) {
+            Message requestSong = new Message(song); // create message
+            System.out.println("Message of the song created.");
+            out.writeObject(requestSong); //send message
+            out.flush();
+            System.out.println("Message of the song sent.");
+
+        }catch (UnknownHostException unknownHost) {
+            System.out.println("Error!You are trying to connect to an unknown host!");
+        }catch (IOException ioException) {
             ioException.printStackTrace();
         }
 
     }
 
-    public void playData (ArtistName artN , Value v){
+    public void playData (){
 
         try {
 
@@ -78,12 +84,33 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
 
     }
 
+    public void disconnect(Broker br, ArtistName artN){
+
+        try {
+            if(in!=null) in.close();
+            if (out!=null)out.close();
+            requestSocket.close();
+
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+
+    }
+
     public void run(){
 
-        ArtistName artist = new ArtistName(getArg1());
+        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+
+        ArtistName artist = new ArtistName(myObj.nextLine());
 
         register(new Broker("127.0.0.1"),artist);
-        playData(artist,new Value(new MusicFile (getArg2())));
+        playData(); //new Value(new MusicFile (getArg2()))
+
+        System.out.println("Which song of this artist do you want to listen?/n");
+        selectSong(myObj.nextLine());
+
+        playData();
+
         disconnect(new Broker("127.0.0.1"),artist);
 
     }
@@ -92,14 +119,14 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
     public static void main(String args[]) {
 
         //First thread created and executed
-        Consumer cons1 = new Consumer("2pac");
+        Consumer cons1 = new Consumer();
         Thread t1 = new Thread(cons1);
         t1.start();
 
         //Second thread created and executed
-        /*Consumer cons2 = new Consumer("biggie");
+        Consumer cons2 = new Consumer();
         Thread t2 = new Thread(cons2);
-        t2.start();*/
+        t2.start();
 
     }
 
