@@ -69,7 +69,7 @@ public class Publisher extends Node{
                 System.out.println("mpainw");
                 clientSocket = serverSocket.accept();
                 System.out.println("vgainw");
-                PublisherThread pt = new PublisherThread (clientSocket);
+                PublisherThread pt = new PublisherThread (clientSocket,Artists,Songs);
                 pt.start();
 
             } catch (IOException ioe) {
@@ -90,38 +90,6 @@ public class Publisher extends Node{
         }
 
     }
-
-    /*public void push(ArtistName artN,Value v){
-
-        try {
-
-            //First returns the list of the artist's songs,or failure message.
-            if (Artists.contains(artN)) {
-                out.writeBytes(artN + "'s list of songs :");
-                for (int i = 0; i < Songs.size(); i++) {
-                    if (Songs.get(i).getArtistName().equals(artN.getArtistName())) {
-                        out.writeBytes(Songs.get(i).getTrackName());
-                    }
-                }
-            } else {
-                notifyFailure();
-            }
-
-            //if client answers the song he requests then :
-            for (int i = 0; i < Songs.size(); i++) {
-                if (Songs.get(i) == v.getValue()) {
-                    out.write(Songs.get(i).getMusicFileExtract());
-                }
-            }
-        }catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-
-    }
-
-    public  void notifyFailure(Broker br){
-        out.writeBytes("Sorry,we don't have any songs of this artist.");
-    }*/
 
     public static void main(String args[]){
 
