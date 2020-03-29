@@ -93,8 +93,12 @@ public class PublisherThread extends Thread{
                 pushList(request.toString());
             }else if(found){
                 push(request.toString());
+                found = false;
+                foundS = false;
             }else {
                 out.writeBytes("Sorry,we don't have any songs of this artist.");
+                found = false;
+                foundS = false;
             }
             System.out.println("Job's done here!");
             out.writeObject(request);                       // Gives value to outputStream.
