@@ -2,10 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1ba10cd-b686-42b7-89fe-8fb33cad5633" name="Default" comment="commit Publisher.java and PublisherThread.java">
+      <change afterPath="$PROJECT_DIR$/src/MusicChunk.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spotify.iml" beforeDir="false" afterPath="$PROJECT_DIR$/spotify.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Publisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Publisher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PublisherThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PublisherThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/spotify/ArtistName.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spotify/ArtistName.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/spotify/Broker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spotify/Broker.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/spotify/Message.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/spotify/MusicFile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/spotify/Value.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MusicFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MusicFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Node.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +37,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectId" id="1Z8GcHO3U41VG6KLuKTQK6HLxCC" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -46,7 +52,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Problems" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="configurable.group.build" />
@@ -63,6 +69,14 @@
       <option name="HEIGHT" value="300" />
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <module />
+    </configuration>
+    <configuration name="RunClass" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="RunClass" />
+      <module name="spotify" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -95,6 +109,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.RunClass" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -144,37 +163,41 @@
     <option name="LAST_COMMIT_MESSAGE" value="commit Publisher.java and PublisherThread.java" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="488" y="71" key="#com.intellij.ide.util.MemberChooser" timestamp="1585073511941">
+    <state x="488" y="71" key="#com.intellij.ide.util.MemberChooser" timestamp="1585435943415">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="488" y="71" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1585073511941" />
+    <state x="488" y="71" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1585435943415" />
     <state x="534" y="256" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1585074371549">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="534" y="256" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1366.728@0.0.1366.728" timestamp="1585074371549" />
-    <state x="327" y="0" key="CommitChangelistDialog2" timestamp="1585171805548">
+    <state x="209" y="21" width="996" height="646" key="CommitChangelistDialog2" timestamp="1585516306437">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="327" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1585171805548" />
-    <state x="163" y="0" key="SettingsEditor" timestamp="1585253292657">
+    <state x="209" y="21" width="996" height="646" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1585516306437" />
+    <state x="163" y="0" key="SettingsEditor" timestamp="1585481191691">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="163" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1585253292657" />
+    <state x="163" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1585481191691" />
     <state x="275" y="100" key="Vcs.Push.Dialog.v2" timestamp="1585171890495">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="275" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1585171890495" />
-    <state x="589" y="272" key="com.intellij.ide.util.TipDialog" timestamp="1585338239082">
+    <state x="589" y="272" key="com.intellij.ide.util.TipDialog" timestamp="1585475302549">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="589" y="272" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1585338239082" />
+    <state x="589" y="272" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1585475302549" />
     <state x="387" y="265" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1585253256898">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="387" y="265" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1366.728@0.0.1366.728" timestamp="1585253256898" />
-    <state x="494" y="283" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1585171820813">
+    <state x="494" y="283" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1585516263830">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="494" y="283" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.728@0.0.1366.728" timestamp="1585171820813" />
+    <state x="494" y="283" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.728@0.0.1366.728" timestamp="1585516263830" />
+    <state x="339" y="162" key="run.anything.popup" timestamp="1585436217948">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1585436217948" />
   </component>
 </project>
