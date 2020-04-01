@@ -1,25 +1,20 @@
 import java.net.*;
 import java.io.*;
-import java.rmi.server.ServerCloneException;
 import java.util.ArrayList;
 import java.util.List;
+import com.mpatric.mp3agic.*;
 
 public class Publisher extends Node{
 
     private static ArrayList <ArtistName> Artists = new ArrayList<ArtistName> (30);
-    private static ArrayList <MusicFile> Songs = new ArrayList<MusicFile> (300);
-   /* private static ArrayList<ServerSocket> serverSockets = new ArrayList<ServerSocket>();
-    private static ArrayList<Socket> clientSockets = new ArrayList<Socket>();
-    private static ArrayList<ObjectOutputStream> out = new ArrayList<ObjectOutputStream>();
-    private static ArrayList<ObjectInputStream> in = new ArrayList<ObjectInputStream>();
-    private static int socketCounter = 0; // It counts total sockets.
-    private static int clientSocketCounter = 0; //It counts only sockets of clients.
-    private static int serverSocketCounter = 0; //It counts only sockets of servers.*/
-   private static final int startingSocketNumber = 50190;
+    private static ArrayList <String> Songs = new ArrayList<String> (300);
+    private static ArrayList <MusicFile> SongFiles = new ArrayList<MusicFile> (300);
+    private static final int startingSocketNumber = 50190;
     private List <Broker> Brokers;
     private Socket clientSocket = null;
     private ServerSocket serverSocket = null;
     String Hashkey;
+    int counter = 0;
 
 
     Publisher(){
@@ -41,21 +36,90 @@ public class Publisher extends Node{
         Brokers = super.getBrokers();
     }
 
-    public void init (ArrayList <ArtistName> artists, ArrayList<MusicFile> songs) {
+    public void init () {
 
-        Artists = artists;
-        Songs = songs;
+        getSongNames();
+        findArtistForEachSong(SongFiles); // It contains the name of artist of each song. So many names are being repeated because many songs have same artist.
 
     }
+
+    private void ReadDataFile () {
+
+        File file = new File ("D:\\Nikos\\Documents\\GitHub\\distributed\\rsc\\dataset2");
+        Mp3File mp3File;
+        ID3v1 id3v1Tag;
+        ID3v2 id3v2Tag;
+        File [] list = file.listFiles(); // h arxikh lista pou periexei ola ta arxeia
+
+        for (int i=0; i<list.length; i++) {
+
+            if (!list[i].getName().startsWith("._") && list[i].getName().endsWith(".mp3")) {
+
+                try {
+
+                    mp3File = new Mp3File(list[i]);
+                    String temp = list[i].getName().substring(0, list[i].getName().length() - 4);
+
+                    if (mp3File.hasId3v1Tag()) {
+                        id3v1Tag = mp3File.getId3v1Tag();
+                        if(id3v1Tag.getArtist() == null || id3v1Tag.getArtist() == "") {
+                            String artistname = "Rafael Krux";
+                            MusicFile ms = new MusicFile(temp, artistname, list[i].getName());
+                            SongFiles.add(ms);
+                        }else {
+                            MusicFile ms = new MusicFile(temp, id3v1Tag.getArtist(), list[i].getName());
+                            SongFiles.add(ms);
+                        }
+                    }
+                    else if (mp3File.hasId3v2Tag()) {
+                        id3v2Tag = mp3File.getId3v2Tag();
+                        if(id3v2Tag.getArtist() == null || id3v2Tag.getArtist() == "") {
+                            String artistname = "Rafael Krux";
+                            MusicFile ms = new MusicFile(temp, artistname, list[i].getName());
+                            SongFiles.add(ms);
+                        }else {
+                            MusicFile ms = new MusicFile(temp, id3v2Tag.getArtist(), list[i].getName());
+                            SongFiles.add(ms);
+                        }
+
+                    }
+
+                } catch (IOException ioe) { // I put catch here so lines after "mp3File = new Mp3File (songs.get(i));" be not executed and program proceed to next repetition in for loop.
+
+                } catch (UnsupportedTagException unsTag) { // I put catch here so lines after "mp3File = new Mp3File (songs.get(i));" be not executed and program proceed to next repetition in for loop.
+
+                } catch (InvalidDataException invData) { // I put catch here so lines after "mp3File = new Mp3File (songs.get(i));" be not executed and program proceed to next repetition in for loop.
+
+                }
+            }
+
+        }
+
+    }
+
+    private void getSongNames(){
+
+        for (int i=0; i<SongFiles.size(); i++) {
+
+                Songs.add(SongFiles.get(i).getTrackName());
+
+        }
+
+    }
+
+    // This method finds artist name for each song in the song list.
+    private void findArtistForEachSong (ArrayList<MusicFile> songs) {
+        for (int i=0; i<SongFiles.size(); i++) {
+
+            Artists.add(new ArtistName(SongFiles.get(i).getArtistName()));
+
+        }
+    }
+
     // Create client side connection.
-    public void connectToServer () {
+    public void connect() {
         try {
-            /*
-            clientSockets.set(socketCounter, new Socket(serverIp, startingSocketNumber + socketCounter));
-            out.set(socketCounter, new ObjectOutputStream(clientSockets.get(socketCounter).getOutputStream()));
-            in.set(socketCounter, new ObjectInputStream(clientSockets.get(socketCounter).getInputStream()));
-            socketCounter++;
-            clientSocketCounter++;*/
+
             serverSocket = new ServerSocket(startingSocketNumber,2);
 
         } catch (IOException ioe) {
@@ -66,9 +130,8 @@ public class Publisher extends Node{
 
             try {
 
-                System.out.println("mpainw");
                 clientSocket = serverSocket.accept();
-                System.out.println("vgainw");
+
                 PublisherThread pt = new PublisherThread (clientSocket,Artists,Songs);
                 pt.start();
 
@@ -94,11 +157,19 @@ public class Publisher extends Node{
     public static void main(String args[]){
 
         //Insert datasets
-        File f = new File("");
 
         Publisher p = new Publisher();
-        p.connectToServer();
-        p.disconnect();
+        p.ReadDataFile();
+        p.init();
+        //System.out.println(Songs.size());
+        System.out.println(SongFiles.size());
+        for(int i = 0; i < SongFiles.size(); i++) {
+
+            System.out.println(SongFiles.get(i).getArtistName() + " - " + SongFiles.get(i).getTrackName());
+        }
+
+        //p.connect();
+        //p.disconnect();
 
     }
 
