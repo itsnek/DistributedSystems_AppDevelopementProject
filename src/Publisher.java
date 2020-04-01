@@ -59,7 +59,7 @@ public class Publisher {
     }
 
     private ArrayList<String> getSongNamesAndArtistNames (String artistsToGet) {
-        File file = new File ("C:/Users/User/Desktop/Distributed Systems/Project/dataset2/dataset2");
+        File file = new File ("C:/Users/User/Desktop/Distributed Systems/Project/dataset1/dataset1");
         File [] list = file.listFiles(); // h arxikh lista pou periexei ola ta arxeia
         for (int i=0; i<list.length; i++) {
             System.out.println (list[i].getAbsolutePath().replace('\\', '/'));
