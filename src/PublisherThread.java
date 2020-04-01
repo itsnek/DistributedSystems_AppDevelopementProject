@@ -50,15 +50,19 @@ public class PublisherThread extends Thread{
 
     }
 
-    /*public  void notifyFailure(){
+    public  void notifyFailure() {
         try {
 
             out.writeBytes("Sorry,we don't have any songs of this artist.");
 
-        }catch (IOException ioe) {
+            found = false;
+            foundS = false;
+
+        } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-    }*/
+    }
+
 
     public void push(String song){
 
@@ -67,7 +71,7 @@ public class PublisherThread extends Thread{
             //if client answers the song he requests then :
             for (int i = 0; i < Songs.size(); i++) {
                 if (Songs.get(i).getTrackName() == song) {
-                    out.write(Songs.get(i).getMusicFileExtract());
+                    //out.write(Songs.get(i).getMusicFileExtract());
                     foundS = true;
                 }
             }
@@ -96,15 +100,12 @@ public class PublisherThread extends Thread{
                 found = false;
                 foundS = false;
             }else {
-                out.writeBytes("Sorry,we don't have any songs of this artist.");
-                found = false;
-                foundS = false;
+                notifyFailure();
             }
+
             System.out.println("Job's done here!");
             out.writeObject(request);                       // Gives value to outputStream.
             System.out.println("Object returning to Broker...");
-
-
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
