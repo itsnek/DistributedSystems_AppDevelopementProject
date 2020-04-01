@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e1ba10cd-b686-42b7-89fe-8fb33cad5633" name="Default" comment="commit Publisher.java and PublisherThread.java">
-      <change afterPath="$PROJECT_DIR$/src/MusicChunk.java" afterDir="false" />
+    <list default="true" id="e1ba10cd-b686-42b7-89fe-8fb33cad5633" name="Default" comment="changes in Publisher.java">
+      <change afterPath="$PROJECT_DIR$/informations.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/spotify/ArtistName.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spotify/ArtistName.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spotify/Broker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spotify/Broker.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spotify/Message.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spotify/MusicFile.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spotify/Value.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MusicFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MusicFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ArtistName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ArtistName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Broker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Broker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Consumer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Publisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Publisher.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +24,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="nek" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
     <option name="SET_USER_NAME_GLOBALLY" value="false" />
@@ -37,13 +41,16 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectId" id="1Z8GcHO3U41VG6KLuKTQK6HLxCC" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="Downloaded.Files.Path.Enabled" value="true" />
     <property name="Repository.Attach.Annotations" value="true" />
     <property name="Repository.Attach.JavaDocs" value="true" />
@@ -62,13 +69,28 @@
       <recent name="C:\Users\User\Desktop\Κατανεμημενα συστηματα\Project" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Publisher">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="HTML_USED" value="false" />
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <module />
+    </configuration>
+    <configuration name="Consumer" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Consumer" />
+      <module name="spotify" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Publisher" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Publisher" />
+      <module name="spotify" />
+      <option name="PROGRAM_PARAMETERS" value="informations.txt" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="RunClass" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="RunClass" />
@@ -158,11 +180,21 @@
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="commit Publisher.java" />
     <MESSAGE value="commit Publisher.java and PublisherThread.java" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit Publisher.java and PublisherThread.java" />
+    <MESSAGE value="changes in Publisher.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="changes in Publisher.java" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="358" y="66" key="#Consumer" timestamp="1585648672868">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="358" y="66" key="#Consumer/0.0.1366.728@0.0.1366.728" timestamp="1585648672868" />
+    <state x="409" y="44" key="#Publisher" timestamp="1585649480288">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="409" y="44" key="#Publisher/0.0.1366.728@0.0.1366.728" timestamp="1585649480288" />
     <state x="488" y="71" key="#com.intellij.ide.util.MemberChooser" timestamp="1585435943415">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -171,10 +203,42 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="534" y="256" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1366.728@0.0.1366.728" timestamp="1585074371549" />
-    <state x="209" y="21" width="996" height="646" key="CommitChangelistDialog2" timestamp="1585516306437">
+    <state x="248" y="60" width="996" height="646" key="CommitChangelistDialog2" timestamp="1585741860275">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="209" y="21" width="996" height="646" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1585516306437" />
+    <state x="248" y="60" width="996" height="646" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1585741860275" />
+    <state width="1323" height="570" key="GridCell.Tab.0.bottom" timestamp="1585741211883">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="570" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1585741211883" />
+    <state width="1323" height="570" key="GridCell.Tab.0.center" timestamp="1585741211883">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="570" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1585741211883" />
+    <state width="1323" height="570" key="GridCell.Tab.0.left" timestamp="1585741211883">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="570" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1585741211883" />
+    <state width="1323" height="570" key="GridCell.Tab.0.right" timestamp="1585741211883">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="570" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1585741211883" />
+    <state width="1323" height="27" key="GridCell.Tab.1.bottom" timestamp="1585740323058">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="27" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1585740323058" />
+    <state width="1323" height="27" key="GridCell.Tab.1.center" timestamp="1585740323058">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="27" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1585740323058" />
+    <state width="1323" height="27" key="GridCell.Tab.1.left" timestamp="1585740323058">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="27" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1585740323058" />
+    <state width="1323" height="27" key="GridCell.Tab.1.right" timestamp="1585740323058">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="27" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1585740323058" />
     <state x="163" y="0" key="SettingsEditor" timestamp="1585481191691">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -183,10 +247,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="275" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1585171890495" />
-    <state x="589" y="272" key="com.intellij.ide.util.TipDialog" timestamp="1585475302549">
+    <state x="589" y="272" key="com.intellij.ide.util.TipDialog" timestamp="1585731687257">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="589" y="272" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1585475302549" />
+    <state x="589" y="272" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1585731687257" />
     <state x="387" y="265" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1585253256898">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -195,6 +259,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="494" y="283" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.728@0.0.1366.728" timestamp="1585516263830" />
+    <state x="262" y="103" width="842" height="554" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1585734676406">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="262" y="103" width="842" height="554" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1366.728@0.0.1366.728" timestamp="1585734676406" />
     <state x="339" y="162" key="run.anything.popup" timestamp="1585436217948">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

@@ -1,7 +1,5 @@
-import java.io.Serializable;
-
-public class ArtistName implements Serializable {
-    String artistName;
+public class ArtistName {
+    private String artistName;
 
     ArtistName(String artistName){
         this.artistName = artistName;
