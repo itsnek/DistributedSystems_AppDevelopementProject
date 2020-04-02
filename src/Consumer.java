@@ -61,20 +61,23 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
             out = new ObjectOutputStream(requestSocket.getOutputStream());
             in = new ObjectInputStream(requestSocket.getInputStream());
 
-            int ip = Integer.parseInt(requestSocket.getInetAddress().getHostAddress());
+            int ip = requestSocket.getInetAddress().getHostAddress().hashCode();
             int socketNumber = requestSocket.getLocalPort();
-            int sum = ip + socketNumber;
+            int artistHash = artist.getArtistName().hashCode();
+            int sum = ip + socketNumber + artistHash;
             int clientHash = Integer.hashCode(sum);
 
-            Message handshake = new Message(artist, clientHash);
+            Message handshake = new Message(clientHash);
 
             out.writeObject(handshake);
 
             if(in.readBoolean()){
+                System.out.println("mphka");
                 foundCorrectBroker = true;
             }
 
             while(!foundCorrectBroker) {
+                System.out.println("mphka2");
                 requestSocket = new Socket("127.0.0.1", 4321);
                 if(in.readBoolean()){
                     foundCorrectBroker = true;

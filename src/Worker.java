@@ -36,7 +36,7 @@ public class Worker extends Thread {
     }
 
     public boolean checkBroker(ServerSocket mySocket) {
-        int ip = parseInt(mySocket.getInetAddress().getHostAddress());
+        int ip = mySocket.getInetAddress().getHostAddress().hashCode();
         int socketNumber = mySocket.getLocalPort();
         int sum = ip + socketNumber;
         int serverHash = Integer.hashCode(sum);
@@ -56,7 +56,7 @@ public class Worker extends Thread {
 
                 if(mode == 0){
 
-                    out.writeBoolean(false);
+                    out.write(0);
                     out.flush();
 
                 }else {
