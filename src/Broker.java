@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.lang.*;
 
@@ -12,8 +13,8 @@ public class Broker extends Node implements Runnable {
     private ServerSocket providerSocket = null;
     private Socket connection = null;
     private Socket requestSocket = null;
-    private List<Consumer> registeredUsers;
-    private List<Publisher> registeredPublishers;
+    private ArrayList<Consumer> registeredUsers = new ArrayList<>();
+    private ArrayList<Publisher> registeredPublishers =  new ArrayList<>();
     int port;
     String address;
 

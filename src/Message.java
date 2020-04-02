@@ -3,22 +3,26 @@ import java.io.Serializable;
 public class Message implements Serializable {
     String a;
     int hash;
-    ArtistName artist;
+    String artist;
 
     public Message(String a){
         this.a = a;
+    }
+
+    public Message(int a){
+        this.hash = a;
     }
 
     public String toString(){
         return (a);
     }
 
-    public Message(ArtistName a, int hash){
+    public Message(String a, int hash){
         this.artist = a;
         this.hash = hash;
     }
 
     public int getHash(){ return hash; }
-    public ArtistName getArtist(){ return artist; }
+    public String getArtist(){ return artist; }
 
 }
