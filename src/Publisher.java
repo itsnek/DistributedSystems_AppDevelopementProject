@@ -1,7 +1,6 @@
 import java.net.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import com.mpatric.mp3agic.*;
 
 public class Publisher extends Node{
@@ -43,7 +42,7 @@ public class Publisher extends Node{
 
     }
 
-    private void ReadDataFile () {
+    private void ReadDataFile (String artistsToGet) {
 
         File file = new File ("D:\\Nikos\\Documents\\GitHub\\distributed\\rsc\\dataset2");
         Mp3File mp3File;
@@ -62,34 +61,45 @@ public class Publisher extends Node{
 
                     if (mp3File.hasId3v1Tag()) {
                         id3v1Tag = mp3File.getId3v1Tag();
-                        if(id3v1Tag.getArtist() == null || id3v1Tag.getArtist() == "") {
-                            String artistname = "Rafael Krux";
-                            MusicFile ms = new MusicFile(temp, artistname, list[i].getName());
-                            SongFiles.add(ms);
-                        }else {
-                            MusicFile ms = new MusicFile(temp, id3v1Tag.getArtist(), list[i].getName());
-                            SongFiles.add(ms);
+                        if ((id3v1Tag.getArtist().charAt(0) > artistsToGet.charAt(0)) && (id3v1Tag.getArtist().charAt(0) < artistsToGet.charAt(2))) {
+
+                            if(id3v1Tag.getArtist() == null || id3v1Tag.getArtist().equals("")) {
+                                String artistname = "Rafael Krux";
+                                MusicFile ms = new MusicFile(temp, artistname, list[i].getName());
+                                SongFiles.add(ms);
+                            }else {
+                                MusicFile ms = new MusicFile(temp, id3v1Tag.getArtist(), list[i].getName());
+                                SongFiles.add(ms);
+                            }
+
                         }
                     }
                     else if (mp3File.hasId3v2Tag()) {
                         id3v2Tag = mp3File.getId3v2Tag();
-                        if(id3v2Tag.getArtist() == null || id3v2Tag.getArtist() == "") {
-                            String artistname = "Rafael Krux";
-                            MusicFile ms = new MusicFile(temp, artistname, list[i].getName());
-                            SongFiles.add(ms);
-                        }else {
-                            MusicFile ms = new MusicFile(temp, id3v2Tag.getArtist(), list[i].getName());
-                            SongFiles.add(ms);
+                        if ((id3v2Tag.getArtist().charAt(0) > artistsToGet.charAt(0)) && (id3v2Tag.getArtist().charAt(0) < artistsToGet.charAt(2))) {
+
+                            if(id3v2Tag.getArtist() == null || id3v2Tag.getArtist() == "") {
+                                String artistname = "Rafael Krux";
+                                MusicFile ms = new MusicFile(temp, artistname, list[i].getName());
+                                SongFiles.add(ms);
+                            }else {
+                                MusicFile ms = new MusicFile(temp, id3v2Tag.getArtist(), list[i].getName());
+                                SongFiles.add(ms);
+                            }
+
                         }
 
                     }
 
-                } catch (IOException ioe) { // I put catch here so lines after "mp3File = new Mp3File (songs.get(i));" be not executed and program proceed to next repetition in for loop.
-
-                } catch (UnsupportedTagException unsTag) { // I put catch here so lines after "mp3File = new Mp3File (songs.get(i));" be not executed and program proceed to next repetition in for loop.
-
-                } catch (InvalidDataException invData) { // I put catch here so lines after "mp3File = new Mp3File (songs.get(i));" be not executed and program proceed to next repetition in for loop.
-
+                }  catch (UnsupportedTagException unsTag) { // I put catch here so lines after "mp3File = new Mp3File (songs.get(i));" be not executed and program proceed to next repetition in for loop.
+                    System.out.println("We caught UnsupportedTagException");
+                    unsTag.printStackTrace();
+                } catch (InvalidDataException invData) {
+                    System.out.println ("We caught InvalidDataException");
+                    invData.printStackTrace();
+                } catch (IOException ioe) {
+                    System.out.println ("We caught IOException");
+                    ioe.printStackTrace();
                 }
             }
 
@@ -110,9 +120,9 @@ public class Publisher extends Node{
     // This method finds artist name for each song in the song list.
     private void findArtistForEachSong (ArrayList<MusicFile> songs) {
         for (int i=0; i<SongFiles.size(); i++) {
-
-            Artists.add(new ArtistName(SongFiles.get(i).getArtistName()));
-
+            if (!Artists.contains(SongFiles.get(i).getArtistName())) {
+                Artists.add(new ArtistName(SongFiles.get(i).getArtistName()));
+            }
         }
     }
 
@@ -132,7 +142,7 @@ public class Publisher extends Node{
 
                 clientSocket = serverSocket.accept();
 
-                PublisherThread pt = new PublisherThread (clientSocket,Artists,Songs);
+                PublisherThread pt = new PublisherThread (clientSocket,Artists,SongFiles);
                 pt.start();
 
             } catch (IOException ioe) {
@@ -156,20 +166,22 @@ public class Publisher extends Node{
 
     public static void main(String args[]){
 
-        //Insert datasets
+        try {
+            //Insert Publisher Scope
+            File file = new File(args[0]);
+            Scanner scanner = new Scanner(file);
+            Publisher p = new Publisher();
+            if (scanner.hasNextLine()) {
+                p.ReadDataFile(scanner.nextLine());
+            }
+            p.init();
 
-        Publisher p = new Publisher();
-        p.ReadDataFile();
-        p.init();
-        //System.out.println(Songs.size());
-        System.out.println(SongFiles.size());
-        for(int i = 0; i < SongFiles.size(); i++) {
+            p.connect();
+            //p.disconnect();
 
-            System.out.println(SongFiles.get(i).getArtistName() + " - " + SongFiles.get(i).getTrackName());
+        }catch (FileNotFoundException fnf){
+                fnf.printStackTrace();
         }
-
-        //p.connect();
-        //p.disconnect();
 
     }
 
