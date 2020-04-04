@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="com.mpatric:mp3agic:0.9.1" type="repository">
+    <properties maven-id="com.mpatric:mp3agic:0.9.1" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/mp3agic-0.9.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/lib/mp3agic-0.9.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/mp3agic-0.9.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
