@@ -43,8 +43,8 @@ public class Publisher extends Node{
     }
 
     private void ReadDataFile (String artistsToGet) {
-
-        File file = new File ("D:\\Nikos\\Documents\\GitHub\\distributed\\rsc\\dataset2");
+        //File file = new File ("D:\\Nikos\\Documents\\GitHub\\distributed\\rsc\\dataset2");
+        File file = new File ("dataset2\\dataset2"); // C:\Users\User\Desktop\Distributed Systems\Project\dataset2\dataset2\
         Mp3File mp3File;
         ID3v1 id3v1Tag;
         ID3v2 id3v2Tag;
@@ -58,35 +58,37 @@ public class Publisher extends Node{
 
                     mp3File = new Mp3File(list[i]);
                     String temp = list[i].getName().substring(0, list[i].getName().length() - 4);
-
+                    // id3v1Tag.getArtist() == null ||
+                    // id3v1Tag.getArtist().length == 0
+                    // continue; // skip the song
                     if (mp3File.hasId3v1Tag()) {
                         id3v1Tag = mp3File.getId3v1Tag();
-                        if ((id3v1Tag.getArtist().charAt(0) > artistsToGet.charAt(0)) && (id3v1Tag.getArtist().charAt(0) < artistsToGet.charAt(2))) {
-
-                            if(id3v1Tag.getArtist() == null || id3v1Tag.getArtist().equals("")) {
-                                String artistname = "Rafael Krux";
-                                MusicFile ms = new MusicFile(temp, artistname, list[i].getName());
-                                SongFiles.add(ms);
-                            }else {
-                                MusicFile ms = new MusicFile(temp, id3v1Tag.getArtist(), list[i].getName());
+                        if(id3v1Tag.getArtist() == null || id3v1Tag.getArtist().equals("")) {
+                            if ('R' < artistsToGet.charAt(2)) {
+                                MusicFile ms = new MusicFile(temp, "Rafael Krux", list[i].getName());
                                 SongFiles.add(ms);
                             }
-
+                            continue;
+                        }
+                        if ((id3v1Tag.getArtist().charAt(0) > artistsToGet.charAt(0)) && (id3v1Tag.getArtist().charAt(0) < artistsToGet.charAt(2))) {
+                            MusicFile ms = new MusicFile(temp, id3v1Tag.getArtist(), list[i].getName());
+                            SongFiles.add(ms);
                         }
                     }
                     else if (mp3File.hasId3v2Tag()) {
                         id3v2Tag = mp3File.getId3v2Tag();
-                        if ((id3v2Tag.getArtist().charAt(0) > artistsToGet.charAt(0)) && (id3v2Tag.getArtist().charAt(0) < artistsToGet.charAt(2))) {
 
-                            if(id3v2Tag.getArtist() == null || id3v2Tag.getArtist() == "") {
-                                String artistname = "Rafael Krux";
-                                MusicFile ms = new MusicFile(temp, artistname, list[i].getName());
-                                SongFiles.add(ms);
-                            }else {
-                                MusicFile ms = new MusicFile(temp, id3v2Tag.getArtist(), list[i].getName());
+                        if(id3v2Tag.getArtist() == null || id3v2Tag.getArtist().equals("")) {
+                            if ('R' < artistsToGet.charAt(2)) {
+                                MusicFile ms = new MusicFile(temp, "Rafael Krux", list[i].getName());
                                 SongFiles.add(ms);
                             }
+                            continue;
+                        }
 
+                        if ((id3v2Tag.getArtist().charAt(0) > artistsToGet.charAt(0)) && (id3v2Tag.getArtist().charAt(0) < artistsToGet.charAt(2))) {
+                            MusicFile ms = new MusicFile(temp, id3v2Tag.getArtist(), list[i].getName());
+                            SongFiles.add(ms);
                         }
 
                     }
