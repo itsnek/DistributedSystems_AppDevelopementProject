@@ -6,6 +6,7 @@ import java.util.logging.Handler;
 public class Consumer extends Node implements Runnable { //den ginetai me to extend thread na kanw extend mia allh klash taytoxrona,me to interface runnable mporw
 
     String arg1,arg2;
+    int hash;
 
     private Socket requestSocket = null;
     private ObjectOutputStream out = null;
@@ -15,6 +16,9 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
 
     Consumer(String a){
         arg1 = a;
+    }
+    Consumer(int a){
+        hash = a;
     }
 
     Consumer(String a,String b){
@@ -64,10 +68,10 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
             int ip = requestSocket.getInetAddress().getHostAddress().hashCode();
             int socketNumber = requestSocket.getLocalPort();
             int artistHash = artist.getArtistName().hashCode();
-            int sum = ip + socketNumber + artistHash;
+            int sum = ip + socketNumber;
             int clientHash = Integer.hashCode(sum);
 
-            Message handshake = new Message(clientHash);
+            Message handshake = new Message(clientHash , artistHash);
 
             out.writeObject(handshake);
 

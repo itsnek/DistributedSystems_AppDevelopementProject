@@ -1,11 +1,11 @@
 import java.io.*;
 import java.net.*;
-import java.util.List;
+import java.util.*;
 
 public class Node {
 
-    protected List<Broker> brokers;
-    private List<String> addr;
+    protected ArrayList<Broker> brokers = new ArrayList<>();
+    private ArrayList<String> addr = new ArrayList<String>();
     private Socket socket = null;
     private ObjectOutputStream out = null;
     private ObjectInputStream in = null;
@@ -33,18 +33,13 @@ public class Node {
     public void setBrokers(File Brokers) {
 
         List<String> temp = ReadFile(Brokers);
-
-        for(int i = 0;i < brokers.size();i++){
-            this.brokers.add(new Broker(temp.get(i)));
+        for(int i = 0;i < temp.size();i = i+2){
+            this.brokers.add(new Broker(temp.get(i),Integer.parseInt(temp.get(i+1))));
         }
 
     }
 
     public List<Broker> getBrokers(){
-
-        /*for(int i = 0;i < brokers.size();i++){
-            System.out.println(brokers.get(i));
-        }*/
         return brokers;
     }
 
