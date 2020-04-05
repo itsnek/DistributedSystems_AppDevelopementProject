@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
 
@@ -10,9 +11,11 @@ public class Worker extends Thread {
     ObjectInputStream in = null;
     private ObjectOutputStream publisherOut = null;
     private ObjectInputStream publisherIn = null;
+    private ArrayList<Consumer> registeredUsers = new ArrayList<>();
+    private ArrayList<Publisher> registeredPublishers =  new ArrayList<>();
     int mode;
 
-    public Worker(Socket connection,int mode) {
+    /*public Worker(Socket connection,int mode) {
         this.mode = mode;
         try {
             out = new ObjectOutputStream(connection.getOutputStream());
@@ -20,9 +23,11 @@ public class Worker extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
-    public Worker(Socket connection) {
+    public Worker(Socket connection, ArrayList<Consumer> registeredUsers ,ArrayList<Publisher> registeredPublishers) {
+        this.registeredUsers = registeredUsers;
+        this.registeredPublishers = registeredPublishers;
         try {
             out = new ObjectOutputStream(connection.getOutputStream());
             in = new ObjectInputStream(connection.getInputStream());
@@ -62,19 +67,20 @@ public class Worker extends Thread {
                 }else {
                     Message request = (Message) in.readObject();     // Gives value to inputStream.
                     System.out.println("Message received from Client.");
-                    if (request != null) {                           // Checks if it's a connection from broker's side.
-                        //new Broker().notifyPubliser(request);       // Not sure if it works for every circumstance.
-                    }
 
                     try {
+                        for(int i = 0; i < registeredPublishers.size(); i++) {
+                            if (request.toString().charAt(0) > registeredPublishers.get(i).getScope().charAt(0)) {
 
-                        requestSocket = new Socket("127.0.0.1", 50190); //opens connection
-                        publisherOut = new ObjectOutputStream(requestSocket.getOutputStream()); // streams
-                        publisherIn = new ObjectInputStream(requestSocket.getInputStream());    //  used
+                                requestSocket = new Socket("127.0.0.1", 50190); //opens connection
+                                publisherOut = new ObjectOutputStream(requestSocket.getOutputStream()); // streams
+                                publisherIn = new ObjectInputStream(requestSocket.getInputStream());    //  used
 
-                        publisherOut.writeObject(request); //send message
-                        publisherOut.flush();
-                        System.out.println("Message sent to publisher.");
+                                publisherOut.writeObject(request); //send message
+                                publisherOut.flush();
+                                System.out.println("Message sent to publisher.");
+                            }
+                        }
 
                     } catch (UnknownHostException unknownHost) {
                         System.out.println("Error!You are trying to connect to an unknown host!");

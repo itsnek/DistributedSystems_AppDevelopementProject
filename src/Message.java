@@ -2,8 +2,7 @@ import java.io.Serializable;
 
 public class Message implements Serializable {
     String a;
-    int hash;
-    String artist;
+    int hash, artist;
 
     public Message(String a){
         this.a = a;
@@ -17,12 +16,12 @@ public class Message implements Serializable {
         return (a);
     }
 
-    public Message(String a, int hash){
+    public Message(int a, int hash){
         this.artist = a;
         this.hash = hash;
     }
 
     public int getHash(){ return hash; }
-    public String getArtist(){ return artist; }
+    public int getArtist(){ return artist; }
 
 }
