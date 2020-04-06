@@ -17,11 +17,8 @@ public class Broker extends Node implements Runnable {
     private Socket requestSocket = null;
     private ArrayList<Consumer> registeredUsers = new ArrayList<>();
     private ArrayList<Publisher> registeredPublishers =  new ArrayList<>();
-    ArrayList Broker2 = new ArrayList();
-    ArrayList Broker3 = new ArrayList();
     List<Broker> registeredBrokers;
     int serverHash,port;
-    int counter = 0;
     String address,Hashkey,Scope;
     Hashtable hashtable;
 
@@ -32,6 +29,14 @@ public class Broker extends Node implements Runnable {
     Broker(String address,int port){
         this.address = address;
         this.port = port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getAddress() {
@@ -59,31 +64,31 @@ public class Broker extends Node implements Runnable {
 
     public void NotifyBrokers(){
         registeredBrokers = super.getBrokers();
+        System.out.println(registeredBrokers.size());
         try {
+
             for (int i = 0; i < registeredBrokers.size(); i++) {
-                if (registeredBrokers.get(i).getAddress().equals(InetAddress.getLocalHost().getHostAddress())) {System.out.println("This is my ip.");}
+
+                if (registeredBrokers.get(i).getAddress().equals(InetAddress.getLocalHost().getHostAddress())) {
+                    System.out.println("This is my ip.");
+                    setAddress(registeredBrokers.get(i).getAddress());
+                    setPort(registeredBrokers.get(i).getPort());
+
+                }
                 else {
                     //TODO: send hashtable to all the other brokers.
                     try {
-                        requestSocket = new Socket(registeredBrokers.get(i).getAddress(), registeredBrokers.get(i).getPort());
+                        //edw stravwnei stis parametrous.
+                        System.out.println(registeredBrokers.get(i).getAddress());
+                        requestSocket = new Socket(registeredBrokers.get(i).getAddress(), registeredBrokers.get(i).getPort()-1);
                         ObjectOutputStream out = new ObjectOutputStream(requestSocket.getOutputStream());
-                        ObjectInputStream in = new ObjectInputStream(requestSocket.getInputStream());
+                        //ObjectInputStream in = new ObjectInputStream(requestSocket.getInputStream());
 
                         for (int j =0; j < hashtable.size(); j++){
                             out.writeObject(hashtable.get(j));
                         }
 
-                        if(counter == 0){
-                            Broker2.add(in.readObject());
-                            counter++;
-                        }else {
-                            Broker3.add(in.readObject());
-                        }
-
                     }catch (IOException e){
-                        e.printStackTrace();
-                    }catch (ClassNotFoundException e) {
-                        System.out.println("/nUnknown object type received.");
                         e.printStackTrace();
                     }
                 }
@@ -96,17 +101,24 @@ public class Broker extends Node implements Runnable {
     public void acceptConnection() {
         try{
 
-            providerSocket = new ServerSocket(4321, 10);
+            providerSocket = new ServerSocket(getPort()-1, 10);
 
             while (true) {
 
                 connection = providerSocket.accept();
-                Worker wk = new Worker(connection,registeredUsers,registeredPublishers);
+
+                Worker wk = new Worker(connection,registeredUsers,registeredPublishers,registeredBrokers);
+
+                if(registeredBrokers.contains(new Broker(connection.getInetAddress().getHostAddress(),connection.getLocalPort()))) {
+                    System.out.println("exw mpei");
+
+                    new Thread(wk).start();
+                }
 
                 //Checks if the hash of the client is less than the Broker's.
                 //if true, register the new client and start a worker in normal mode.
                 //TODO: Create a check so old clients are only registered once.
-                if(wk.checkBroker(providerSocket)){
+                else if(wk.checkBroker(providerSocket)){
 
                     if(!registeredUsers.contains(new Consumer(serverHash))) {
                         System.out.println("Client registered.");
@@ -123,7 +135,7 @@ public class Broker extends Node implements Runnable {
                     wk.setMode(0);
                 }
                 new Thread(wk).start();
-                while (!wk.getEndOfThread()) {}
+                while (!wk.getEndOfThread()) {System.out.println("edw eimai!");}
                 connection.close();
             }
         }catch (IOException ioException) {
@@ -144,21 +156,16 @@ public class Broker extends Node implements Runnable {
 
                     registeredPublishers.add(new Publisher(calculateKeys()));
 
-                    for (int j = 0; j < hashtable.size(); j++) {
-                        out.writeObject(hashtable.get(j));
-                    }
-
-                    //Scope = (String)in.readObject();
+                    Scope = (String)in.readObject();
 
                     connectionPub.close();
                 }
             } catch (IOException ioException) {
                 ioException.printStackTrace();
+            }catch (ClassNotFoundException e) {
+                System.out.println("/nUnknown object type received.");
+                e.printStackTrace();
             }
-        /*catch (ClassNotFoundException e) {
-            System.out.println("/nUnknown object type received.");
-            e.printStackTrace();
-        }*/
 
     }
 
@@ -170,8 +177,9 @@ public class Broker extends Node implements Runnable {
 
     public void run(){
 
-        // Accept connection with client and starts the whole process.
         NotifyBrokers();
+
+        // Accept connection with client and starts the whole process.
         acceptConnection();
 
         //disconnect();
@@ -181,17 +189,25 @@ public class Broker extends Node implements Runnable {
 
     public static void main(String args[]) {
 
-        /*Broker br = new Broker();
-        br.acceptConnection();
-        br.disconnect();*/
         File file = new File("src\\Brokers.txt");
-        Broker br = new Broker();
-        br.setBrokers(file);
 
-        //br.notifyPublisher();
+        Broker br1 = new Broker();
+        Broker br2 = new Broker();
+        Broker br3 = new Broker();
+
+        br1.setBrokers(file);
+        br2.setBrokers(file);
+        br3.setBrokers(file);
+
+        /*br1.notifyPublisher();
+        br2.notifyPublisher();
+        br3.notifyPublisher();*/
 
         //First Broker
-        new Thread(br).start();
+        new Thread(br1).start();
+        new Thread(br2).start();
+        new Thread(br3).start();
+
         //Second Broker
         /*new Thread(new Broker()).start();
         //Third Broker

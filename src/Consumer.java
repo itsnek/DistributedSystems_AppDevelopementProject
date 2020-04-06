@@ -7,6 +7,7 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
 
     String arg1,arg2;
     int hash;
+    Message broker;
 
     private Socket requestSocket = null;
     private ObjectOutputStream out = null;
@@ -76,13 +77,13 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
             out.writeObject(handshake);
 
             if(in.readBoolean()){
-                System.out.println("mphka");
                 foundCorrectBroker = true;
+            }else{
+                broker = (Message) in.readObject();
             }
 
             while(!foundCorrectBroker) {
-                System.out.println("mphka2");
-                requestSocket = new Socket("127.0.0.1", 4321);
+                requestSocket = new Socket(broker.getAddress(), broker.getPort());
                 if(in.readBoolean()){
                     foundCorrectBroker = true;
                 }
@@ -92,6 +93,9 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
             System.out.println("Error!You are trying to connect to an unknown host!");
         }catch (IOException ioException) {
             ioException.printStackTrace();
+        }catch (ClassNotFoundException e) {
+            System.out.println("/nUnknown object type received.");
+            e.printStackTrace();
         }
     }
 

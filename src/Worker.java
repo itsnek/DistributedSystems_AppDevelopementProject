@@ -1,18 +1,26 @@
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.Integer.parseInt;
 
 public class Worker extends Thread {
 
     private Socket requestSocket = null;
+    private Socket connection = null;
     ObjectOutputStream out = null;
     ObjectInputStream in = null;
     private ObjectOutputStream publisherOut = null;
     private ObjectInputStream publisherIn = null;
     private ArrayList<Consumer> registeredUsers = new ArrayList<>();
     private ArrayList<Publisher> registeredPublishers =  new ArrayList<>();
+    List<Broker> registeredBrokers;
+    ArrayList Broker2 = new ArrayList();
+    ArrayList Broker3 = new ArrayList();
+    String AddrBr2,AddrBr3;
+    int port2,port3;
+    int counter = 0;
     int mode;
     private boolean endOfThread = false;
 
@@ -26,9 +34,11 @@ public class Worker extends Thread {
         }
     }*/
 
-    public Worker(Socket connection, ArrayList<Consumer> registeredUsers ,ArrayList<Publisher> registeredPublishers) {
+    public Worker(Socket connection, ArrayList<Consumer> registeredUsers ,ArrayList<Publisher> registeredPublishers,List<Broker> registeredBrokers) {
+        this.registeredBrokers = registeredBrokers;
         this.registeredUsers = registeredUsers;
         this.registeredPublishers = registeredPublishers;
+        this.connection = connection;
         try {
             out = new ObjectOutputStream(connection.getOutputStream());
             in = new ObjectInputStream(connection.getInputStream());
@@ -64,42 +74,71 @@ public class Worker extends Thread {
         endOfThread = false;
         try {
             try {
+                System.out.println(connection.getInetAddress().getHostAddress());
 
-                if(mode == 0){
+                if(registeredBrokers.contains(new Broker(connection.getInetAddress().getHostAddress(),connection.getLocalPort()))){
 
-                    out.write(0);
-                    out.flush();
-
+                    if(counter == 0){
+                        Broker2.add(in.readObject());
+                        AddrBr2 = connection.getInetAddress().getHostAddress();
+                        port2 = connection.getLocalPort();
+                        counter++;
+                    }else {
+                        Broker3.add(in.readObject());
+                        AddrBr3 = connection.getInetAddress().getHostAddress();
+                        port3 = connection.getLocalPort();
+                        System.out.println("mphka3");
+                    }
                 }else {
-                    Message request = (Message) in.readObject();     // Gives value to inputStream.
-                    System.out.println("Message received from Client.");
 
-                    try {
-                        for(int i = 0; i < registeredPublishers.size(); i++) {
-                            if (request.toString().charAt(0) > registeredPublishers.get(i).getScope().charAt(0)) {
-                                //TODO : change the parametres.
-                                requestSocket = new Socket("127.0.0.1", 50190); //opens connection
-                                publisherOut = new ObjectOutputStream(requestSocket.getOutputStream()); // streams
-                                publisherIn = new ObjectInputStream(requestSocket.getInputStream());    //  used
+                    if (mode == 0) {
 
-                                publisherOut.writeObject(request); //send message
-                                publisherOut.flush();
-                                System.out.println("Message sent to publisher.");
-                            }
+                        out.writeBoolean(false);
+
+                        Message request = (Message) in.readObject();     // Gives value to inputStream.
+                        int artistHash = request.getArtist();
+
+                        if(Broker2.contains(artistHash)){
+                            Message nextBroker = new Message(AddrBr2,port2);
+                            out.writeObject(nextBroker);
+                        }
+                        if(Broker3.contains(artistHash)){
+                            Message nextBroker = new Message(AddrBr3,port3);
+                            out.writeObject(nextBroker);
                         }
 
-                    } catch (UnknownHostException unknownHost) {
-                        System.out.println("Error!You are trying to connect to an unknown host!");
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
+                        out.flush();
+
+                    } else {
+                        Message request = (Message) in.readObject();     // Gives value to inputStream.
+                        System.out.println("Message received from Client.");
+
+                        try {
+                            for (int i = 0; i < registeredPublishers.size(); i++) {
+                                if (request.toString().charAt(0) > registeredPublishers.get(i).getScope().charAt(0) && request.toString().charAt(1) > registeredPublishers.get(i).getScope().charAt(1)) {
+                                    //TODO : change the parametres.
+                                    requestSocket = new Socket("127.0.0.1", 50190); //opens connection
+                                    publisherOut = new ObjectOutputStream(requestSocket.getOutputStream()); // streams
+                                    publisherIn = new ObjectInputStream(requestSocket.getInputStream());    //  used
+
+                                    publisherOut.writeObject(request); //send message
+                                    publisherOut.flush();
+                                    System.out.println("Message sent to publisher.");
+                                }
+                            }
+
+                        } catch (UnknownHostException unknownHost) {
+                            System.out.println("Error!You are trying to connect to an unknown host!");
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+
+                        System.out.println("Job's done!");
+                        out.writeObject((Message) publisherIn.readObject());                       // Gives value to outputStream.
+                        System.out.println("Object returning to client...");
+
                     }
-
-                    System.out.println("Job's done!");
-                    out.writeObject((Message) publisherIn.readObject());                       // Gives value to outputStream.
-                    System.out.println("Object returning to client...");
-
                 }
-
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
