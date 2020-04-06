@@ -62,3 +62,4 @@ class MusicChunk implements Serializable {
         return totalPartitions;
     }
 }
+
