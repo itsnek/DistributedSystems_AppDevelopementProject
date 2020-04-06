@@ -5,13 +5,16 @@ import com.mpatric.mp3agic.*;
 
 public class Publisher extends Node{
 
-    private static ArrayList <ArtistName> Artists = new ArrayList<ArtistName> (30);
+    private static ArrayList <String> Artists = new ArrayList<>(30);
     private static ArrayList <String> Songs = new ArrayList<String> (300);
     private static ArrayList <MusicFile> SongFiles = new ArrayList<MusicFile> (300);
     private static final int startingSocketNumber = 50190;
     private List <Broker> Brokers;
     private Socket clientSocket = null;
     private ServerSocket serverSocket = null;
+    private Socket requestSocket = null;
+    private ObjectOutputStream out = null;
+    private ObjectInputStream in = null;
     int Hashkey;
     public static String Scope;
     int counter = 0;
@@ -127,7 +130,27 @@ public class Publisher extends Node{
     private void findArtistForEachSong (ArrayList<MusicFile> songs) {
         for (int i=0; i<SongFiles.size(); i++) {
             if (!Artists.contains(SongFiles.get(i).getArtistName())) {
-                Artists.add(new ArtistName(SongFiles.get(i).getArtistName()));
+                Artists.add(SongFiles.get(i).getArtistName());
+            }
+        }
+    }
+
+    public void notifyBrokers(){
+        for(int i = 0; i < brokers.size(); i++){
+            try {
+
+            requestSocket = new Socket("127.0.0.1", 4321);
+            out = new ObjectOutputStream(requestSocket.getOutputStream());
+            in = new ObjectInputStream(requestSocket.getInputStream());
+
+            Message myScope = new Message(getScope());
+
+            out.writeObject(myScope);
+
+            }catch(UnknownHostException unknownHost){
+                System.out.println("Error!You are trying to connect to an unknown host!");
+            }catch (IOException ioException) {
+                ioException.printStackTrace();
             }
         }
     }
@@ -173,22 +196,30 @@ public class Publisher extends Node{
     public static void main(String args[]){
 
         try {
-            //Insert Publisher Scope
+
+            //Insert Publisher Scope.
             File file = new File(args[0]);
             Scanner scanner = new Scanner(file);
+            //Make instances.
             Publisher p = new Publisher();
             Publisher p2 = new Publisher();
+            //Read file of songs.
             if (scanner.hasNextLine()) {
                 Scope = scanner.nextLine();
                 p.ReadDataFile(Scope);
                 p2.ReadDataFile(Scope);
             }
+            //Initiate the arraylists of each publisher with the appropriate songs.
             p.init();
             p2.init();
-
+            //Notify every Broker about your artist's Scope.
+            p.notifyBrokers();
+            p2.notifyBrokers();
+            //Make connection with Brokers.
+            p.connect();
             p2.connect();
 
-            p.connect();
+            //Close the connection channel.
             //p.disconnect();
 
         }catch (FileNotFoundException fnf){
