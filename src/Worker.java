@@ -14,6 +14,7 @@ public class Worker extends Thread {
     private ArrayList<Consumer> registeredUsers = new ArrayList<>();
     private ArrayList<Publisher> registeredPublishers =  new ArrayList<>();
     int mode;
+    private boolean endOfThread = false;
 
     /*public Worker(Socket connection,int mode) {
         this.mode = mode;
@@ -40,6 +41,10 @@ public class Worker extends Thread {
         this.mode = mode;
     }
 
+    public boolean getEndOfThread () {
+        return endOfThread;
+    }
+
     public boolean checkBroker(ServerSocket mySocket) {
         int ip = mySocket.getInetAddress().getHostAddress().hashCode();
         int socketNumber = mySocket.getLocalPort();
@@ -56,6 +61,7 @@ public class Worker extends Thread {
     }
 
     public void run() {
+        endOfThread = false;
         try {
             try {
 
@@ -103,7 +109,9 @@ public class Worker extends Thread {
         } finally {
             try {
                 in.close();                                     // Closes
-                out.close();                                    // streams
+                out.close();
+                // streams
+                endOfThread = true;
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
