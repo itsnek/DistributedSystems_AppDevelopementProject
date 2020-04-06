@@ -180,7 +180,7 @@ public class Broker extends Node implements Runnable {
         /*Broker br = new Broker();
         br.acceptConnection();
         br.disconnect();*/
-        File file = new File("C:\\Users\\Nikos\\Desktop\\Brokers.txt");
+        File file = new File("src\\Brokers.txt");
         Broker br = new Broker();
         br.setBrokers(file);
 
