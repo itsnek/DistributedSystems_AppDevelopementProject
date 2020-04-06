@@ -133,25 +133,29 @@ public class Broker extends Node implements Runnable {
 
     public void notifyPublisher() {
 
-        try {
-            providerSocketPub = new ServerSocket(4322, 10);
-            connectionPub = providerSocket.accept();
-            ObjectOutputStream out = new ObjectOutputStream(requestSocket.getOutputStream());
-            ObjectInputStream in = new ObjectInputStream(requestSocket.getInputStream());
+            try {
+                providerSocketPub = new ServerSocket(50800, 10);
 
-            registeredPublishers.add(new Publisher(calculateKeys()));
+                while (true) {
 
-            for (int j =0; j < hashtable.size(); j++) {
-                out.writeObject(hashtable.get(j));
+                    connectionPub = providerSocketPub.accept();
+                    ObjectOutputStream out = new ObjectOutputStream(requestSocket.getOutputStream());
+                    ObjectInputStream in = new ObjectInputStream(requestSocket.getInputStream());
+
+                    registeredPublishers.add(new Publisher(calculateKeys()));
+
+                    for (int j = 0; j < hashtable.size(); j++) {
+                        out.writeObject(hashtable.get(j));
+                    }
+
+                    //Scope = (String)in.readObject();
+
+                    connectionPub.close();
+                }
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
             }
-
-            //Scope = (String)in.readObject();
-
-            connectionPub.close();
-
-        }catch (IOException ioException) {
-            ioException.printStackTrace();
-        }/*catch (ClassNotFoundException e) {
+        /*catch (ClassNotFoundException e) {
             System.out.println("/nUnknown object type received.");
             e.printStackTrace();
         }*/
@@ -167,7 +171,7 @@ public class Broker extends Node implements Runnable {
     public void run(){
 
         // Accept connection with client and starts the whole process.
-        //NotifyBrokers();
+        NotifyBrokers();
         acceptConnection();
 
         //disconnect();
@@ -184,7 +188,7 @@ public class Broker extends Node implements Runnable {
         Broker br = new Broker();
         br.setBrokers(file);
 
-        br.notifyPublisher();
+        //br.notifyPublisher();
 
         //First Broker
         new Thread(br).start();
