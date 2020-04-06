@@ -1,20 +1,27 @@
 import java.io.Serializable;
 
 public class Message implements Serializable {
-    Integer a, b, sum;
-    public Message(Integer a, Integer b) {
+    String a;
+    int hash, artist;
+
+    public Message(String a){
         this.a = a;
-        this.b = b;
-    }
-    public Integer getA() {
-        return a;
     }
 
-    public Integer getB(){
-        return b;
+    public Message(int a){
+        this.hash = a;
     }
 
-    public void setSum(Integer sum){
-        this.sum = sum;
+    public String toString(){
+        return (a);
     }
+
+    public Message(int a, int hash){
+        this.artist = a;
+        this.hash = hash;
+    }
+
+    public int getHash(){ return hash; }
+    public int getArtist(){ return artist; }
+
 }
