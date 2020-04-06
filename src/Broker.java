@@ -123,6 +123,7 @@ public class Broker extends Node implements Runnable {
                     wk.setMode(0);
                 }
                 new Thread(wk).start();
+                while (!wk.getEndOfThread()) {}
                 connection.close();
             }
         }catch (IOException ioException) {
