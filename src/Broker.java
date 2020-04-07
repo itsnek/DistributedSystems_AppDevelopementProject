@@ -75,7 +75,7 @@ public class Broker extends Node implements Runnable {
 
             BrokerCommunicator BrC = new BrokerCommunicator(hashtable,registeredBrokers);
             new Thread(BrC).start();
-            
+
         }catch (UnknownHostException unknownHost){
             System.out.println("Error!You are trying to connect to an unknown host!");
         }
@@ -84,20 +84,24 @@ public class Broker extends Node implements Runnable {
 
     public void acceptConnection() {
         try{
-            System.out.println(getPort());
 
-            providerSocket = new ServerSocket(getPort()-1, 10);
+            int temp = getPort() -1;
+            System.out.println(temp);
+
+            providerSocket = new ServerSocket(temp, 10);
+
 
             while (true) {
 
                 connection = providerSocket.accept();
-
+                System.out.println("Edwwwwwww gamw");
                 Worker wk = new Worker(connection,registeredUsers,registeredPublishers,registeredBrokers);
 
                 if(registeredBrokers.contains(new Broker(connection.getInetAddress().getHostAddress(),connection.getLocalPort()))) {
                     System.out.println("exw mpei");
 
                     new Thread(wk).start();
+
                 }
 
                 //Checks if the hash of the client is less than the Broker's.
@@ -120,9 +124,12 @@ public class Broker extends Node implements Runnable {
                     wk.setMode(0);
                 }
                 new Thread(wk).start();
-                while (!wk.getEndOfThread()) {System.out.println("edw eimai!");}
+                while (!wk.getEndOfThread()) {
+                    //System.out.println("edw eimai!");
+                }
                 connection.close();
             }
+
         }catch (IOException ioException) {
             ioException.printStackTrace();
         }

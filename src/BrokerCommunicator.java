@@ -32,17 +32,17 @@ public class BrokerCommunicator extends Thread {
                     try {
                         //edw stravwnei stis parametrous.
                         System.out.println(registeredBrokers.get(i).getAddress());
-                        System.out.println(registeredBrokers.get(i).getPort());
+                        System.out.println(registeredBrokers.get(i).getPort()-1);
                         requestSocket = new Socket(registeredBrokers.get(i).getAddress(), registeredBrokers.get(i).getPort() - 1);
                         ObjectOutputStream out = new ObjectOutputStream(requestSocket.getOutputStream());
                         //ObjectInputStream in = new ObjectInputStream(requestSocket.getInputStream());
 
-                        for (int j = 0; j < hashtable.size(); j++) {
-                            out.writeObject(hashtable.get(j));
-                            System.out.println("here.");
-
-                        }
-                        System.out.println("or here.");
+//                        for (int j = 0; j < hashtable.size(); j++) {
+//                            out.writeObject(hashtable.get(j));
+//                            System.out.println("here.");
+//
+//                        }
+                        out.writeUTF("here.");
 
                     } catch (IOException e) {
                         e.printStackTrace();
