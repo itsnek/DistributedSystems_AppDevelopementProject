@@ -14,7 +14,6 @@ public class Broker extends Node implements Runnable {
     private ServerSocket providerSocketPub = null;
     private Socket connection = null;
     private Socket connectionPub = null;
-    private Socket requestSocket = null;
     private ArrayList<Consumer> registeredUsers = new ArrayList<>();
     private ArrayList<Publisher> registeredPublishers =  new ArrayList<>();
     List<Broker> registeredBrokers;
@@ -64,42 +63,28 @@ public class Broker extends Node implements Runnable {
 
     public void NotifyBrokers(){
         registeredBrokers = super.getBrokers();
-        try {
 
+        try{
+            //Setting ip and port to my Broker.
             for (int i = 0; i < registeredBrokers.size(); i++) {
-
                 if (registeredBrokers.get(i).getAddress().equals(InetAddress.getLocalHost().getHostAddress())) {
-                    System.out.println("This is my ip.");
                     setAddress(registeredBrokers.get(i).getAddress());
                     setPort(registeredBrokers.get(i).getPort());
-
-                }
-                else {
-                    //TODO: send hashtable to all the other brokers.
-                    try {
-                        //edw stravwnei stis parametrous.
-                        System.out.println(registeredBrokers.get(i).getAddress());
-                        System.out.println(registeredBrokers.get(i).getPort());
-                        requestSocket = new Socket(registeredBrokers.get(i).getAddress(), registeredBrokers.get(i).getPort()-1);
-                        ObjectOutputStream out = new ObjectOutputStream(requestSocket.getOutputStream());
-                        //ObjectInputStream in = new ObjectInputStream(requestSocket.getInputStream());
-
-                        for (int j =0; j < hashtable.size(); j++){
-                            out.writeObject(hashtable.get(j));
-                        }
-
-                    }catch (IOException e){
-                        e.printStackTrace();
-                    }
                 }
             }
+
+            BrokerCommunicator BrC = new BrokerCommunicator(hashtable,registeredBrokers);
+            new Thread(BrC).start();
+            
         }catch (UnknownHostException unknownHost){
             System.out.println("Error!You are trying to connect to an unknown host!");
         }
+
     }
 
     public void acceptConnection() {
         try{
+            System.out.println(getPort());
 
             providerSocket = new ServerSocket(getPort()-1, 10);
 
@@ -143,31 +128,31 @@ public class Broker extends Node implements Runnable {
         }
     }
 
-    public void notifyPublisher() {
-
-            try {
-                providerSocketPub = new ServerSocket(50800, 10);
-
-                while (true) {
-
-                    connectionPub = providerSocketPub.accept();
-                    ObjectOutputStream out = new ObjectOutputStream(requestSocket.getOutputStream());
-                    ObjectInputStream in = new ObjectInputStream(requestSocket.getInputStream());
-
-                    registeredPublishers.add(new Publisher(calculateKeys()));
-
-                    Scope = (String)in.readObject();
-
-                    connectionPub.close();
-                }
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }catch (ClassNotFoundException e) {
-                System.out.println("/nUnknown object type received.");
-                e.printStackTrace();
-            }
-
-    }
+//    public void notifyPublisher() {
+//
+//            try {
+//                providerSocketPub = new ServerSocket(50800, 10);
+//
+//                while (true) {
+//
+//                    connectionPub = providerSocketPub.accept();
+//                    ObjectOutputStream out = new ObjectOutputStream(requestSocket.getOutputStream());
+//                    ObjectInputStream in = new ObjectInputStream(requestSocket.getInputStream());
+//
+//                    registeredPublishers.add(new Publisher(calculateKeys()));
+//
+//                    Scope = (String)in.readObject();
+//
+//                    connectionPub.close();
+//                }
+//            } catch (IOException ioException) {
+//                ioException.printStackTrace();
+//            }catch (ClassNotFoundException e) {
+//                System.out.println("/nUnknown object type received.");
+//                e.printStackTrace();
+//            }
+//
+//    }
 
     public void disconnect(){
 
@@ -192,12 +177,12 @@ public class Broker extends Node implements Runnable {
         File file = new File("src\\Brokers.txt");
 
         Broker br1 = new Broker();
-        Broker br2 = new Broker();
-        Broker br3 = new Broker();
+//        Broker br2 = new Broker();
+//        Broker br3 = new Broker();
 
         br1.setBrokers(file);
-        br2.setBrokers(file);
-        br3.setBrokers(file);
+       // br2.setBrokers(file);
+       // br3.setBrokers(file);
 
         /*br1.notifyPublisher();
         br2.notifyPublisher();
@@ -205,8 +190,8 @@ public class Broker extends Node implements Runnable {
 
         //First Broker
         new Thread(br1).start();
-        new Thread(br2).start();
-        new Thread(br3).start();
+//        new Thread(br2).start();
+//        new Thread(br3).start();
 
         //Second Broker
         /*new Thread(new Broker()).start();
