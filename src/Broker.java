@@ -64,7 +64,6 @@ public class Broker extends Node implements Runnable {
 
     public void NotifyBrokers(){
         registeredBrokers = super.getBrokers();
-        System.out.println(registeredBrokers.size());
         try {
 
             for (int i = 0; i < registeredBrokers.size(); i++) {
@@ -80,6 +79,7 @@ public class Broker extends Node implements Runnable {
                     try {
                         //edw stravwnei stis parametrous.
                         System.out.println(registeredBrokers.get(i).getAddress());
+                        System.out.println(registeredBrokers.get(i).getPort());
                         requestSocket = new Socket(registeredBrokers.get(i).getAddress(), registeredBrokers.get(i).getPort()-1);
                         ObjectOutputStream out = new ObjectOutputStream(requestSocket.getOutputStream());
                         //ObjectInputStream in = new ObjectInputStream(requestSocket.getInputStream());

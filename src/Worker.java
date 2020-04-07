@@ -80,11 +80,13 @@ public class Worker extends Thread {
 
                     if(counter == 0){
                         Broker2.add(in.readObject());
+                        System.out.println(Broker2.size());
                         AddrBr2 = connection.getInetAddress().getHostAddress();
                         port2 = connection.getLocalPort();
                         counter++;
                     }else {
                         Broker3.add(in.readObject());
+                        System.out.println(Broker3.size());
                         AddrBr3 = connection.getInetAddress().getHostAddress();
                         port3 = connection.getLocalPort();
                         System.out.println("mphka3");
