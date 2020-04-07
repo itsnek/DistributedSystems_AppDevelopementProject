@@ -1,8 +1,10 @@
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Message implements Serializable {
     String a,address;
     int hash, artist,port;
+    ArrayList<ArtistName> artists;
 
     public Message(String a){
         this.a = a;
@@ -20,19 +22,18 @@ public class Message implements Serializable {
         this.artist = a;
         this.hash = hash;
     }
+
     public Message(String a, int port){
         this.address = a;
         this.port = port;
     }
 
-    public String getAddress() {
-        return address;
+    public Message(ArrayList<ArtistName> artists){
+        this.artists = artists;
     }
 
-    public int getPort() {
-        return port;
-    }
-
+    public String getAddress() { return address; }
+    public int getPort() { return port; }
     public int getHash(){ return hash; }
     public int getArtist(){ return artist; }
 

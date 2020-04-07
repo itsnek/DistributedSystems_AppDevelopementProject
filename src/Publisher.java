@@ -5,7 +5,7 @@ import com.mpatric.mp3agic.*;
 
 public class Publisher extends Node{
 
-    private static ArrayList <String> Artists = new ArrayList<>(30);
+    private static ArrayList <ArtistName> Artists = new ArrayList<>(30);
     private static ArrayList <String> Songs = new ArrayList<String> (300);
     private static ArrayList <MusicFile> SongFiles = new ArrayList<MusicFile> (300);
     private static final int startingSocketNumber = 50190;
@@ -87,7 +87,7 @@ public class Publisher extends Node{
                         id3v2Tag = mp3File.getId3v2Tag();
                         if ((id3v2Tag.getArtist().charAt(0) > artistsToGet.charAt(0)) && (id3v2Tag.getArtist().charAt(0) < artistsToGet.charAt(2))) {
 
-                            if(id3v2Tag.getArtist() == null || id3v2Tag.getArtist() == "") {
+                            if(id3v2Tag.getArtist() == null || id3v2Tag.getArtist().equals("")) {
                                 String artistname = "Rafael Krux";
                                 MusicFile ms = new MusicFile(temp, artistname, list[i].getName());
                                 SongFiles.add(ms);
@@ -128,31 +128,44 @@ public class Publisher extends Node{
 
     // This method finds artist name for each song in the song list.
     private void findArtistForEachSong (ArrayList<MusicFile> songs) {
+
         for (int i=0; i<SongFiles.size(); i++) {
-            if (!Artists.contains(SongFiles.get(i).getArtistName())) {
-                Artists.add(SongFiles.get(i).getArtistName());
+
+            if (!Artists.contains(new ArtistName(SongFiles.get(i).getArtistName()))) {
+
+                Artists.add(new ArtistName(SongFiles.get(i).getArtistName()));
+
             }
+
         }
+
     }
 
     public void notifyBrokers(){
+        
         for(int i = 0; i < brokers.size(); i++){
+
             try {
 
-            requestSocket = new Socket("127.0.0.1", 4321);
+            requestSocket = new Socket(brokers.get(i).getAddress(), brokers.get(i).getPort());
             out = new ObjectOutputStream(requestSocket.getOutputStream());
             in = new ObjectInputStream(requestSocket.getInputStream());
 
             Message myScope = new Message(getScope());
+            Message myArtistList = new Message(Artists);
 
             out.writeObject(myScope);
+
+            out.writeObject(myArtistList);
 
             }catch(UnknownHostException unknownHost){
                 System.out.println("Error!You are trying to connect to an unknown host!");
             }catch (IOException ioException) {
                 ioException.printStackTrace();
             }
+
         }
+
     }
 
     // Create client side connection.

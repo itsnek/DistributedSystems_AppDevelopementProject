@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="e1ba10cd-b686-42b7-89fe-8fb33cad5633" name="Default" comment="changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Broker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Broker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BrokerCommunicator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BrokerCommunicator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Publisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Publisher.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -156,7 +156,7 @@
       <updated>1584207227950</updated>
       <workItem from="1584207232060" duration="788000" />
       <workItem from="1586187334131" duration="17247000" />
-      <workItem from="1586271740804" duration="9588000" />
+      <workItem from="1586271740804" duration="11748000" />
     </task>
     <task id="LOCAL-00001" summary="commit Publisher.java">
       <created>1584993500207</created>
@@ -292,11 +292,11 @@
     </state>
     <state x="99" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1586174465529" />
     <state x="139" y="0" key="SettingsEditor/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586188183343" />
-    <state x="387" y="143" key="Vcs.Push.Dialog.v2" timestamp="1586281813121">
+    <state x="387" y="143" key="Vcs.Push.Dialog.v2" timestamp="1586283972508">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="275" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1585171890495" />
-    <state x="387" y="143" key="Vcs.Push.Dialog.v2/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586281813121" />
+    <state x="387" y="143" key="Vcs.Push.Dialog.v2/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586283972508" />
     <state x="828" y="389" key="com.intellij.ide.util.TipDialog" timestamp="1586271741026">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
