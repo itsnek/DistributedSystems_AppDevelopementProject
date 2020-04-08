@@ -30,19 +30,12 @@ public class BrokerCommunicator extends Thread {
                     System.out.println("This is my ip.");
                 } else {
                     try {
-                        //edw stravwnei stis parametrous.
-                        System.out.println(registeredBrokers.get(i).getAddress());
-                        System.out.println(registeredBrokers.get(i).getPort()-1);
+
                         requestSocket = new Socket(registeredBrokers.get(i).getAddress(), registeredBrokers.get(i).getPort() - 1);
                         ObjectOutputStream out = new ObjectOutputStream(requestSocket.getOutputStream());
                         //ObjectInputStream in = new ObjectInputStream(requestSocket.getInputStream());
 
-//                        for (int j = 0; j < hashtable.size(); j++) {
-//                            out.writeObject(hashtable.get(j));
-//                            System.out.println("here.");
-//
-//                        }
-                        out.writeObject(new Message("here."));
+                        out.writeObject(new Message(hashtable));
 
                     } catch (IOException e) {
                         e.printStackTrace();

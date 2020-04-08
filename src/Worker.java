@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import static java.lang.Integer.parseInt;
@@ -16,10 +17,7 @@ public class Worker extends Thread {
     private ArrayList<Consumer> registeredUsers = new ArrayList<>();
     private ArrayList<Publisher> registeredPublishers =  new ArrayList<>();
     private List<Broker> registeredBrokers;
-    private ArrayList<String> Broker2 = new ArrayList<>();
-    private ArrayList<String> Broker3 = new ArrayList<>();
-    private String AddrBr2,AddrBr3;
-    private int port2,port3;
+    private List<Hashtable> BrokersHashtable;
     private int counter = 0;
     private int mode;
     private boolean endOfThread = false;
@@ -79,41 +77,20 @@ public class Worker extends Thread {
                     if (registeredBrokers.get(i).getAddress().equals(connection.getInetAddress().getHostAddress())) {
                         System.out.println("U son of bitch.Im in.");
 
-                        if (counter == 0) {
-                            String temp = (String) in.readObject();
-                            Broker2.add(temp);
-                            System.out.println(Broker2.size());
-                            AddrBr2 = connection.getInetAddress().getHostAddress();
-                            port2 = connection.getLocalPort();
-                            counter++;
-                            port3 = connection.getLocalPort();
+                        Message temp = (Message) in.readObject();
+                        BrokersHashtable.add(i,temp.getHashtable());
+                        System.out.println("mphka2");
 
-                        } else {
-                            String temp = (String) in.readObject();
-                            Broker3.add(temp);
-                            System.out.println(Broker3.size());
-                            AddrBr3 = connection.getInetAddress().getHostAddress();
-                            port3 = connection.getLocalPort();
-                            System.out.println("mphka3");
-                        }
                     }
                 }
 
                 if (mode == 0) {
 
                     out.writeBoolean(false);
+                    out.flush();
 
-                    Message request = (Message) in.readObject();     // Gives value to inputStream.
-                    int artistHash = request.getArtist();
-
-                    if(Broker2.contains(artistHash)){
-                        Message nextBroker = new Message(AddrBr2,port2);
-                        out.writeObject(nextBroker);
-                    }
-                    if(Broker3.contains(artistHash)){
-                        Message nextBroker = new Message(AddrBr3,port3);
-                        out.writeObject(nextBroker);
-                    }
+                    Message brokersInfo = new Message(BrokersHashtable,registeredBrokers);
+                    out.writeObject(brokersInfo);
 
                     out.flush();
 

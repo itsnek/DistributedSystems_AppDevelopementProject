@@ -62,7 +62,7 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
         boolean foundCorrectBroker = false;
         try {
 
-            requestSocket = new Socket("127.0.0.1", 4321);
+            requestSocket = new Socket("192.168.2.2", 50221);
             out = new ObjectOutputStream(requestSocket.getOutputStream());
             in = new ObjectInputStream(requestSocket.getInputStream());
 
