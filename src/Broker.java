@@ -17,7 +17,9 @@ public class Broker extends Node implements Runnable {
     private ArrayList<Consumer> registeredUsers = new ArrayList<>();
     private ArrayList<Publisher> registeredPublishers =  new ArrayList<>();
     List<Broker> registeredBrokers;
+    List<Hashtable> BrokersHashtable;
     int serverHash,port;
+    final int BrokersPort = 50850;
     String address,Hashkey,Scope;
     Hashtable hashtable;
     boolean entrance=false;
@@ -64,7 +66,7 @@ public class Broker extends Node implements Runnable {
 
     public void NotifyBrokers(){
         registeredBrokers = super.getBrokers();
-
+        BrokersHashtable.add(hashtable);
         try{
             //Setting ip and port to my Broker.
             for (int i = 0; i < registeredBrokers.size(); i++) {
@@ -86,31 +88,38 @@ public class Broker extends Node implements Runnable {
     public void acceptConnection() {
         try{
 
-            int temp = getPort() -1;
-            System.out.println(temp);
-
-            providerSocket = new ServerSocket(temp, 10);
-
-
             while (true) {
 
-                connection = providerSocket.accept();
-
-                Worker wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers);
-
                 if (!entrance) {
-                    for (int i = 0; i < registeredBrokers.size(); i++) {
-                        if (registeredBrokers.get(i).getAddress().equals(connection.getInetAddress().getHostAddress())) {
-                            System.out.println("U son of bitch.Im in.");
-                            new Thread(wk).start();
 
-                        }
+                    providerSocket = new ServerSocket(BrokersPort, 10);
+                    connection = providerSocket.accept();
+
+                    Worker wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers,BrokersHashtable);
+
+                    System.out.println("U son of bitch.Im in.");
+                    new Thread(wk).start();
+                    if (registeredBrokers.size() == BrokersHashtable.size()) {
+                        entrance = true;
+                        wk.getBrokersHashtable();
                     }
+
+                    if (wk.getEndOfThread()) {
+                        connection.close();
+                    }
+
                 }
+
                 //Checks if the hash of the client is less than the Broker's.
                 //if true, register the new client and start a worker in normal mode.
                 //TODO: Create a check so old clients are only registered once.
                 else {
+
+                    providerSocket = new ServerSocket(getPort() -1 , 10);
+                    connection = providerSocket.accept();
+
+                    Worker wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers,BrokersHashtable);
+
                     if (wk.checkBroker(providerSocket)) {
 
                         if (!registeredUsers.contains(new Consumer(serverHash))) {
@@ -128,10 +137,11 @@ public class Broker extends Node implements Runnable {
                         wk.setMode(0);
                     }
                     new Thread(wk).start();
+                    if (wk.getEndOfThread()) {
+                        connection.close();
+                    }
                 }
-                if (wk.getEndOfThread()) {
-                    connection.close();
-                }
+
             }
 
         }catch (IOException ioException) {
@@ -188,23 +198,13 @@ public class Broker extends Node implements Runnable {
         File file = new File("src\\Brokers.txt");
 
         Broker br1 = new Broker();
-        //Broker br2 = new Broker();
-//        Broker br3 = new Broker();
 
         br1.setBrokers(file);
-        //br2.setBrokers(file);
-       // br3.setBrokers(file);
 
 //        br1.notifyPublisher();
-//        br2.notifyPublisher();
-//        br3.notifyPublisher();
 
         //First Broker
         new Thread(br1).start();
-        //Second Broker
-       // new Thread(br2).start();
-        //Third Broker
-//        new Thread(br3).start();
 
     }
 

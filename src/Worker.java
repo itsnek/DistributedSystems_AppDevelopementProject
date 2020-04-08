@@ -22,20 +22,11 @@ public class Worker extends Thread {
     private int mode;
     private boolean endOfThread = false;
 
-    /*public Worker(Socket connection,int mode) {
-        this.mode = mode;
-        try {
-            out = new ObjectOutputStream(connection.getOutputStream());
-            in = new ObjectInputStream(connection.getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-
-    public Worker(Socket connection, ArrayList<Consumer> registeredUsers ,ArrayList<Publisher> registeredPublishers,List<Broker> registeredBrokers) {
+    public Worker(Socket connection, ArrayList<Consumer> registeredUsers ,ArrayList<Publisher> registeredPublishers,List<Broker> registeredBrokers,List<Hashtable> BrokersHashtable) {
         this.registeredBrokers = registeredBrokers;
         this.registeredUsers = registeredUsers;
         this.registeredPublishers = registeredPublishers;
+        this.BrokersHashtable = BrokersHashtable;
         this.connection = connection;
         try {
             out = new ObjectOutputStream(connection.getOutputStream());
@@ -51,6 +42,10 @@ public class Worker extends Thread {
 
     public boolean getEndOfThread () {
         return endOfThread;
+    }
+
+    public List<Hashtable> getBrokersHashtable() {
+        return BrokersHashtable;
     }
 
     public boolean checkBroker(ServerSocket mySocket) {

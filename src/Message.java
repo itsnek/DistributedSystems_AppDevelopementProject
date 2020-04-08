@@ -42,6 +42,7 @@ public class Message implements Serializable {
         this.Brokers = Brokers;
     }
 
+
     public List<Broker> getBrokers() { return Brokers; }
     public Hashtable getHashtable() { return hashtable; }
     public String toString(){
