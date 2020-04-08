@@ -20,6 +20,7 @@ public class Broker extends Node implements Runnable {
     int serverHash,port;
     String address,Hashkey,Scope;
     Hashtable hashtable;
+    boolean entrance=false;
 
     Broker(){
 
@@ -95,35 +96,39 @@ public class Broker extends Node implements Runnable {
 
                 connection = providerSocket.accept();
 
-                Worker wk = new Worker(connection,registeredUsers,registeredPublishers,registeredBrokers);
+                Worker wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers);
 
-                for (int i = 0; i < registeredBrokers.size(); i++) {
-                    if (registeredBrokers.get(i).getAddress().equals(connection.getInetAddress().getHostAddress())) {
-                        System.out.println("U son of bitch.Im in.");
-                        new Thread(wk).start();
+                if (!entrance) {
+                    for (int i = 0; i < registeredBrokers.size(); i++) {
+                        if (registeredBrokers.get(i).getAddress().equals(connection.getInetAddress().getHostAddress())) {
+                            System.out.println("U son of bitch.Im in.");
+                            new Thread(wk).start();
+
+                        }
                     }
                 }
-
                 //Checks if the hash of the client is less than the Broker's.
                 //if true, register the new client and start a worker in normal mode.
                 //TODO: Create a check so old clients are only registered once.
-                if(wk.checkBroker(providerSocket)){
+                else {
+                    if (wk.checkBroker(providerSocket)) {
 
-                    if(!registeredUsers.contains(new Consumer(serverHash))) {
-                        System.out.println("Client registered.");
-                        registeredUsers.add(new Consumer(serverHash));
+                        if (!registeredUsers.contains(new Consumer(serverHash))) {
+                            System.out.println("Client registered.");
+                            registeredUsers.add(new Consumer(serverHash));
+                        }
+
+                        System.out.println("Worker created.");
+                        //Starting the worker in mode "1" --> Normal Operation
+                        wk.setMode(1);
+
+                    } else {
+                        System.out.println("Client connected on wrong broker. Letting him know...");
+                        //Starting the worker in mode "0" --> Letting the Consumer know that its not the correct broker.
+                        wk.setMode(0);
                     }
-
-                    System.out.println("Worker created.");
-                    //Starting the worker in mode "1" --> Normal Operation
-                    wk.setMode(1);
-
-                }else {
-                    System.out.println("Client connected on wrong broker. Letting him know...");
-                    //Starting the worker in mode "0" --> Letting the Consumer know that its not the correct broker.
-                    wk.setMode(0);
+                    new Thread(wk).start();
                 }
-                new Thread(wk).start();
 //                while (!wk.getEndOfThread()) {
 //                    System.out.println("edw eimai!");
 //                }

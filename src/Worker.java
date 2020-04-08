@@ -15,13 +15,13 @@ public class Worker extends Thread {
     private ObjectInputStream publisherIn = null;
     private ArrayList<Consumer> registeredUsers = new ArrayList<>();
     private ArrayList<Publisher> registeredPublishers =  new ArrayList<>();
-    List<Broker> registeredBrokers;
-    ArrayList<Message> Broker2 = new ArrayList<>();
-    ArrayList<Message> Broker3 = new ArrayList<>();
-    String AddrBr2,AddrBr3;
-    int port2,port3;
-    int counter = 0;
-    int mode;
+    private List<Broker> registeredBrokers;
+    private ArrayList<String> Broker2 = new ArrayList<>();
+    private ArrayList<String> Broker3 = new ArrayList<>();
+    private String AddrBr2,AddrBr3;
+    private int port2,port3;
+    private int counter = 0;
+    private int mode;
     private boolean endOfThread = false;
 
     /*public Worker(Socket connection,int mode) {
@@ -80,7 +80,8 @@ public class Worker extends Thread {
                         System.out.println("U son of bitch.Im in.");
 
                         if (counter == 0) {
-                            Broker2.add((Message) in.readObject());
+                            String temp = (String) in.readObject();
+                            Broker2.add(temp);
                             System.out.println(Broker2.size());
                             AddrBr2 = connection.getInetAddress().getHostAddress();
                             port2 = connection.getLocalPort();
@@ -88,7 +89,8 @@ public class Worker extends Thread {
                             port3 = connection.getLocalPort();
 
                         } else {
-                            Broker3.add((Message)in.readObject());
+                            String temp = (String) in.readObject();
+                            Broker3.add(temp);
                             System.out.println(Broker3.size());
                             AddrBr3 = connection.getInetAddress().getHostAddress();
                             port3 = connection.getLocalPort();
