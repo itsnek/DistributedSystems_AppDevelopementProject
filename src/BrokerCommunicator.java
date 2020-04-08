@@ -42,7 +42,7 @@ public class BrokerCommunicator extends Thread {
 //                            System.out.println("here.");
 //
 //                        }
-                        out.writeUTF("here.");
+                        out.writeObject(new Message("here."));
 
                     } catch (IOException e) {
                         e.printStackTrace();

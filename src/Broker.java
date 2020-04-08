@@ -94,20 +94,20 @@ public class Broker extends Node implements Runnable {
             while (true) {
 
                 connection = providerSocket.accept();
-                System.out.println("Edwwwwwww gamw");
+
                 Worker wk = new Worker(connection,registeredUsers,registeredPublishers,registeredBrokers);
 
-                if(registeredBrokers.contains(new Broker(connection.getInetAddress().getHostAddress(),connection.getLocalPort()))) {
-                    System.out.println("exw mpei");
-
-                    new Thread(wk).start();
-
+                for (int i = 0; i < registeredBrokers.size(); i++) {
+                    if (registeredBrokers.get(i).getAddress().equals(connection.getInetAddress().getHostAddress())) {
+                        System.out.println("U son of bitch.Im in.");
+                        new Thread(wk).start();
+                    }
                 }
 
                 //Checks if the hash of the client is less than the Broker's.
                 //if true, register the new client and start a worker in normal mode.
                 //TODO: Create a check so old clients are only registered once.
-                else if(wk.checkBroker(providerSocket)){
+                if(wk.checkBroker(providerSocket)){
 
                     if(!registeredUsers.contains(new Consumer(serverHash))) {
                         System.out.println("Client registered.");
@@ -124,9 +124,9 @@ public class Broker extends Node implements Runnable {
                     wk.setMode(0);
                 }
                 new Thread(wk).start();
-                while (!wk.getEndOfThread()) {
-                    //System.out.println("edw eimai!");
-                }
+//                while (!wk.getEndOfThread()) {
+//                    System.out.println("edw eimai!");
+//                }
                 connection.close();
             }
 
@@ -184,26 +184,23 @@ public class Broker extends Node implements Runnable {
         File file = new File("src\\Brokers.txt");
 
         Broker br1 = new Broker();
-//        Broker br2 = new Broker();
+        //Broker br2 = new Broker();
 //        Broker br3 = new Broker();
 
         br1.setBrokers(file);
-       // br2.setBrokers(file);
+        //br2.setBrokers(file);
        // br3.setBrokers(file);
 
-        /*br1.notifyPublisher();
-        br2.notifyPublisher();
-        br3.notifyPublisher();*/
+//        br1.notifyPublisher();
+//        br2.notifyPublisher();
+//        br3.notifyPublisher();
 
         //First Broker
         new Thread(br1).start();
-//        new Thread(br2).start();
-//        new Thread(br3).start();
-
         //Second Broker
-        /*new Thread(new Broker()).start();
+       // new Thread(br2).start();
         //Third Broker
-        new Thread(new Broker()).start();*/
+//        new Thread(br3).start();
 
     }
 
