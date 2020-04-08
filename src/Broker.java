@@ -129,10 +129,9 @@ public class Broker extends Node implements Runnable {
                     }
                     new Thread(wk).start();
                 }
-//                while (!wk.getEndOfThread()) {
-//                    System.out.println("edw eimai!");
-//                }
-                connection.close();
+                if (wk.getEndOfThread()) {
+                    connection.close();
+                }
             }
 
         }catch (IOException ioException) {
