@@ -7,10 +7,11 @@ public class Message implements Serializable {
     String a, address;
     int hash, artist,port, artistHash;
     ArrayList<ArtistName> artists;
-    Hashtable hashtable;
+    ArrayList<Integer> hashtable;
     List<Broker> Brokers;
-    List<Hashtable> BrokersHashtable;
+    List<ArrayList<Integer>> BrokersHashtable;
     List<Broker> registeredBrokers;
+    MusicChunk Chunk;
 
     public Message(String a){
         this.a = a;
@@ -30,22 +31,28 @@ public class Message implements Serializable {
         this.port = port;
     }
 
-    public Message(ArrayList<ArtistName> artists){
+    public Message(ArrayList<ArtistName> artists,String a){
         this.artists = artists;
+        this.a = a;
     }
 
-    public Message(Hashtable hashtable){
+    public Message(ArrayList<Integer> hashtable){
         this.hashtable = hashtable;
     }
 
-    public Message(List<Hashtable> BrokersHashtable, List<Broker> Brokers){
+    public Message(List<ArrayList<Integer>> BrokersHashtable, List<Broker> Brokers){
         this.BrokersHashtable = BrokersHashtable;
         this.Brokers = Brokers;
     }
 
+    public Message(MusicChunk Chunk){
+        this.Chunk = Chunk;
+    }
 
+    public List<ArrayList<Integer>> getBrokersHashtable() { return BrokersHashtable; }
+    public MusicChunk getChunk() { return Chunk; }
     public List<Broker> getBrokers() { return Brokers; }
-    public Hashtable getHashtable() { return hashtable; }
+    public ArrayList<Integer> getHashtable() { return hashtable; }
     public String toString(){
         return (a);
     }

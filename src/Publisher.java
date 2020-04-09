@@ -15,8 +15,7 @@ public class Publisher extends Node{
     private Socket requestSocket = null;
     private ObjectOutputStream out = null;
     private ObjectInputStream in = null;
-    int Hashkey;
-    public static String Scope;
+    public static String Scope,address;
     int counter = 0;
 
 
@@ -24,16 +23,18 @@ public class Publisher extends Node{
 
     }
 
-    Publisher(int Hashkey){
-       this.Hashkey = Hashkey;
-       //this.Scope = Scope;
+    /*Publisher(int Hashkey){
+        this.Hashkey = Hashkey;
+        //this.Scope = Scope;
+    }*/
+
+    Publisher(String address,String scope){
+        this.address = address;
+        Scope = scope;
     }
 
-    Publisher(ArrayList artN,ArrayList songs){
-
-        Artists = artN;
-        Songs = songs;
-
+    public static String getAddress() {
+        return address;
     }
 
     public static String getScope() {
@@ -120,7 +121,7 @@ public class Publisher extends Node{
 
         for (int i=0; i<SongFiles.size(); i++) {
 
-                Songs.add(SongFiles.get(i).getTrackName());
+            Songs.add(SongFiles.get(i).getTrackName());
 
         }
 
@@ -142,21 +143,18 @@ public class Publisher extends Node{
     }
 
     public void notifyBrokers(){
-        
+
         for(int i = 0; i < brokers.size(); i++){
 
             try {
 
-            requestSocket = new Socket(brokers.get(i).getAddress(), brokers.get(i).getPort());
-            out = new ObjectOutputStream(requestSocket.getOutputStream());
-            in = new ObjectInputStream(requestSocket.getInputStream());
+                requestSocket = new Socket(brokers.get(i).getAddress(), brokers.get(i).getPort());
+                out = new ObjectOutputStream(requestSocket.getOutputStream());
+                in = new ObjectInputStream(requestSocket.getInputStream());
 
-            Message myScope = new Message(getScope());
-            Message myArtistList = new Message(Artists);
+                Message ArtistListPlusScope = new Message(Artists,getScope());
 
-            out.writeObject(myScope);
-
-            out.writeObject(myArtistList);
+                out.writeObject(ArtistListPlusScope);
 
             }catch(UnknownHostException unknownHost){
                 System.out.println("Error!You are trying to connect to an unknown host!");
@@ -225,6 +223,8 @@ public class Publisher extends Node{
             //Initiate the arraylists of each publisher with the appropriate songs.
             p.init();
             p2.init();
+            //Get the Broker's ips and ports.
+            p.getBrokerList();
             //Notify every Broker about your artist's Scope.
             p.notifyBrokers();
             p2.notifyBrokers();
@@ -236,21 +236,9 @@ public class Publisher extends Node{
             //p.disconnect();
 
         }catch (FileNotFoundException fnf){
-                fnf.printStackTrace();
+            fnf.printStackTrace();
         }
 
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-

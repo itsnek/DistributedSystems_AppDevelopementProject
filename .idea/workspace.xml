@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e1ba10cd-b686-42b7-89fe-8fb33cad5633" name="Default" comment="Added artists list">
+    <list default="true" id="e1ba10cd-b686-42b7-89fe-8fb33cad5633" name="Default" comment="changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Broker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Broker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BrokerCommunicator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BrokerCommunicator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Consumer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Publisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Publisher.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Worker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Worker.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -253,11 +256,11 @@
       <screen x="0" y="0" width="2498" height="1440" />
     </state>
     <state x="92" y="92" width="2314" height="1256" key="DiffContextDialog/0.0.2498.1440@0.0.2498.1440" timestamp="1586371828260" />
-    <state x="547" y="154" key="FileChooserDialogImpl" timestamp="1586187484155">
+    <state x="547" y="154" key="FileChooserDialogImpl" timestamp="1586439316777">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="389" y="108" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1586174459927" />
-    <state x="547" y="154" key="FileChooserDialogImpl/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586187484155" />
+    <state x="547" y="154" key="FileChooserDialogImpl/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586439316777" />
     <state width="1877" height="220" key="GridCell.Tab.0.bottom" timestamp="1586351943674">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -306,21 +309,21 @@
       <screen x="0" y="0" width="2498" height="1440" />
     </state>
     <state x="1047" y="442" key="RollbackChangesDialog/0.0.2498.1440@0.0.2498.1440" timestamp="1586371741658" />
-    <state x="139" y="0" key="SettingsEditor" timestamp="1586188183343">
+    <state x="139" y="0" key="SettingsEditor" timestamp="1586439323662">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="99" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1586174465529" />
-    <state x="139" y="0" key="SettingsEditor/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586188183343" />
+    <state x="139" y="0" key="SettingsEditor/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586439323662" />
     <state x="1016" y="424" key="VCS.ChangeListViewerDialog" timestamp="1586371806398">
       <screen x="0" y="0" width="2498" height="1440" />
     </state>
     <state x="1016" y="424" key="VCS.ChangeListViewerDialog/0.0.2498.1440@0.0.2498.1440" timestamp="1586371806398" />
-    <state x="504" y="198" key="Vcs.Push.Dialog.v2" timestamp="1586428980809">
-      <screen x="0" y="0" width="2498" height="1440" />
+    <state x="387" y="143" key="Vcs.Push.Dialog.v2" timestamp="1586447095792">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="275" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1585171890495" />
     <state x="504" y="198" key="Vcs.Push.Dialog.v2/0.0.2498.1440@0.0.2498.1440" timestamp="1586428980809" />
-    <state x="387" y="143" key="Vcs.Push.Dialog.v2/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586365038952" />
+    <state x="387" y="143" key="Vcs.Push.Dialog.v2/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586447095792" />
     <state x="1077" y="539" key="com.intellij.ide.util.TipDialog" timestamp="1586427872418">
       <screen x="0" y="0" width="2498" height="1440" />
     </state>
@@ -351,5 +354,9 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1585436217948" />
+    <state x="214" y="230" width="672" height="678" key="search.everywhere.popup" timestamp="1586446064713">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="214" y="230" width="672" height="678" key="search.everywhere.popup/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586446064713" />
   </component>
 </project>

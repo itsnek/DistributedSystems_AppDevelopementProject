@@ -16,13 +16,13 @@ public class Broker extends Node implements Runnable {
     private Socket connectionPub = null;
     private ArrayList<Consumer> registeredUsers = new ArrayList<>();
     private ArrayList<Publisher> registeredPublishers =  new ArrayList<>();
-    private ArrayList<ArtistName> artists =  new ArrayList<>();
+    private ArrayList<Integer> artists =  new ArrayList<>();
     List<Broker> registeredBrokers;
+    List<ArrayList<Integer>> BrokersHashtable;
     ObjectInputStream in;
-
+    final static int BrokersPort = 50850;
     int serverHash, port;
-    String address;
-    Hashtable hashtable;
+    String address,Scope;
     boolean entrance = false;
 
     Broker(){}
@@ -56,7 +56,7 @@ public class Broker extends Node implements Runnable {
         return serverHash;
     }
 
-    public void initHashtable(){ hashtable = new Hashtable(10, (long)0.8); }
+   // public void initHashtable(){ hashtable = new Hashtable(10, (long)0.8); }
 
     public void NotifyBrokers(){
         registeredBrokers = super.getBrokers();
@@ -67,10 +67,11 @@ public class Broker extends Node implements Runnable {
                 if (registeredBrokers.get(i).getAddress().equals(InetAddress.getLocalHost().getHostAddress())) {
                     setAddress(registeredBrokers.get(i).getAddress());
                     setPort(registeredBrokers.get(i).getPort());
+                    BrokersHashtable.add(i,artists);
                 }
             }
 
-            BrokerCommunicator BrC = new BrokerCommunicator(hashtable, registeredBrokers);
+            BrokerCommunicator BrC = new BrokerCommunicator(artists, registeredBrokers);
             new Thread(BrC).start();
 
         }catch (UnknownHostException unknownHost){
@@ -78,60 +79,96 @@ public class Broker extends Node implements Runnable {
         }
     }
 
-    public void receiveArtists(Message artistsMessage){
+    public void receiveArtists(ArrayList<ArtistName> artistsMessage){
         int myHash = calculateKeys();
-        ArrayList<ArtistName> temp = artistsMessage.getArtists();
-        for(int i = 0; i < temp.size(); i++) {
-            if (myHash > temp.get(i).hashCode()) {
-                artists.add(temp.get(i));
+        for(int i = 0; i < artistsMessage.size(); i++) {
+            if (myHash > artistsMessage.get(i).hashCode()) {
+                artists.add(artistsMessage.get(i).hashCode());
             }
         }
+    }
+
+    public void notifyPublisher() {
+
+        try {
+            providerSocketPub = new ServerSocket(50800, 10);
+
+            while (true) {
+
+                connectionPub = providerSocketPub.accept();
+                ObjectOutputStream out = new ObjectOutputStream(connectionPub.getOutputStream());
+                ObjectInputStream in = new ObjectInputStream(connectionPub.getInputStream());
+
+                Message temp = (Message)in.readObject();
+                Scope = temp.toString();
+                receiveArtists(temp.getArtists());
+
+                registeredPublishers.add(new Publisher(connectionPub.getInetAddress().getHostAddress(),Scope));
+
+                out.writeObject(new Message(artists));
+
+                disconnect();
+                //connectionPub.close();
+            }
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }catch (ClassNotFoundException e) {
+            System.out.println("/nUnknown object type received.");
+            e.printStackTrace();
+        }
+
     }
 
     public void acceptConnection() {
         try{
 
-            int temp = getPort() -1;
-            System.out.println(temp);
-
-            providerSocket = new ServerSocket(temp, 10);
-
             while (true) {
 
-                connection = providerSocket.accept();
-
-                Worker wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists);
-                System.out.println("Worker created.");
-
+                //Check if it's an incoming message from Broker.
                 if (!entrance) {
-                    for (int i = 0; i < registeredBrokers.size(); i++) {
-                        if (registeredBrokers.get(i).getAddress().equals(connection.getInetAddress().getHostAddress())) {
-                            System.out.println("You son of a bitch. Im in.");
-                            new Thread(wk).start();
-                        }
-                    }
-                }else {
-                    if (connection.getPort() == 60450){
-                        in = new ObjectInputStream(connection.getInputStream());
-                        receiveArtists((Message)in.readObject());
-                    }else {
 
-                        if (!registeredUsers.contains(new Consumer(serverHash))) {
-                            System.out.println("Client registered.");
-                            registeredUsers.add(new Consumer(serverHash));
-                        }
+                    providerSocket = new ServerSocket(BrokersPort, 10);
+                    connection = providerSocket.accept();
+
+                    Worker wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists,BrokersHashtable);
+
+                    System.out.println("U son of bitch.Im in.");
+                    new Thread(wk).start();
+
+                    BrokersHashtable = wk.getBrokersHashtable();
+                    entrance = wk.getEntrance();
+
+                    if (wk.getEndOfThread()) {
+                        connection.close();
+                    }
+
+                }
+
+
+                //if true, register the new client and start a worker in normal mode.
+                //TODO: Create a check so old clients are only registered once.
+                else {
+
+                    providerSocket = new ServerSocket(getPort() - 1, 10);
+                    connection = providerSocket.accept();
+
+                    Worker wk = new Worker(connection,registeredUsers, registeredPublishers, registeredBrokers,artists, BrokersHashtable);
+
+                    System.out.println("Worker created.");
+
+                    new Thread(wk).start();
+
+                    if (wk.getEndOfThread()) {
+                        connection.close();
                     }
                 }
-                new Thread(wk).start();
-                if (wk.getEndOfThread()) {
-                    connection.close();
-                }
+
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+
+        }catch (IOException ioException) {
+            ioException.printStackTrace();
         }
+
 }
 
     public void disconnect(){ super.disconnect();}
