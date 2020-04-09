@@ -50,6 +50,6 @@ public class Message implements Serializable {
     public String getAddress() { return address; }
     public int getPort() { return port; }
     public int getHash(){ return hash; }
-    public int getArtist(){ return artist; }
+    public ArrayList<ArtistName> getArtists(){ return artists; }
 
 }
