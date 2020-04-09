@@ -158,6 +158,8 @@ public class Broker extends Node implements Runnable {
 
                     new Thread(wk).start();
 
+                    registeredUsers = wk.getRegisteredUsers();
+
                     if (wk.getEndOfThread()) {
                         connection.close();
                     }

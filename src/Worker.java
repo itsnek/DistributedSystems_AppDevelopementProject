@@ -82,6 +82,10 @@ public class Worker extends Thread {
                         Message brokersInfo = new Message(BrokersHashtable, registeredBrokers);
                         out.writeObject(brokersInfo);
                     } else {
+
+                        if(!registeredUsers.contains(new Consumer(connection.getInetAddress().getHostAddress()))){
+                            registeredUsers.add(new Consumer(connection.getInetAddress().getHostAddress()));
+                        }
                         try {
                             for (int i = 0; i < registeredPublishers.size(); i++) {
                                 if (request.toString().charAt(0) > registeredPublishers.get(i).getScope().charAt(0) && request.toString().charAt(1) > registeredPublishers.get(i).getScope().charAt(1)) {
