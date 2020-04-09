@@ -1,13 +1,13 @@
 import java.io.*;
 import java.net.*;
-import java.util.Scanner;
-import java.util.logging.Handler;
+import java.util.*;
 
 public class Consumer extends Node implements Runnable { //den ginetai me to extend thread na kanw extend mia allh klash taytoxrona,me to interface runnable mporw
 
     String arg1,arg2;
     int hash;
-
+    Message broker;
+    Queue<MusicChunk> SongRecieved = new LinkedList<>(); ;
     private Socket requestSocket = null;
     private ObjectOutputStream out = null;
     private ObjectInputStream in = null;
@@ -61,7 +61,7 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
         boolean foundCorrectBroker = false;
         try {
 
-            requestSocket = new Socket(InetAddress.getLocalHost(), 4321);
+            requestSocket = new Socket("192.168.2.2", 50221);
             out = new ObjectOutputStream(requestSocket.getOutputStream());
             in = new ObjectInputStream(requestSocket.getInputStream());
 
@@ -76,13 +76,13 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
             out.writeObject(handshake);
 
             if(in.readBoolean()){
-                System.out.println("mphka");
                 foundCorrectBroker = true;
+            }else{
+                broker = (Message) in.readObject();
             }
 
             while(!foundCorrectBroker) {
-                System.out.println("mphka2");
-                requestSocket = new Socket("127.0.0.1", 4321);
+                requestSocket = new Socket(broker.getAddress(), broker.getPort());
                 if(in.readBoolean()){
                     foundCorrectBroker = true;
                 }
@@ -92,6 +92,9 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
             System.out.println("Error!You are trying to connect to an unknown host!");
         }catch (IOException ioException) {
             ioException.printStackTrace();
+        }catch (ClassNotFoundException e) {
+            System.out.println("/nUnknown object type received.");
+            e.printStackTrace();
         }
     }
 
@@ -129,11 +132,29 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
 
     }
 
-    public void playData (){
+    public void readData (){
 
         try {
 
             System.out.println("Message received is: " + ( in.readObject().toString())); //try to read received message,the type may differ.
+
+        }catch (ClassNotFoundException e) {
+            System.out.println("/nUnknown object type received.");
+            e.printStackTrace();
+        }catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+
+    }
+
+    public void playData (){
+
+        try {
+            //Collecting them in a queue.Another option is to collect them in a folder.
+            Message temp = (Message) in.readObject();
+            SongRecieved.add(temp.getChunk()); //try to read received message,the type may differ.
+
+            //TODO:Start playing each chunk(suggested method ---> manually)
 
         }catch (ClassNotFoundException e) {
             System.out.println("/nUnknown object type received.");
@@ -167,11 +188,11 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
         //Look for the songs of one artist.
         lookForArtist(artist);
         //Check if the broker has the artist i want.
-        playData();
+        readData();
         //Request artist's song.
         System.out.println("Which song of this artist do you want to listen?/n");
         requestSong(myObj.nextLine());
-
+        //Collect received chunks and play them manually.
         playData();
 
         disconnect();
@@ -202,9 +223,13 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
 
         //Handshake with a random broker and check if its the correct one and register, else try again.
         cons1.handshake(artist);
-        cons1.requestSong(artist.getArtistName());
+
+        //Look for the songs of one artist.
+        cons1.lookForArtist(artist);
+
         //Check if the broker has the artist i want.
-        cons1.playData(); //new Value(new MusicFile (getArg2()))
+         cons1.readData();
+         
         //Request artist's song.
         System.out.println("Which song of this artist do you want to listen?/n");
         cons1.requestSong(myObj.nextLine());
