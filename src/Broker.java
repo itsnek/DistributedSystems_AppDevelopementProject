@@ -56,9 +56,7 @@ public class Broker extends Node implements Runnable {
         return serverHash;
     }
 
-    public void initHashtable(){
-        hashtable = new Hashtable(10, (long)0.8);
-    }
+    public void initHashtable(){ hashtable = new Hashtable(10, (long)0.8); }
 
     public void NotifyBrokers(){
         registeredBrokers = super.getBrokers();
@@ -83,7 +81,6 @@ public class Broker extends Node implements Runnable {
     public void receiveArtists(Message artistsMessage){
         int myHash = calculateKeys();
         ArrayList<ArtistName> temp = artistsMessage.getArtists();
-
         for(int i = 0; i < temp.size(); i++) {
             if (myHash > temp.get(i).hashCode()) {
                 artists.add(temp.get(i));
@@ -103,7 +100,8 @@ public class Broker extends Node implements Runnable {
 
                 connection = providerSocket.accept();
 
-                Worker wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers);
+                Worker wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists);
+                System.out.println("Worker created.");
 
                 if (!entrance) {
                     for (int i = 0; i < registeredBrokers.size(); i++) {
@@ -122,35 +120,24 @@ public class Broker extends Node implements Runnable {
                             System.out.println("Client registered.");
                             registeredUsers.add(new Consumer(serverHash));
                         }
-
-                        System.out.println("Worker created.");
-                        //Starting the worker in mode "1" --> Normal Operation
-                        wk.setMode(1);
                     }
                 }
                 new Thread(wk).start();
-            }
-            if (wk.getEndOfThread()) {
-                connection.close();
+                if (wk.getEndOfThread()) {
+                    connection.close();
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-    }catch (IOException ioException) {
-        ioException.printStackTrace();
-    }
 }
 
-    public void disconnect(){
-        super.disconnect();
-    }
+    public void disconnect(){ super.disconnect();}
 
     public void run(){
         NotifyBrokers();
-        // Accept connection with client and starts the whole process.
         acceptConnection();
     }
 
@@ -160,22 +147,21 @@ public class Broker extends Node implements Runnable {
 
         Broker br1 = new Broker();
         //Broker br2 = new Broker();
-//        Broker br3 = new Broker();
+        //Broker br3 = new Broker();
 
         br1.setBrokers(file);
         //br2.setBrokers(file);
         // br3.setBrokers(file);
 
-//        br1.notifyPublisher();
-//        br2.notifyPublisher();
-//        br3.notifyPublisher();
+        //br1.notifyPublisher();
+        //br2.notifyPublisher();
+        //br3.notifyPublisher();
 
         //First Broker
         new Thread(br1).start();
         //Second Broker
         // new Thread(br2).start();
         //Third Broker
-//        new Thread(br3).start();
-
+        //new Thread(br3).start();
     }
 }

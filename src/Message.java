@@ -4,19 +4,20 @@ import java.util.Hashtable;
 import java.util.List;
 
 public class Message implements Serializable {
-    String a,address;
-    int hash, artist,port;
+    String a, address;
+    int hash, artist,port, artistHash;
     ArrayList<ArtistName> artists;
     Hashtable hashtable;
     List<Broker> Brokers;
     List<Hashtable> BrokersHashtable;
+    List<Broker> registeredBrokers;
 
     public Message(String a){
         this.a = a;
     }
 
-    public Message(int a){
-        this.hash = a;
+    public Message(int artistHash){
+        this.artistHash = artistHash;
     }
 
     public Message(int a, int hash){
@@ -51,5 +52,6 @@ public class Message implements Serializable {
     public int getPort() { return port; }
     public int getHash(){ return hash; }
     public ArrayList<ArtistName> getArtists(){ return artists; }
+    public int getArtistHash(){ return artistHash; }
 
 }
