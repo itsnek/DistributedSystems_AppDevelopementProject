@@ -6,6 +6,7 @@ public class PublisherThread extends Thread{
 
     private ArrayList<ArtistName> Artists = null;
     private ArrayList <MusicFile> Songs = null;
+    private ArrayList<MusicChunk> Chunks = new ArrayList<>();
     private Socket clientSocket;
     private ObjectInputStream in = null;
     private ObjectOutputStream out = null;
@@ -71,7 +72,14 @@ public class PublisherThread extends Thread{
             //if client answers the song he requests then :
             for (int i = 0; i < Songs.size(); i++) {
                 if (Songs.get(i).getTrackName() == song) {
-                    //out.write(Songs.get(i).getMusicFileExtract());
+
+                    Chunks = Songs.get(i).createChunks();
+
+                    for (int j = 0; j < Chunks.size(); j++) {
+                        Message temp = new Message(Chunks.get(i));
+                        out.writeObject(temp);
+                    }
+
                     foundS = true;
                 }
             }
