@@ -7,7 +7,7 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
     String arg1,arg2;
     int hash;
     Message broker;
-    Queue<MusicChunk> SongRecieved = new LinkedList<>(); ;
+    Queue<MusicChunk> SongReceived = new LinkedList<>(); ;
     private Socket requestSocket = null;
     private ObjectOutputStream out = null;
     private ObjectInputStream in = null;
@@ -152,7 +152,7 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
         try {
             //Collecting them in a queue.Another option is to collect them in a folder.
             Message temp = (Message) in.readObject();
-            SongRecieved.add(temp.getChunk()); //try to read received message,the type may differ.
+            SongReceived.add(temp.getChunk()); //try to read received message,the type may differ.
 
             //TODO:Start playing each chunk(suggested method ---> manually)
 
