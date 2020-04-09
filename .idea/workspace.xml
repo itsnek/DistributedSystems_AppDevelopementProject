@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e1ba10cd-b686-42b7-89fe-8fb33cad5633" name="Default" comment="changes">
+    <list default="true" id="e1ba10cd-b686-42b7-89fe-8fb33cad5633" name="Default" comment="Added artists list">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Broker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Broker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Worker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Worker.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,7 +195,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586173804582</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Added artists list">
+      <created>1586428965151</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1586428965151</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -207,7 +214,8 @@
     <MESSAGE value="commit Publisher.java and PublisherThread.java" />
     <MESSAGE value="changes in Publisher.java" />
     <MESSAGE value="changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="changes" />
+    <MESSAGE value="Added artists list" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added artists list" />
   </component>
   <component name="WindowStateProjectService">
     <state x="358" y="66" key="#Consumer" timestamp="1585648672868">
@@ -236,10 +244,11 @@
     </state>
     <state x="534" y="256" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1366.728@0.0.1366.728" timestamp="1585074371549" />
     <state x="751" y="366" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586187397136" />
-    <state x="248" y="60" width="996" height="646" key="CommitChangelistDialog2" timestamp="1586173801790">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="454" y="119" width="996" height="646" key="CommitChangelistDialog2" timestamp="1586428963547">
+      <screen x="0" y="0" width="2498" height="1440" />
     </state>
     <state x="248" y="60" width="996" height="646" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586173801790" />
+    <state x="454" y="119" key="CommitChangelistDialog2/0.0.2498.1440@0.0.2498.1440" timestamp="1586428963547" />
     <state x="92" y="92" width="2314" height="1256" key="DiffContextDialog" timestamp="1586371828260">
       <screen x="0" y="0" width="2498" height="1440" />
     </state>
@@ -306,10 +315,11 @@
       <screen x="0" y="0" width="2498" height="1440" />
     </state>
     <state x="1016" y="424" key="VCS.ChangeListViewerDialog/0.0.2498.1440@0.0.2498.1440" timestamp="1586371806398" />
-    <state x="387" y="143" key="Vcs.Push.Dialog.v2" timestamp="1586365038952">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="504" y="198" key="Vcs.Push.Dialog.v2" timestamp="1586428980809">
+      <screen x="0" y="0" width="2498" height="1440" />
     </state>
     <state x="275" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1585171890495" />
+    <state x="504" y="198" key="Vcs.Push.Dialog.v2/0.0.2498.1440@0.0.2498.1440" timestamp="1586428980809" />
     <state x="387" y="143" key="Vcs.Push.Dialog.v2/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586365038952" />
     <state x="1077" y="539" key="com.intellij.ide.util.TipDialog" timestamp="1586427872418">
       <screen x="0" y="0" width="2498" height="1440" />
