@@ -2,7 +2,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class Consumer extends Node implements Runnable { //den ginetai me to extend thread na kanw extend mia allh klash taytoxrona,me to interface runnable mporw
+public class Consumer extends Node { //den ginetai me to extend thread na kanw extend mia allh klash taytoxrona,me to interface runnable mporw
 
     String arg1,arg2;
     int hash,i = 0;
@@ -155,25 +155,25 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
         }
 
     }
-
-    public void run(){
-
-        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-        ArtistName artist = new ArtistName(myObj.nextLine());
-
-        //Handshake with a random broker and check if its the correct one and register, else try again.
-        handshake(artist);
-        //Look for the songs of one artist.
-        lookForArtist(artist);
-        //Request artist's song.
-        System.out.println("Which song of this artist do you want to listen?/n");
-        requestSong(myObj.nextLine());
-        //Collect received chunks and play them manually.
-        playData();
-
-        disconnect();
-
-    }
+//
+//    public void run(){
+//
+//        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+//        ArtistName artist = new ArtistName(myObj.nextLine());
+//
+//        //Handshake with a random broker and check if its the correct one and register, else try again.
+//        handshake(artist);
+//        //Look for the songs of one artist.
+//        lookForArtist(artist);
+//        //Request artist's song.
+//        System.out.println("Which song of this artist do you want to listen?/n");
+//        requestSong(myObj.nextLine());
+//        //Collect received chunks and play them manually.
+//        playData();
+//
+//        disconnect();
+//
+//    }
 
 
 //    public static void main(String args[]) {

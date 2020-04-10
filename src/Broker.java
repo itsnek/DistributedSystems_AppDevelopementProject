@@ -8,7 +8,7 @@ import java.lang.*;
 
 import static java.lang.Integer.parseInt;
 
-public class Broker extends Node implements Runnable {
+public class Broker extends Node {
 
     private ServerSocket providerSocket = null;
     private ServerSocket providerSocketPub = null;
@@ -121,6 +121,10 @@ public class Broker extends Node implements Runnable {
                     out.writeObject(new Message(artists));
                     out.flush();
                 }
+
+                if(registeredPublishers.size() == 2){
+                    break;
+                }
             }
         } catch (IOException ioException) {
             ioException.printStackTrace();
@@ -194,34 +198,19 @@ public class Broker extends Node implements Runnable {
         }
     }
 
-    public void run(){
-        NotifyBrokers();
-        acceptConnection();
-    }
-
     public static void main(String args[]) {
 
         File file = new File("src\\Brokers.txt");
 
         Broker br1 = new Broker();
-        //Broker br2 = new Broker();
-        //Broker br3 = new Broker();
+
         br1.setBrokers(file);
 
         br1.init();
 
         br1.notifyPublisher();
-//        br2.notifyPublisher();
-//        br3.notifyPublisher();
+        br1.NotifyBrokers();
+        br1.acceptConnection();
 
-        //br2.setBrokers(file);
-        // br3.setBrokers(file);
-
-        //First Broker
-        new Thread(br1).start();
-        //Second Broker
-        // new Thread(br2).start();
-        //Third Broker
-        //new Thread(br3).start();
     }
 }

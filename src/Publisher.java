@@ -215,13 +215,13 @@ public class Publisher extends Node{
     public static void main(String args[]){
 
         try {
-
             //Insert Publisher Scope.
             File file = new File(args[0]);
             Scanner scanner = new Scanner(file);
+
             //Make instances.
             Publisher p = new Publisher();
-            //Publisher p2 = new Publisher();
+
             //Read file of songs.
             if (scanner.hasNextLine()) {
                 Scope = scanner.nextLine();
@@ -231,15 +231,15 @@ public class Publisher extends Node{
 
             //Initiate the arraylists of each publisher with the appropriate songs.
             p.init();
-           // p2.init();
+
             //Get the Broker's ips and ports.
             p.setBrokers(new File("src\\Brokers.txt"));
+
             //Notify every Broker about your artist's Scope.
             p.notifyBrokers();
-            //p2.notifyBrokers();
+
             //Make connection with Brokers.
             p.connect();
-            //p2.connect();
 
             //Close the connection channel.
             //p.disconnect();
