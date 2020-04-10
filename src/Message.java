@@ -12,6 +12,7 @@ public class Message implements Serializable {
     List<ArrayList<Integer>> BrokersHashtable;
     List<Broker> registeredBrokers;
     MusicChunk Chunk;
+    boolean t;
 
     public Message(String a){
         this.a = a;
@@ -40,9 +41,10 @@ public class Message implements Serializable {
         this.hashtable = hashtable;
     }
 
-    public Message(List<ArrayList<Integer>> BrokersHashtable, List<Broker> Brokers){
+    public Message(List<ArrayList<Integer>> BrokersHashtable, List<Broker> Brokers,boolean t){
         this.BrokersHashtable = BrokersHashtable;
         this.Brokers = Brokers;
+        this.t=t;
     }
 
     public Message(MusicChunk Chunk){
@@ -61,5 +63,8 @@ public class Message implements Serializable {
     public int getHash(){ return hash; }
     public ArrayList<String> getArtists(){ return artists; }
     public int getArtistHash(){ return artistHash; }
+    public boolean getBoolean(){
+        return t;
+    }
 
 }

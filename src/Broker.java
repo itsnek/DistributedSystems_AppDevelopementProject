@@ -153,15 +153,18 @@ public class Broker extends Node {
 
                     System.out.println("U son of bitch.Im in.");
                     new Thread(wk).start();
-
+                    while (!wk.getEndOfThread()) {
+                        System.out.println("Loading");
+                        //connection.close();
+                    }
                     BrokersHashtables = wk.getBrokersHashtable();
+                    System.out.println(BrokersHashtables.size());
 
                     if(BrokersHashtables.size()==registeredBrokers.size()) {
+                        System.out.println("Yo");
                         entrance = wk.getEntrance();
                     }
-//                    if (wk.getEndOfThread()) {
-//                        connection.close();
-//                    }
+
 
                 }
 
@@ -174,16 +177,18 @@ public class Broker extends Node {
                     connection = providerSocket.accept();
 
                     Worker wk = new Worker(connection,registeredUsers, registeredPublishers, registeredBrokers,artists, BrokersHashtables);
-
+                    wk.setEntrance(true);
                     System.out.println("Worker created.");
 
                     new Thread(wk).start();
-
+                    while (!wk.getEndOfThread()) {
+                        System.out.println("Loading");
+                        //connection.close();
+                    }
                     registeredUsers = wk.getRegisteredUsers();
 
-                    if (wk.getEndOfThread()) {
-                        connection.close();
-                    }
+
+                   // connection.close();
                 }
 
             }

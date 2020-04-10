@@ -52,13 +52,15 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
 
             out.writeObject(handshake);
 
-            if(in.readBoolean()){
-
+            Message temp = (Message) in.readObject();
+            if(temp.getBoolean()){
+                BrokerList = temp.getBrokers();
+                BrokerHashtables = temp.getBrokersHashtable();
             }else{
 
                 System.out.println("Im not serving this artist. Here are all the other Brokers");
 
-                Message temp = (Message) in.readObject();
+                //Message temp = (Message) in.readObject();
                 BrokerList = temp.getBrokers();
                 BrokerHashtables = temp.getBrokersHashtable();
 

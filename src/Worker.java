@@ -45,6 +45,11 @@ public class Worker extends Thread {
     public boolean getEntrance(){
         return entrance;
     }
+
+    public void setEntrance(boolean entrance) {
+        this.entrance = entrance;
+    }
+
     public boolean getEndOfThread () {
         return endOfThread;
     }
@@ -87,10 +92,12 @@ public class Worker extends Thread {
 
                     //Checks if the hash of the client is less than the Broker's.
                     if (!artists.contains(request.getArtistHash())) {
-                        Message brokersInfo = new Message(BrokersHashtable, registeredBrokers);
+                        System.out.println("here");
+                        Message brokersInfo = new Message(BrokersHashtable, registeredBrokers,false);
                         out.writeObject(brokersInfo);
                     } else {
-
+                        Message brokersInfo = new Message(BrokersHashtable, registeredBrokers,true);
+                        out.writeObject(brokersInfo);
                         if(!registeredUsers.contains(new Consumer(connection.getInetAddress().getHostAddress()))){
                             registeredUsers.add(new Consumer(connection.getInetAddress().getHostAddress()));
                         }
