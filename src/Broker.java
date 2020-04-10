@@ -65,10 +65,10 @@ public class Broker extends Node implements Runnable {
         }
     }
 
-    public int calculateKeys() {
-        int ip = parseInt(providerSocket.getInetAddress().getHostAddress());
-        int socketNumber = providerSocket.getLocalPort();
-        Integer sum = ip + socketNumber;
+    public int calculateKeys(Socket connection) {
+        String ip = connection.getInetAddress().getHostAddress();
+        String socketNumber = String.valueOf(connection.getLocalPort());
+        String sum = ip + socketNumber;
         serverHash = sum.hashCode();
         return serverHash;
     }
@@ -89,8 +89,8 @@ public class Broker extends Node implements Runnable {
         }
     }
 
-    public void receiveArtists(ArrayList<String> artistsMessage){
-        int myHash = calculateKeys();
+    public void receiveArtists(ArrayList<String> artistsMessage,Socket connection){
+        int myHash = calculateKeys(connection);
         for(int i = 0; i < artistsMessage.size(); i++) {
             if (myHash > artistsMessage.get(i).hashCode()) {
                 artists.add(artistsMessage.get(i).hashCode());
@@ -111,14 +111,14 @@ public class Broker extends Node implements Runnable {
 
                 Message temp = (Message)in.readObject();
                 Scope = temp.toString();
-                receiveArtists(temp.getArtists());
+                receiveArtists(temp.getArtists(),connectionPub);
                 System.out.println(artists.size());
 
                 registeredPublishers.add(new Publisher(connectionPub.getInetAddress().getHostAddress(),Scope));
 
                 out.writeObject(new Message(artists));
 
-                disconnect();
+                //disconnect();
                 //connectionPub.close();
             }
         } catch (IOException ioException) {
