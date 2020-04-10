@@ -32,7 +32,7 @@ public class BrokerCommunicator extends Thread {
                 } else {
                     try {
 
-                        requestSocket = new Socket(registeredBrokers.get(i).getAddress(), registeredBrokers.get(i).getPort() - 1);
+                        requestSocket = new Socket(registeredBrokers.get(i).getAddress(), 50850);
                         ObjectOutputStream out = new ObjectOutputStream(requestSocket.getOutputStream());
                         //ObjectInputStream in = new ObjectInputStream(requestSocket.getInputStream());
 

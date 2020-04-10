@@ -19,11 +19,11 @@ public class Worker extends Thread {
     private ArrayList<Publisher> registeredPublishers =  new ArrayList<>();
     private ArrayList<Integer> artists =  new ArrayList<>();
     private List<Broker> registeredBrokers;
-    private List<ArrayList<Integer>> BrokersHashtable;
+    private ArrayList<ArrayList<Integer>> BrokersHashtable;
     private boolean endOfThread = false;
     private boolean entrance = false;
 
-    public Worker(Socket connection,ArrayList<Consumer> registeredUsers,ArrayList<Publisher> registeredPublishers,List<Broker> registeredBrokers,ArrayList<Integer> artists,List<ArrayList<Integer>> BrokersHashtable) {
+    public Worker(Socket connection,ArrayList<Consumer> registeredUsers,ArrayList<Publisher> registeredPublishers,List<Broker> registeredBrokers,ArrayList<Integer> artists,ArrayList<ArrayList<Integer>> BrokersHashtable) {
         this.registeredUsers = registeredUsers;
         this.registeredBrokers = registeredBrokers;
         this.registeredPublishers = registeredPublishers;
@@ -49,7 +49,7 @@ public class Worker extends Thread {
         return endOfThread;
     }
 
-    public List<ArrayList<Integer>> getBrokersHashtable() {
+    public ArrayList<ArrayList<Integer>> getBrokersHashtable() {
         return BrokersHashtable;
     }
 
@@ -60,13 +60,21 @@ public class Worker extends Thread {
 
                 if(!getEntrance()) {
                     for (int i = 0; i < registeredBrokers.size(); i++) {
+
                         if (registeredBrokers.get(i).getAddress().equals(connection.getInetAddress().getHostAddress())) {
                             System.out.println("You son of a bitch. Im in.");
 
                             Message temp = (Message) in.readObject();
                             BrokersHashtable.add(i, temp.getHashtable());
-                            System.out.println("mphka2");
+                            for (int j = 0; j < BrokersHashtable.size(); j++) {
+                                if (BrokersHashtable.get(j) == null) {
+                                    BrokersHashtable.remove(j);
+                                }
+                            }
+                            System.out.println(i);
+                            System.out.println(BrokersHashtable.size());
                             if (registeredBrokers.size() == BrokersHashtable.size()) {
+                                System.out.println("mphka3");
                                 entrance = true;
                             }
                         }

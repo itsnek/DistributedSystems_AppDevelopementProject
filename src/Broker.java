@@ -18,7 +18,7 @@ public class Broker extends Node {
     private ArrayList<Publisher> registeredPublishers =  new ArrayList<>();
     private ArrayList<Integer> artists =  new ArrayList<>();
     List<Broker> registeredBrokers;
-    List<ArrayList<Integer>> BrokersHashtables;
+    ArrayList<ArrayList<Integer>> BrokersHashtables = new ArrayList<>();
     ObjectInputStream in;
     final static int BrokersPort = 50850;
     int serverHash, port;
@@ -54,6 +54,7 @@ public class Broker extends Node {
         try{
             //Setting ip and port to my Broker.
             for (int i = 0; i < registeredBrokers.size(); i++) {
+                BrokersHashtables.add(null);
                 if (registeredBrokers.get(i).getAddress().equals(InetAddress.getLocalHost().getHostAddress())) {
                     setAddress(registeredBrokers.get(i).getAddress());
                     setPort(registeredBrokers.get(i).getPort());
@@ -79,6 +80,7 @@ public class Broker extends Node {
         try {
             for (int i = 0; i < registeredBrokers.size(); i++) {
                 if (registeredBrokers.get(i).getAddress().equals(InetAddress.getLocalHost().getHostAddress())) {
+                    System.out.println(BrokersHashtables.size());
                     BrokersHashtables.add(i, artists);
                 }
             }
@@ -140,11 +142,11 @@ public class Broker extends Node {
             System.out.println("mphka1");
 
             while (true) {
-
                 //Check if it's an incoming message from Broker.
                 if (!entrance) {
+                    System.out.println("mphka2");
 
-                    providerSocket = new ServerSocket(BrokersPort, 10);
+                    providerSocket = new ServerSocket(BrokersPort, 15);
                     connection = providerSocket.accept();
 
                     Worker wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists,BrokersHashtables);
@@ -153,11 +155,13 @@ public class Broker extends Node {
                     new Thread(wk).start();
 
                     BrokersHashtables = wk.getBrokersHashtable();
-                    entrance = wk.getEntrance();
 
-                    if (wk.getEndOfThread()) {
-                        connection.close();
+                    if(BrokersHashtables.size()==registeredBrokers.size()) {
+                        entrance = wk.getEntrance();
                     }
+//                    if (wk.getEndOfThread()) {
+//                        connection.close();
+//                    }
 
                 }
 
