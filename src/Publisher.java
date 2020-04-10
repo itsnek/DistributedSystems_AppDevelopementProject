@@ -16,7 +16,7 @@ public class Publisher extends Node{
     private ObjectOutputStream out = null;
     private ObjectInputStream in = null;
     public static String Scope,address;
-    int counter = 0;
+    String artistname;
 
 
     Publisher(){
@@ -54,7 +54,7 @@ public class Publisher extends Node{
 
     private void ReadDataFile (String artistsToGet) {
 
-        File file = new File ("D:\\Nikos\\Documents\\GitHub\\distributed\\rsc\\dataset2");
+        File file = new File ("D:\\Nikos\\Documents\\οπα\\Κατανεμημένα συστήματα\\Project\\Datasets\\dataset2\\dataset2");
         Mp3File mp3File;
         ID3v1 id3v1Tag;
         ID3v2 id3v2Tag;
@@ -71,34 +71,35 @@ public class Publisher extends Node{
 
                     if (mp3File.hasId3v1Tag()) {
                         id3v1Tag = mp3File.getId3v1Tag();
-                        if ((id3v1Tag.getArtist().charAt(0) > artistsToGet.charAt(0)) && (id3v1Tag.getArtist().charAt(0) < artistsToGet.charAt(2))) {
 
-                            if(id3v1Tag.getArtist() == null || id3v1Tag.getArtist().equals("")) {
-                                String artistname = "Rafael Krux";
+                        if(id3v1Tag.getArtist() == null || id3v1Tag.getArtist().equals("")) {
+                            artistname = "Rafael Krux";
+                        }else {
+                            artistname = id3v1Tag.getArtist();
+                        }
+
+                        if ((artistname.charAt(0) >= artistsToGet.charAt(0)) && (artistname.charAt(0) <= artistsToGet.charAt(1))) {
+
                                 MusicFile ms = new MusicFile(temp, artistname, list[i].getName());
                                 SongFiles.add(ms);
-                            }else {
-                                MusicFile ms = new MusicFile(temp, id3v1Tag.getArtist(), list[i].getName());
-                                SongFiles.add(ms);
-                            }
 
                         }
                     }
                     else if (mp3File.hasId3v2Tag()) {
                         id3v2Tag = mp3File.getId3v2Tag();
-                        if ((id3v2Tag.getArtist().charAt(0) > artistsToGet.charAt(0)) && (id3v2Tag.getArtist().charAt(0) < artistsToGet.charAt(2))) {
 
-                            if(id3v2Tag.getArtist() == null || id3v2Tag.getArtist().equals("")) {
-                                String artistname = "Rafael Krux";
-                                MusicFile ms = new MusicFile(temp, artistname, list[i].getName());
-                                SongFiles.add(ms);
-                            }else {
-                                MusicFile ms = new MusicFile(temp, id3v2Tag.getArtist(), list[i].getName());
-                                SongFiles.add(ms);
-                            }
-
+                        if(id3v2Tag.getArtist() == null || id3v2Tag.getArtist().equals("")) {
+                            artistname = "Rafael Krux";
+                        }else {
+                            artistname = id3v2Tag.getArtist();
                         }
 
+                        if ((artistname.charAt(0) >= artistsToGet.charAt(0)) && (artistname.charAt(0) <= artistsToGet.charAt(1))) {
+
+                            MusicFile ms = new MusicFile(temp, artistname, list[i].getName());
+                            SongFiles.add(ms);
+
+                        }
                     }
 
                 }  catch (UnsupportedTagException unsTag) { // I put catch here so lines after "mp3File = new Mp3File (songs.get(i));" be not executed and program proceed to next repetition in for loop.
