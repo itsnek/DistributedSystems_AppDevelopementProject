@@ -5,7 +5,7 @@ import com.mpatric.mp3agic.*;
 
 public class Publisher extends Node{
 
-    private static ArrayList <ArtistName> Artists = new ArrayList<>(30);
+    private static ArrayList <String> Artists = new ArrayList<>(30);
     private static ArrayList <String> Songs = new ArrayList<String> (300);
     private static ArrayList <MusicFile> SongFiles = new ArrayList<MusicFile> (300);
     private static final int startingSocketNumber = 50190;
@@ -133,9 +133,9 @@ public class Publisher extends Node{
 
         for (int i=0; i<SongFiles.size(); i++) {
 
-            if (!Artists.contains(new ArtistName(SongFiles.get(i).getArtistName()))) {
+            if (!Artists.contains(SongFiles.get(i).getArtistName())) {
 
-                Artists.add(new ArtistName(SongFiles.get(i).getArtistName()));
+                Artists.add(SongFiles.get(i).getArtistName());
 
             }
 
@@ -144,11 +144,11 @@ public class Publisher extends Node{
     }
 
     public void notifyBrokers(){
-
+        getBrokerList();
         for(int i = 0; i < brokers.size(); i++){
 
             try {
-
+                System.out.println(brokers.size());
                 requestSocket = new Socket(brokers.get(i).getAddress(), brokers.get(i).getPort());
                 out = new ObjectOutputStream(requestSocket.getOutputStream());
                 in = new ObjectInputStream(requestSocket.getInputStream());
@@ -221,11 +221,13 @@ public class Publisher extends Node{
                 p.ReadDataFile(Scope);
                 //p2.ReadDataFile(Scope);
             }
+            System.out.println("eimai edw");
+
             //Initiate the arraylists of each publisher with the appropriate songs.
             p.init();
            // p2.init();
             //Get the Broker's ips and ports.
-            p.getBrokerList();
+            p.setBrokers(new File("src\\Brokers.txt"));
             //Notify every Broker about your artist's Scope.
             p.notifyBrokers();
             //p2.notifyBrokers();

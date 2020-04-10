@@ -6,7 +6,7 @@ import java.util.List;
 public class Message implements Serializable {
     String a, address;
     int hash, artist,port, artistHash;
-    ArrayList<ArtistName> artists;
+    ArrayList<String> artists;
     ArrayList<Integer> hashtable;
     List<Broker> Brokers;
     List<ArrayList<Integer>> BrokersHashtable;
@@ -31,7 +31,7 @@ public class Message implements Serializable {
         this.port = port;
     }
 
-    public Message(ArrayList<ArtistName> artists,String a){
+    public Message(ArrayList<String> artists,String a){
         this.artists = artists;
         this.a = a;
     }
@@ -59,7 +59,7 @@ public class Message implements Serializable {
     public String getAddress() { return address; }
     public int getPort() { return port; }
     public int getHash(){ return hash; }
-    public ArrayList<ArtistName> getArtists(){ return artists; }
+    public ArrayList<String> getArtists(){ return artists; }
     public int getArtistHash(){ return artistHash; }
 
 }

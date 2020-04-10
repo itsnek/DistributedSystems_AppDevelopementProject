@@ -48,6 +48,23 @@ public class Broker extends Node implements Runnable {
         return port;
     }
 
+    public void init() {
+        registeredBrokers = super.getBrokers();
+
+        try{
+            //Setting ip and port to my Broker.
+            for (int i = 0; i < registeredBrokers.size(); i++) {
+                if (registeredBrokers.get(i).getAddress().equals(InetAddress.getLocalHost().getHostAddress())) {
+                    setAddress(registeredBrokers.get(i).getAddress());
+                    setPort(registeredBrokers.get(i).getPort());
+                }
+            }
+
+        }catch (UnknownHostException unknownHost){
+            System.out.println("Error!You are trying to connect to an unknown host!");
+        }
+    }
+
     public int calculateKeys() {
         int ip = parseInt(providerSocket.getInetAddress().getHostAddress());
         int socketNumber = providerSocket.getLocalPort();
@@ -59,27 +76,20 @@ public class Broker extends Node implements Runnable {
    // public void initHashtable(){ hashtable = new Hashtable(10, (long)0.8); }
 
     public void NotifyBrokers(){
-        registeredBrokers = super.getBrokers();
-
-        try{
-            //Setting ip and port to my Broker.
+        try {
             for (int i = 0; i < registeredBrokers.size(); i++) {
                 if (registeredBrokers.get(i).getAddress().equals(InetAddress.getLocalHost().getHostAddress())) {
-                    setAddress(registeredBrokers.get(i).getAddress());
-                    setPort(registeredBrokers.get(i).getPort());
-                    BrokersHashtable.add(i,artists);
+                    BrokersHashtable.add(i, artists);
                 }
             }
-
             BrokerCommunicator BrC = new BrokerCommunicator(artists, registeredBrokers);
             new Thread(BrC).start();
-
         }catch (UnknownHostException unknownHost){
             System.out.println("Error!You are trying to connect to an unknown host!");
         }
     }
 
-    public void receiveArtists(ArrayList<ArtistName> artistsMessage){
+    public void receiveArtists(ArrayList<String> artistsMessage){
         int myHash = calculateKeys();
         for(int i = 0; i < artistsMessage.size(); i++) {
             if (myHash > artistsMessage.get(i).hashCode()) {
@@ -91,10 +101,10 @@ public class Broker extends Node implements Runnable {
     public void notifyPublisher() {
 
         try {
-            providerSocketPub = new ServerSocket(50800, 10);
+            providerSocketPub = new ServerSocket(getPort(), 10);
 
             while (true) {
-
+                System.out.println("mphka");
                 connectionPub = providerSocketPub.accept();
                 ObjectOutputStream out = new ObjectOutputStream(connectionPub.getOutputStream());
                 ObjectInputStream in = new ObjectInputStream(connectionPub.getInputStream());
@@ -102,6 +112,7 @@ public class Broker extends Node implements Runnable {
                 Message temp = (Message)in.readObject();
                 Scope = temp.toString();
                 receiveArtists(temp.getArtists());
+                System.out.println(artists.size());
 
                 registeredPublishers.add(new Publisher(connectionPub.getInetAddress().getHostAddress(),Scope));
 
@@ -121,6 +132,7 @@ public class Broker extends Node implements Runnable {
 
     public void acceptConnection() {
         try{
+            System.out.println("mphka1");
 
             while (true) {
 
@@ -187,12 +199,14 @@ public class Broker extends Node implements Runnable {
         Broker br1 = new Broker();
         //Broker br2 = new Broker();
         //Broker br3 = new Broker();
+        br1.setBrokers(file);
+
+        br1.init();
 
         br1.notifyPublisher();
 //        br2.notifyPublisher();
 //        br3.notifyPublisher();
 
-        br1.setBrokers(file);
         //br2.setBrokers(file);
         // br3.setBrokers(file);
 
