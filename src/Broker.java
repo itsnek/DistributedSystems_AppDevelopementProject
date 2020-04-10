@@ -188,13 +188,13 @@ public class Broker extends Node implements Runnable {
         //Broker br2 = new Broker();
         //Broker br3 = new Broker();
 
+        br1.notifyPublisher();
+//        br2.notifyPublisher();
+//        br3.notifyPublisher();
+
         br1.setBrokers(file);
         //br2.setBrokers(file);
         // br3.setBrokers(file);
-
-        //br1.notifyPublisher();
-        //br2.notifyPublisher();
-        //br3.notifyPublisher();
 
         //First Broker
         new Thread(br1).start();

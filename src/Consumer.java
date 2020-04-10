@@ -13,6 +13,7 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
     private Socket requestSocket = null;
     private ObjectOutputStream out = null;
     private ObjectInputStream in = null;
+    boolean found = false;
 
     Consumer(){}
 
@@ -66,9 +67,16 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
                     ArrayList<Integer> temp2 = BrokerHashtables.get(j);
                     if (temp2.contains(artistHash)) {
                         requestSocket = new Socket(BrokerList.get(j).getAddress(), BrokerList.get(j).getPort() - 1);
+                        out = new ObjectOutputStream(requestSocket.getOutputStream());
+                        out.flush();
+                        in = new ObjectInputStream(requestSocket.getInputStream());
 
+                        found = true;
                     }
 
+                }
+                if (!found){
+                    System.out.println("Sorry,why don't have any song of this artist in our system.");
                 }
 
             }
@@ -168,36 +176,39 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
     }
 
 
+//    public static void main(String args[]) {
+//
+//        //First thread created and executed
+//        Consumer cons1 = new Consumer();
+//        Thread t1 = new Thread(cons1);
+//        t1.start();
+//
+//        //Second thread created and executed
+//       /* Consumer cons2 = new Consumer();
+//        Thread t2 = new Thread(cons2);
+//        t2.start();*/
+//
+//    }
+    //THE MAIN FOR EVERY CONSUMER AFTER THE FINAL VERSION :
     public static void main(String args[]) {
 
-        //First thread created and executed
-        Consumer cons1 = new Consumer();
-        Thread t1 = new Thread(cons1);
-        t1.start();
-
-        //Second thread created and executed
-       /* Consumer cons2 = new Consumer();
-        Thread t2 = new Thread(cons2);
-        t2.start();*/
-
-    }
-    //THE MAIN FOR EVERY CONSUMER AFTER THE FINAL VERSION :
-    /*public static void main(String args[]) {
         Consumer cons1 = new Consumer();
         Scanner myObj = new Scanner(System.in);  // Create a Scanner object
         ArtistName artist = new ArtistName(myObj.nextLine());
+
         //Handshake with a random broker and check if its the correct one and register, else try again.
         cons1.handshake(artist);
+
         //Look for the songs of one artist.
         cons1.lookForArtist(artist);
-        //Check if the broker has the artist i want.
-         cons1.readData();
 
         //Request artist's song.
         System.out.println("Which song of this artist do you want to listen?/n");
         cons1.requestSong(myObj.nextLine());
+
         cons1.playData();
+
         cons1.disconnect();
-    }*/
+    }
 
 }
