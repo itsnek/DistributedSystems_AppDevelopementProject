@@ -5,35 +5,37 @@ import com.mpatric.mp3agic.*;
 
 public class Publisher extends Node{
 
-    private static ArrayList <ArtistName> Artists = new ArrayList<>(30);
+    private static ArrayList <String> Artists = new ArrayList<>(30);
     private static ArrayList <String> Songs = new ArrayList<String> (300);
     private static ArrayList <MusicFile> SongFiles = new ArrayList<MusicFile> (300);
     private static final int startingSocketNumber = 50190;
     private List <Broker> Brokers;
+    private List<ArrayList<Integer>> BrokersHashtables;
     private Socket clientSocket = null;
     private ServerSocket serverSocket = null;
     private Socket requestSocket = null;
     private ObjectOutputStream out = null;
     private ObjectInputStream in = null;
-    int Hashkey;
-    public static String Scope;
-    int counter = 0;
+    public static String Scope,address;
+    String artistname;
 
 
     Publisher(){
 
     }
 
-    Publisher(int Hashkey){
-       this.Hashkey = Hashkey;
-       //this.Scope = Scope;
+    /*Publisher(int Hashkey){
+        this.Hashkey = Hashkey;
+        //this.Scope = Scope;
+    }*/
+
+    Publisher(String address,String scope){
+        this.address = address;
+        Scope = scope;
     }
 
-    Publisher(ArrayList artN,ArrayList songs){
-
-        Artists = artN;
-        Songs = songs;
-
+    public static String getAddress() {
+        return address;
     }
 
     public static String getScope() {
@@ -53,7 +55,7 @@ public class Publisher extends Node{
 
     private void ReadDataFile (String artistsToGet) {
 
-        File file = new File ("D:\\Nikos\\Documents\\GitHub\\distributed\\rsc\\dataset2");
+        File file = new File ("D:\\Nikos\\Documents\\οπα\\Κατανεμημένα συστήματα\\Project\\Datasets\\dataset2\\dataset2");
         Mp3File mp3File;
         ID3v1 id3v1Tag;
         ID3v2 id3v2Tag;
@@ -70,34 +72,35 @@ public class Publisher extends Node{
 
                     if (mp3File.hasId3v1Tag()) {
                         id3v1Tag = mp3File.getId3v1Tag();
-                        if ((id3v1Tag.getArtist().charAt(0) > artistsToGet.charAt(0)) && (id3v1Tag.getArtist().charAt(0) < artistsToGet.charAt(2))) {
 
-                            if(id3v1Tag.getArtist() == null || id3v1Tag.getArtist().equals("")) {
-                                String artistname = "Rafael Krux";
+                        if(id3v1Tag.getArtist() == null || id3v1Tag.getArtist().equals("")) {
+                            artistname = "Rafael Krux";
+                        }else {
+                            artistname = id3v1Tag.getArtist();
+                        }
+
+                        if ((artistname.charAt(0) >= artistsToGet.charAt(0)) && (artistname.charAt(0) <= artistsToGet.charAt(1))) {
+
                                 MusicFile ms = new MusicFile(temp, artistname, list[i].getName());
                                 SongFiles.add(ms);
-                            }else {
-                                MusicFile ms = new MusicFile(temp, id3v1Tag.getArtist(), list[i].getName());
-                                SongFiles.add(ms);
-                            }
 
                         }
                     }
                     else if (mp3File.hasId3v2Tag()) {
                         id3v2Tag = mp3File.getId3v2Tag();
-                        if ((id3v2Tag.getArtist().charAt(0) > artistsToGet.charAt(0)) && (id3v2Tag.getArtist().charAt(0) < artistsToGet.charAt(2))) {
 
-                            if(id3v2Tag.getArtist() == null || id3v2Tag.getArtist().equals("")) {
-                                String artistname = "Rafael Krux";
-                                MusicFile ms = new MusicFile(temp, artistname, list[i].getName());
-                                SongFiles.add(ms);
-                            }else {
-                                MusicFile ms = new MusicFile(temp, id3v2Tag.getArtist(), list[i].getName());
-                                SongFiles.add(ms);
-                            }
-
+                        if(id3v2Tag.getArtist() == null || id3v2Tag.getArtist().equals("")) {
+                            artistname = "Rafael Krux";
+                        }else {
+                            artistname = id3v2Tag.getArtist();
                         }
 
+                        if ((artistname.charAt(0) >= artistsToGet.charAt(0)) && (artistname.charAt(0) <= artistsToGet.charAt(1))) {
+
+                            MusicFile ms = new MusicFile(temp, artistname, list[i].getName());
+                            SongFiles.add(ms);
+
+                        }
                     }
 
                 }  catch (UnsupportedTagException unsTag) { // I put catch here so lines after "mp3File = new Mp3File (songs.get(i));" be not executed and program proceed to next repetition in for loop.
@@ -120,7 +123,7 @@ public class Publisher extends Node{
 
         for (int i=0; i<SongFiles.size(); i++) {
 
-                Songs.add(SongFiles.get(i).getTrackName());
+            Songs.add(SongFiles.get(i).getTrackName());
 
         }
 
@@ -131,9 +134,9 @@ public class Publisher extends Node{
 
         for (int i=0; i<SongFiles.size(); i++) {
 
-            if (!Artists.contains(new ArtistName(SongFiles.get(i).getArtistName()))) {
+            if (!Artists.contains(SongFiles.get(i).getArtistName())) {
 
-                Artists.add(new ArtistName(SongFiles.get(i).getArtistName()));
+                Artists.add(SongFiles.get(i).getArtistName());
 
             }
 
@@ -142,25 +145,30 @@ public class Publisher extends Node{
     }
 
     public void notifyBrokers(){
-        
-        for(int i = 0; i < brokers.size(); i++){
+        getBrokerList();
+        try {
+            for (int i = 0; i < brokers.size(); i++) {
 
-            try {
 
-            requestSocket = new Socket(brokers.get(i).getAddress(), brokers.get(i).getPort());
-            out = new ObjectOutputStream(requestSocket.getOutputStream());
-            in = new ObjectInputStream(requestSocket.getInputStream());
+                requestSocket = new Socket(brokers.get(i).getAddress(), brokers.get(i).getPort());
+                out = new ObjectOutputStream(requestSocket.getOutputStream());
+                in = new ObjectInputStream(requestSocket.getInputStream());
 
-            Message ArtistListPlusScope = new Message(Artists,getScope());
+                Message ArtistListPlusScope = new Message(Artists, getScope());
 
-            out.writeObject(ArtistListPlusScope);
+                out.writeObject(ArtistListPlusScope);
 
-            }catch(UnknownHostException unknownHost){
-                System.out.println("Error!You are trying to connect to an unknown host!");
-            }catch (IOException ioException) {
-                ioException.printStackTrace();
+                Message temp = (Message) in.readObject();
+//                if(temp.getHashtable().size()!= 0) BrokersHashtables.add(i,temp.getHashtable());
+
             }
-
+        }catch(UnknownHostException unknownHost){
+            System.out.println("Error!You are trying to connect to an unknown host!");
+        }catch(IOException ioException) {
+            ioException.printStackTrace();
+        }catch (ClassNotFoundException e) {
+            System.out.println("/nUnknown object type received.");
+            e.printStackTrace();
         }
 
     }
@@ -168,9 +176,9 @@ public class Publisher extends Node{
     // Create client side connection.
     public void connect() {
         try {
-
+            System.out.println("eimai edw");
             serverSocket = new ServerSocket(startingSocketNumber,2);
-
+            System.out.println("exw mpei");
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
@@ -212,42 +220,33 @@ public class Publisher extends Node{
             Scanner scanner = new Scanner(file);
             //Make instances.
             Publisher p = new Publisher();
-            Publisher p2 = new Publisher();
+            //Publisher p2 = new Publisher();
             //Read file of songs.
             if (scanner.hasNextLine()) {
                 Scope = scanner.nextLine();
                 p.ReadDataFile(Scope);
-                p2.ReadDataFile(Scope);
+                //p2.ReadDataFile(Scope);
             }
+
             //Initiate the arraylists of each publisher with the appropriate songs.
             p.init();
-            p2.init();
+           // p2.init();
+            //Get the Broker's ips and ports.
+            p.setBrokers(new File("src\\Brokers.txt"));
             //Notify every Broker about your artist's Scope.
             p.notifyBrokers();
-            p2.notifyBrokers();
+            //p2.notifyBrokers();
             //Make connection with Brokers.
             p.connect();
-            p2.connect();
+            //p2.connect();
 
             //Close the connection channel.
             //p.disconnect();
 
         }catch (FileNotFoundException fnf){
-                fnf.printStackTrace();
+            fnf.printStackTrace();
         }
 
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-

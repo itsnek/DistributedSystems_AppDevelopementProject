@@ -12,12 +12,8 @@ public class Node {
     private int id;
     private String line;
 
-    File Brokers = new File("");
-
     //Constructors
-    Node(){
-
-    }
+    Node(){}
 
     Node(int id){
         this.id = id;
@@ -33,10 +29,9 @@ public class Node {
     public void setBrokers(File Brokers) {
 
         List<String> temp = ReadFile(Brokers);
-        for(int i = 0;i < temp.size();i = i+2){
-            this.brokers.add(new Broker(temp.get(i),Integer.parseInt(temp.get(i+1))));
+        for(int i = 0; i < temp.size(); i = i + 2){
+            this.brokers.add(new Broker(temp.get(i), Integer.parseInt(temp.get(i + 1))));
         }
-
     }
 
     public List<Broker> getBrokers(){
