@@ -117,8 +117,10 @@ public class Broker extends Node implements Runnable {
 
                 registeredPublishers.add(new Publisher(connectionPub.getInetAddress().getHostAddress(),Scope));
 
-                out.writeObject(new Message(artists));
-                out.flush();
+                if(artists.size() != 0) {
+                    out.writeObject(new Message(artists));
+                    out.flush();
+                }
             }
         } catch (IOException ioException) {
             ioException.printStackTrace();

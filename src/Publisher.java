@@ -2,7 +2,6 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 import com.mpatric.mp3agic.*;
-//import java.util.concurrent.TimeUnit;
 
 public class Publisher extends Node{
 
@@ -158,15 +157,19 @@ public class Publisher extends Node{
                 Message ArtistListPlusScope = new Message(Artists, getScope());
 
                 out.writeObject(ArtistListPlusScope);
-//                TimeUnit.SECONDS.sleep(10);
-//                Message temp = (Message) in.readObject();
-//                BrokersHashtables.add(i,temp.getHashtable());
 
+                Message temp = (Message) in.readObject();
+//                if(temp.getHashtable().size() != 0) {
+//                    BrokersHashtables.add(i, temp.getHashtable());
+//                }
             }
         }catch(UnknownHostException unknownHost){
             System.out.println("Error!You are trying to connect to an unknown host!");
         }catch(IOException ioException) {
             ioException.printStackTrace();
+        }catch (ClassNotFoundException e) {
+            System.out.println("/nUnknown object type received.");
+            e.printStackTrace();
         }
 
     }
