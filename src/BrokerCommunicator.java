@@ -3,11 +3,12 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
 public class BrokerCommunicator extends Thread {
-    Hashtable hashtable;
+    ArrayList<Integer> hashtable;
     List<Broker> registeredBrokers;
     private Socket requestSocket = null;
 
@@ -15,7 +16,7 @@ public class BrokerCommunicator extends Thread {
 
     }
 
-    BrokerCommunicator(Hashtable hashtable,List<Broker> registeredBrokers){
+    BrokerCommunicator(ArrayList<Integer> hashtable,List<Broker> registeredBrokers){
         this.hashtable = hashtable;
         this.registeredBrokers = registeredBrokers;
     }
