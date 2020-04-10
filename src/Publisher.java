@@ -2,6 +2,7 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 import com.mpatric.mp3agic.*;
+//import java.util.concurrent.TimeUnit;
 
 public class Publisher extends Node{
 
@@ -10,6 +11,7 @@ public class Publisher extends Node{
     private static ArrayList <MusicFile> SongFiles = new ArrayList<MusicFile> (300);
     private static final int startingSocketNumber = 50190;
     private List <Broker> Brokers;
+    private List<ArrayList<Integer>> BrokersHashtables;
     private Socket clientSocket = null;
     private ServerSocket serverSocket = null;
     private Socket requestSocket = null;
@@ -145,24 +147,26 @@ public class Publisher extends Node{
 
     public void notifyBrokers(){
         getBrokerList();
-        for(int i = 0; i < brokers.size(); i++){
+        try {
+            for (int i = 0; i < brokers.size(); i++) {
 
-            try {
-                System.out.println(brokers.size());
+
                 requestSocket = new Socket(brokers.get(i).getAddress(), brokers.get(i).getPort());
                 out = new ObjectOutputStream(requestSocket.getOutputStream());
                 in = new ObjectInputStream(requestSocket.getInputStream());
 
-                Message ArtistListPlusScope = new Message(Artists,getScope());
+                Message ArtistListPlusScope = new Message(Artists, getScope());
 
                 out.writeObject(ArtistListPlusScope);
+//                TimeUnit.SECONDS.sleep(10);
+//                Message temp = (Message) in.readObject();
+//                BrokersHashtables.add(i,temp.getHashtable());
 
-            }catch(UnknownHostException unknownHost){
-                System.out.println("Error!You are trying to connect to an unknown host!");
-            }catch (IOException ioException) {
-                ioException.printStackTrace();
             }
-
+        }catch(UnknownHostException unknownHost){
+            System.out.println("Error!You are trying to connect to an unknown host!");
+        }catch(IOException ioException) {
+            ioException.printStackTrace();
         }
 
     }
@@ -170,9 +174,9 @@ public class Publisher extends Node{
     // Create client side connection.
     public void connect() {
         try {
-
+            System.out.println("eimai edw");
             serverSocket = new ServerSocket(startingSocketNumber,2);
-
+            System.out.println("exw mpei");
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
@@ -221,7 +225,6 @@ public class Publisher extends Node{
                 p.ReadDataFile(Scope);
                 //p2.ReadDataFile(Scope);
             }
-            System.out.println("eimai edw");
 
             //Initiate the arraylists of each publisher with the appropriate songs.
             p.init();

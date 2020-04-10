@@ -18,7 +18,7 @@ public class Broker extends Node implements Runnable {
     private ArrayList<Publisher> registeredPublishers =  new ArrayList<>();
     private ArrayList<Integer> artists =  new ArrayList<>();
     List<Broker> registeredBrokers;
-    List<ArrayList<Integer>> BrokersHashtable;
+    List<ArrayList<Integer>> BrokersHashtables;
     ObjectInputStream in;
     final static int BrokersPort = 50850;
     int serverHash, port;
@@ -79,7 +79,7 @@ public class Broker extends Node implements Runnable {
         try {
             for (int i = 0; i < registeredBrokers.size(); i++) {
                 if (registeredBrokers.get(i).getAddress().equals(InetAddress.getLocalHost().getHostAddress())) {
-                    BrokersHashtable.add(i, artists);
+                    BrokersHashtables.add(i, artists);
                 }
             }
             BrokerCommunicator BrC = new BrokerCommunicator(artists, registeredBrokers);
@@ -110,6 +110,7 @@ public class Broker extends Node implements Runnable {
                 ObjectInputStream in = new ObjectInputStream(connectionPub.getInputStream());
 
                 Message temp = (Message)in.readObject();
+                System.out.println(temp.toString());
                 Scope = temp.toString();
                 receiveArtists(temp.getArtists(),connectionPub);
                 System.out.println(artists.size());
@@ -117,9 +118,7 @@ public class Broker extends Node implements Runnable {
                 registeredPublishers.add(new Publisher(connectionPub.getInetAddress().getHostAddress(),Scope));
 
                 out.writeObject(new Message(artists));
-
-                //disconnect();
-                //connectionPub.close();
+                out.flush();
             }
         } catch (IOException ioException) {
             ioException.printStackTrace();
@@ -142,12 +141,12 @@ public class Broker extends Node implements Runnable {
                     providerSocket = new ServerSocket(BrokersPort, 10);
                     connection = providerSocket.accept();
 
-                    Worker wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists,BrokersHashtable);
+                    Worker wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists,BrokersHashtables);
 
                     System.out.println("U son of bitch.Im in.");
                     new Thread(wk).start();
 
-                    BrokersHashtable = wk.getBrokersHashtable();
+                    BrokersHashtables = wk.getBrokersHashtable();
                     entrance = wk.getEntrance();
 
                     if (wk.getEndOfThread()) {
@@ -164,7 +163,7 @@ public class Broker extends Node implements Runnable {
                     providerSocket = new ServerSocket(getPort() - 1, 10);
                     connection = providerSocket.accept();
 
-                    Worker wk = new Worker(connection,registeredUsers, registeredPublishers, registeredBrokers,artists, BrokersHashtable);
+                    Worker wk = new Worker(connection,registeredUsers, registeredPublishers, registeredBrokers,artists, BrokersHashtables);
 
                     System.out.println("Worker created.");
 
@@ -185,7 +184,13 @@ public class Broker extends Node implements Runnable {
 
 }
 
-    public void disconnect(){ super.disconnect();}
+    public void disconnect(){
+        try{
+            connectionPub.close();
+        }catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
 
     public void run(){
         NotifyBrokers();
