@@ -4,7 +4,8 @@
     <list default="true" id="e1ba10cd-b686-42b7-89fe-8fb33cad5633" name="Default" comment="changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Broker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Broker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Worker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Worker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Consumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Publisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Publisher.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,6 +159,7 @@
       <workItem from="1586187334131" duration="17247000" />
       <workItem from="1586271740804" duration="12352000" />
       <workItem from="1586339259189" duration="13462000" />
+      <workItem from="1586515586742" duration="838000" />
     </task>
     <task id="LOCAL-00001" summary="commit Publisher.java">
       <created>1584993500207</created>
@@ -314,18 +316,18 @@
       <screen x="0" y="0" width="2498" height="1440" />
     </state>
     <state x="1016" y="424" key="VCS.ChangeListViewerDialog/0.0.2498.1440@0.0.2498.1440" timestamp="1586371806398" />
-    <state x="387" y="143" key="Vcs.Push.Dialog.v2" timestamp="1586448032182">
+    <state x="387" y="143" key="Vcs.Push.Dialog.v2" timestamp="1586516448159">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="275" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1585171890495" />
     <state x="504" y="198" key="Vcs.Push.Dialog.v2/0.0.2498.1440@0.0.2498.1440" timestamp="1586428980809" />
-    <state x="387" y="143" key="Vcs.Push.Dialog.v2/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586448032182" />
-    <state x="1077" y="539" key="com.intellij.ide.util.TipDialog" timestamp="1586427872418">
-      <screen x="0" y="0" width="2498" height="1440" />
+    <state x="387" y="143" key="Vcs.Push.Dialog.v2/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586516448159" />
+    <state x="828" y="389" key="com.intellij.ide.util.TipDialog" timestamp="1586515593582">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="589" y="272" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1586174172343" />
     <state x="1077" y="539" key="com.intellij.ide.util.TipDialog/0.0.2498.1440@0.0.2498.1440" timestamp="1586427872418" />
-    <state x="828" y="389" key="com.intellij.ide.util.TipDialog/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586339308110" />
+    <state x="828" y="389" key="com.intellij.ide.util.TipDialog/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586515593582" />
     <state x="387" y="265" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1586173492482">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -350,9 +352,9 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1585436217948" />
-    <state x="214" y="230" width="672" height="678" key="search.everywhere.popup" timestamp="1586446064713">
+    <state x="214" y="230" width="672" height="678" key="search.everywhere.popup" timestamp="1586516132287">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="214" y="230" width="672" height="678" key="search.everywhere.popup/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586446064713" />
+    <state x="214" y="230" width="672" height="678" key="search.everywhere.popup/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586516132287" />
   </component>
 </project>

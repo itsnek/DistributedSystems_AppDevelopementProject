@@ -213,24 +213,24 @@ public class Publisher extends Node{
             Scanner scanner = new Scanner(file);
             //Make instances.
             Publisher p = new Publisher();
-            Publisher p2 = new Publisher();
+            //Publisher p2 = new Publisher();
             //Read file of songs.
             if (scanner.hasNextLine()) {
                 Scope = scanner.nextLine();
                 p.ReadDataFile(Scope);
-                p2.ReadDataFile(Scope);
+                //p2.ReadDataFile(Scope);
             }
             //Initiate the arraylists of each publisher with the appropriate songs.
             p.init();
-            p2.init();
+           // p2.init();
             //Get the Broker's ips and ports.
             p.getBrokerList();
             //Notify every Broker about your artist's Scope.
             p.notifyBrokers();
-            p2.notifyBrokers();
+            //p2.notifyBrokers();
             //Make connection with Brokers.
             p.connect();
-            p2.connect();
+            //p2.connect();
 
             //Close the connection channel.
             //p.disconnect();
