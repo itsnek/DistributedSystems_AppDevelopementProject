@@ -127,7 +127,7 @@ public class Worker extends Thread {
                                         publisherIn = new ObjectInputStream(requestSocket.getInputStream());    //  used
                                         System.out.println(requestedSong);
 
-                                        publisherOut.writeObject(requestedSong); //send message
+                                        publisherOut.writeObject(new Message(requestedSong)); //send message
                                         publisherOut.flush();
                                         System.out.println("Message sent to publisher.");
                                     }
@@ -138,8 +138,22 @@ public class Worker extends Thread {
                                 ioException.printStackTrace();
                             }
                             System.out.println("Job's done!");
-                            Message temp = (Message) publisherIn.readObject();
-                            out.writeObject(temp);
+                            int totalPartitions;
+                            while (true) {
+                                if (in.available() > 0) {
+                                    Message chunk = (Message) publisherIn.readObject();
+                                    totalPartitions = chunk.getChunk().getTotalPartitions();
+                                    out.writeObject(chunk);
+                                    break; //It get out from while by "break;" .
+                                }
+                            }
+                            int chunksSent = 1;
+                            while (chunksSent < totalPartitions) {
+                                if (in.available() > 0) {
+                                    out.writeObject( (Message) publisherIn.readObject() );
+                                    chunksSent++;
+                                }
+                            }
                             System.out.println("Object returning to client...");
                         }
                     }
