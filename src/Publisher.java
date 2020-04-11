@@ -16,7 +16,7 @@ public class Publisher extends Node{
     private Socket requestSocket = null;
     private ObjectOutputStream out = null;
     private ObjectInputStream in = null;
-    public static String Scope,address;
+    private String scope,address;
     String artistname;
 
 
@@ -31,15 +31,19 @@ public class Publisher extends Node{
 
     Publisher(String address,String scope){
         this.address = address;
-        Scope = scope;
+        this.scope = scope;
     }
 
-    public static String getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public static String getScope() {
-        return Scope;
+    public void setScope(String scope) {
+        this.scope = scope;
+    }
+
+    public String getScope() {
+        return scope;
     }
 
     public void getBrokerList(){
@@ -219,7 +223,8 @@ public class Publisher extends Node{
 
             //Read file of songs.
             if (scanner.hasNextLine()) {
-                Scope = scanner.nextLine();
+                String Scope = scanner.nextLine();
+                p.setScope(Scope);
                 p.ReadDataFile(Scope);
                 //p2.ReadDataFile(Scope);
             }
@@ -227,6 +232,11 @@ public class Publisher extends Node{
             //Initiate the arraylists of each publisher with the appropriate songs.
             p.init();
 
+            for (int i=0; i<SongFiles.size(); i++) {
+
+                System.out.println(SongFiles.get(i).getArtistName() + " " + SongFiles.get(i).getTrackName());
+
+            }
             //Get the Broker's ips and ports.
             p.setBrokers(new File("src\\Brokers.txt"));
 

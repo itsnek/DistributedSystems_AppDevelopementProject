@@ -1,16 +1,16 @@
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.nio.file.*;
 
 public class Consumer extends Node { //den ginetai me to extend thread na kanw extend mia allh klash taytoxrona,me to interface runnable mporw
 
     String arg1,arg2;
     int hash,i = 0;
-    Message broker;
     Broker tempBroker;
     List<Broker> BrokerList ;
     List<ArrayList<Integer>> BrokerHashtables ;
-    Queue<MusicChunk> SongReceived = new LinkedList<>(); ;
+    LinkedList<MusicChunk> SongReceived = new LinkedList<>();
     private Socket requestSocket = null;
     private ObjectOutputStream out = null;
     private ObjectInputStream in = null;
@@ -73,6 +73,7 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
                 for(int j = 0; j < BrokerHashtables.size(); j++){
 
                     ArrayList<Integer> temp2 = BrokerHashtables.get(j);
+                    System.out.println("edw mphka");
 
                     if (temp2.contains(artist.getArtistName().hashCode())) {
                         System.out.println(BrokerList.get(j).getAddress());
@@ -125,23 +126,72 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
 
     }
 
-    public void playData (){
+//    public void playData (){
+//
+//        try {
+//            //Collecting them in a queue.Another option is to collect them in a folder.
+//            Message temp = (Message) in.readObject();
+//            SongReceived.add(temp.getChunk()); //try to read received message,the type may differ.
+//
+//            //TODO:Start playing each chunk(suggested method ---> manually)
+//
+//        }catch (ClassNotFoundException e) {
+//            System.out.println("/nUnknown object type received.");
+//            e.printStackTrace();
+//        }catch (IOException ioException) {
+//            ioException.printStackTrace();
+//        }
+//
+//    }
+public void playData (){
 
-        try {
-            //Collecting them in a queue.Another option is to collect them in a folder.
-            Message temp = (Message) in.readObject();
-            SongReceived.add(temp.getChunk()); //try to read received message,the type may differ.
-
-            //TODO:Start playing each chunk(suggested method ---> manually)
-
-        }catch (ClassNotFoundException e) {
-            System.out.println("/nUnknown object type received.");
-            e.printStackTrace();
-        }catch (IOException ioException) {
-            ioException.printStackTrace();
+    try {
+        //Collecting them in a queue.Another option is to collect them in a folder.
+        Message temp = (Message) in.readObject();
+        SongReceived.add(temp.getChunk()); //try to read received message,the type may differ.
+        int recievedChunks = 1;
+        while (recievedChunks < temp.getChunk().getTotalPartitions()) {
+            if (in.available() > 0) { //if there is avaliable chunk  use a method avaliable() from ObjectInputStream
+                temp = (Message) in.readObject();
+                SongReceived.add(temp.getChunk());
+                recievedChunks++;
+            }
         }
 
+        try {
+            int partLookingFor = 0;
+            for (int i=0; i<SongReceived.size(); i++) {
+                boolean foundChunk = false;
+                int j = 0;
+                while (!foundChunk) {
+                    if (partLookingFor == SongReceived.get(j).getPartitionNumber()) {
+                        Files.write(Paths.get("Project\\song.mp3"), SongReceived.get(j).getPartition(), StandardOpenOption.APPEND);
+                        foundChunk = true;
+                    }
+                    j++;
+                }
+                partLookingFor++;
+            }
+        } catch (UnsupportedOperationException unsO) {
+            System.out.println ("Appending isn't available.");
+            unsO.printStackTrace();
+        } catch (SecurityException sec) {
+            sec.printStackTrace();
+        } catch (IOException io) {
+            io.printStackTrace();
+        }
+
+
+        //TODO:Start playing each chunk(suggested method ---> manually)
+
+    }catch (ClassNotFoundException e) {
+        System.out.println("/nUnknown object type received.");
+        e.printStackTrace();
+    }catch (IOException ioException) {
+        ioException.printStackTrace();
     }
+
+}
 
     public void disconnect(){
 
@@ -155,40 +205,7 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
         }
 
     }
-//
-//    public void run(){
-//
-//        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-//        ArtistName artist = new ArtistName(myObj.nextLine());
-//
-//        //Handshake with a random broker and check if its the correct one and register, else try again.
-//        handshake(artist);
-//        //Look for the songs of one artist.
-//        lookForArtist(artist);
-//        //Request artist's song.
-//        System.out.println("Which song of this artist do you want to listen?/n");
-//        requestSong(myObj.nextLine());
-//        //Collect received chunks and play them manually.
-//        playData();
-//
-//        disconnect();
-//
-//    }
 
-
-//    public static void main(String args[]) {
-//
-//        //First thread created and executed
-//        Consumer cons1 = new Consumer();
-//        Thread t1 = new Thread(cons1);
-//        t1.start();
-//
-//        //Second thread created and executed
-//       /* Consumer cons2 = new Consumer();
-//        Thread t2 = new Thread(cons2);
-//        t2.start();*/
-//
-//    }
     //THE MAIN FOR EVERY CONSUMER AFTER THE FINAL VERSION :
     public static void main(String args[]) {
 

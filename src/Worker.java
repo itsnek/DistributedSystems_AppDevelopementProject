@@ -114,7 +114,13 @@ public class Worker extends Thread {
                             try {
                                 for (int i = 0; i < registeredPublishers.size(); i++) {
                                     //TODO: Check the limits,doesnt find the correct publisher.
-                                    if (request.toString().charAt(0) >= registeredPublishers.get(i).getScope().charAt(0) && request.toString().charAt(1) <= registeredPublishers.get(i).getScope().charAt(1)) {
+                                    System.out.println(registeredPublishers.get(i).getScope().charAt(0));
+                                    System.out.println(registeredPublishers.get(i).getScope().charAt(1));
+                                    System.out.println(request.toString().charAt(0));
+                                    System.out.println(request.toString().charAt(1));
+                                    if (request.toString().charAt(0) >= registeredPublishers.get(i).getScope().charAt(0) && request.toString().charAt(0) <= registeredPublishers.get(i).getScope().charAt(1)) {
+                                        System.out.println(registeredPublishers.get(i).getScope().charAt(0));
+                                        System.out.println(registeredPublishers.get(i).getScope().charAt(1));
 
                                         requestSocket = new Socket(registeredPublishers.get(i).getAddress(), 50190); //opens connection
                                         publisherOut = new ObjectOutputStream(requestSocket.getOutputStream()); // streams
