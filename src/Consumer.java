@@ -135,10 +135,13 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
             SongReceived.add(temp.getChunk()); //try to read received message,the type may differ.
             int recievedChunks = 1;
             while (recievedChunks < temp.getChunk().getTotalPartitions()) {
-                temp = (Message) in.readObject();
-                SongReceived.add(temp.getChunk());
-                recievedChunks++;
+                if (in.available() > 0) { //if there is avaliable chunk  use a method avaliable() from ObjectInputStream
+                    temp = (Message) in.readObject();
+                    SongReceived.add(temp.getChunk());
+                    recievedChunks++;
+                }
             }
+
             //TODO:Start playing each chunk(suggested method ---> manually)
 
         }catch (ClassNotFoundException e) {
