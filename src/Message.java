@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Message implements Serializable {
     //private static final long serialVersionUID = 7526472295622776147L;
-    String a, address;
+    String a, address,song;
     int hash, artist,port, artistHash;
     ArrayList<String> artists;
     ArrayList<Integer> hashtable;
@@ -33,6 +33,11 @@ public class Message implements Serializable {
         this.port = port;
     }
 
+    public Message(String a, String song){
+        this.address = a;
+        this.song = song;
+    }
+
     public Message(ArrayList<String> artists,String a){
         this.artists = artists;
         this.a = a;
@@ -52,6 +57,8 @@ public class Message implements Serializable {
         this.Chunk = Chunk;
     }
 
+
+
     public List<ArrayList<Integer>> getBrokersHashtable() { return BrokersHashtable; }
     public MusicChunk getChunk() { return Chunk; }
     public ArrayList<Broker> getBrokers() { return Brokers; }
@@ -59,6 +66,7 @@ public class Message implements Serializable {
     public String toString(){
         return (a);
     }
+    public String getSong() { return song; }
     public String getAddress() { return address; }
     public int getPort() { return port; }
     public int getHash(){ return hash; }

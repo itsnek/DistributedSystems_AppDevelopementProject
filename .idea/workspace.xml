@@ -3,20 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="e1ba10cd-b686-42b7-89fe-8fb33cad5633" name="Default" comment="changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spotify/ArtistName.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spotify/ArtistName.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spotify/Broker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spotify/Broker.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spotify/BrokerCommunicator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spotify/BrokerCommunicator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spotify/Consumer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spotify/Consumer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spotify/Message.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spotify/Message.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spotify/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spotify/Node.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spotify/Publisher.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spotify/Publisher.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spotify/PublisherThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spotify/PublisherThread.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/spotify/Worker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spotify/Worker.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ArtistName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ArtistName.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Broker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Broker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Consumer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Publisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Publisher.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Worker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Worker.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -170,7 +159,7 @@
       <workItem from="1586430066854" duration="708000" />
       <workItem from="1586611173054" duration="3848000" />
       <workItem from="1586615038450" duration="1295000" />
-      <workItem from="1586616346351" duration="1071000" />
+      <workItem from="1586616346351" duration="3147000" />
     </task>
     <servers />
   </component>
@@ -208,30 +197,30 @@
     </state>
     <state x="666" y="261" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585653921297" />
     <state x="666" y="261" key="FileChooserDialogImpl/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1585763681535" />
-    <state width="1877" height="221" key="GridCell.Tab.0.bottom" timestamp="1586617423168">
+    <state width="1877" height="221" key="GridCell.Tab.0.bottom" timestamp="1586618614537">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="251" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1585997969056" />
     <state width="1877" height="189" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585658098674" />
-    <state width="1877" height="221" key="GridCell.Tab.0.bottom/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586617423168" />
-    <state width="1877" height="221" key="GridCell.Tab.0.center" timestamp="1586617423168">
+    <state width="1877" height="221" key="GridCell.Tab.0.bottom/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586618614537" />
+    <state width="1877" height="221" key="GridCell.Tab.0.center" timestamp="1586618614537">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="251" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1585997969056" />
     <state width="1877" height="189" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585658098674" />
-    <state width="1877" height="221" key="GridCell.Tab.0.center/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586617423168" />
-    <state width="1877" height="221" key="GridCell.Tab.0.left" timestamp="1586617423168">
+    <state width="1877" height="221" key="GridCell.Tab.0.center/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586618614537" />
+    <state width="1877" height="221" key="GridCell.Tab.0.left" timestamp="1586618614537">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="251" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1585997969056" />
     <state width="1877" height="189" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585658098674" />
-    <state width="1877" height="221" key="GridCell.Tab.0.left/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586617423168" />
-    <state width="1877" height="221" key="GridCell.Tab.0.right" timestamp="1586617423168">
+    <state width="1877" height="221" key="GridCell.Tab.0.left/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586618614537" />
+    <state width="1877" height="221" key="GridCell.Tab.0.right" timestamp="1586618614537">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="251" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1585997969056" />
     <state width="1877" height="189" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585658098674" />
-    <state width="1877" height="221" key="GridCell.Tab.0.right/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586617423168" />
+    <state width="1877" height="221" key="GridCell.Tab.0.right/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586618614537" />
     <state x="672" y="236" key="MultipleFileMergeDialog" timestamp="1585049757786">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -242,11 +231,11 @@
     <state x="313" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1585993708357" />
     <state x="440" y="94" key="SettingsEditor/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585654329965" />
     <state x="440" y="94" key="SettingsEditor/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586392119673" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1586617507854">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1586619493097">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585509645079" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586617507854" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586619493097" />
     <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1586115578947">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

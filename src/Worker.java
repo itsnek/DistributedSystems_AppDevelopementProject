@@ -109,6 +109,7 @@ public class Worker extends Thread {
                             registeredUsers.add(new Consumer(connection.getInetAddress().getHostAddress()));
                         }
                         try {
+
                             for (int i = 0; i < registeredPublishers.size(); i++) {
                                 if (request.toString().charAt(0) > registeredPublishers.get(i).getScope().charAt(0) && request.toString().charAt(1) > registeredPublishers.get(i).getScope().charAt(1)) {
 
@@ -116,7 +117,7 @@ public class Worker extends Thread {
                                     publisherOut = new ObjectOutputStream(requestSocket.getOutputStream()); // streams
                                     publisherIn = new ObjectInputStream(requestSocket.getInputStream());    //  used
 
-                                    publisherOut.writeObject(request); //send message
+                                    publisherOut.writeObject(request.getSong()); //send message
                                     publisherOut.flush();
                                     System.out.println("Message sent to publisher.");
                                 }

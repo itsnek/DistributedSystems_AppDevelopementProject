@@ -77,8 +77,6 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
                         out.flush();
                         in = new ObjectInputStream(requestSocket.getInputStream());
 
-                        out.writeObject(handshake);
-                        System.out.println("egine true");
                         found = true;
                     }
 
@@ -99,27 +97,11 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
         }
     }
 
-    public void lookForArtist(ArtistName artN){
-        try {
-
-            Message request = new Message(artN.getArtistName());
-            System.out.println("Message created.");
-            out.writeObject(request); //send message
-            out.flush();
-            System.out.println("Message sent.");
-
-        }catch (UnknownHostException unknownHost) {
-            System.out.println("Error!You are trying to connect to an unknown host!");
-        }catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-    }
-
-    public void requestSong(String song){
+    public void requestSong(ArtistName artist,String song){
 
         try {
 
-            Message requestSong = new Message(song); // create message
+            Message requestSong = new Message(artist.getArtistName(),song); // create message
             System.out.println("Message of the song created.");
             out.writeObject(requestSong); //send message
             out.flush();
@@ -208,12 +190,9 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
         cons1.handshake(artist);
 
         if (cons1.getFound()) {
-            //Look for the songs of one artist.
-            cons1.lookForArtist(artist);
-
             //Request artist's song.
             System.out.println("Which song of this artist do you want to listen?/n");
-            cons1.requestSong(myObj.nextLine());
+            cons1.requestSong(artist,myObj.nextLine());
 
             cons1.playData();
         }
