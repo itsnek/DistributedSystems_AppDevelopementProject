@@ -154,7 +154,7 @@ public class Broker extends Node implements Serializable  {
                     System.out.println("U son of bitch.Im in.");
                     new Thread(wk).start();
                     while (!wk.getEndOfThread()) {
-                        System.out.println("Loading");
+                       // System.out.println("Loading");
                         //connection.close();
                     }
                     BrokersHashtables = wk.getBrokersHashtable();
@@ -185,7 +185,7 @@ public class Broker extends Node implements Serializable  {
 
                 new Thread(wk).start();
                 while (!wk.getEndOfThread()) {
-                    System.out.println("Loading..");
+                    //System.out.println("Loading..");
                 }
                 registeredUsers = wk.getRegisteredUsers();
             }

@@ -8,7 +8,7 @@ import static java.lang.Integer.parseInt;
 
 public class Worker extends Thread {
 
-    private int counter = 0;
+    String requestedSong;
     private Socket requestSocket = null;
     private Socket connection = null;
     ObjectOutputStream out = null;
@@ -82,7 +82,6 @@ public class Worker extends Thread {
 //                                System.out.println("mphka3");
 //                                entrance = true;
 //                            }
-                            counter++;
                         }
                     }
                     if (BrokersHashtable.size() == registeredBrokers.size()-1) {
@@ -96,6 +95,7 @@ public class Worker extends Thread {
                     System.out.println("Message received from Client.");
 
                     int artistHash = request.toString().hashCode();
+                    requestedSong = request.getSong();
 
                     //Checks if the hash of the client is less than the Broker's.
                     if (!artists.contains(artistHash)) {
@@ -103,34 +103,39 @@ public class Worker extends Thread {
                         Message brokersInfo = new Message(BrokersHashtable, registeredBrokers,false);
                         out.writeObject(brokersInfo);
                     } else {
-                        Message brokersInfo = new Message(BrokersHashtable, registeredBrokers,true);
+                        Message brokersInfo = new Message(BrokersHashtable, registeredBrokers, true);
                         out.writeObject(brokersInfo);
-                        if(!registeredUsers.contains(new Consumer(connection.getInetAddress().getHostAddress()))){
+                        if (!registeredUsers.contains(new Consumer(connection.getInetAddress().getHostAddress()))) {
                             registeredUsers.add(new Consumer(connection.getInetAddress().getHostAddress()));
                         }
-                        try {
+                        if (requestedSong!=null) {
+                            System.out.println("hi");
 
-                            for (int i = 0; i < registeredPublishers.size(); i++) {
-                                if (request.toString().charAt(0) > registeredPublishers.get(i).getScope().charAt(0) && request.toString().charAt(1) > registeredPublishers.get(i).getScope().charAt(1)) {
+                            try {
+                                for (int i = 0; i < registeredPublishers.size(); i++) {
+                                    //TODO: Check the limits,doesnt find the correct publisher.
+                                    if (request.toString().charAt(0) >= registeredPublishers.get(i).getScope().charAt(0) && request.toString().charAt(1) <= registeredPublishers.get(i).getScope().charAt(1)) {
 
-                                    requestSocket = new Socket(registeredPublishers.get(i).getAddress(), 50190); //opens connection
-                                    publisherOut = new ObjectOutputStream(requestSocket.getOutputStream()); // streams
-                                    publisherIn = new ObjectInputStream(requestSocket.getInputStream());    //  used
+                                        requestSocket = new Socket(registeredPublishers.get(i).getAddress(), 50190); //opens connection
+                                        publisherOut = new ObjectOutputStream(requestSocket.getOutputStream()); // streams
+                                        publisherIn = new ObjectInputStream(requestSocket.getInputStream());    //  used
+                                        System.out.println(requestedSong);
 
-                                    publisherOut.writeObject(request.getSong()); //send message
-                                    publisherOut.flush();
-                                    System.out.println("Message sent to publisher.");
+                                        publisherOut.writeObject(requestedSong); //send message
+                                        publisherOut.flush();
+                                        System.out.println("Message sent to publisher.");
+                                    }
                                 }
+                            } catch (UnknownHostException unknownHost) {
+                                System.out.println("Error! You are trying to connect to an unknown host!");
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
                             }
-                        } catch (UnknownHostException unknownHost) {
-                            System.out.println("Error! You are trying to connect to an unknown host!");
-                        } catch (IOException ioException) {
-                            ioException.printStackTrace();
+                            System.out.println("Job's done!");
+                            Message temp = (Message) publisherIn.readObject();
+                            out.writeObject(temp);
+                            System.out.println("Object returning to client...");
                         }
-                        System.out.println("Job's done!");
-                        Message temp = (Message) publisherIn.readObject();
-                        out.writeObject(temp);
-                        System.out.println("Object returning to client...");
                     }
                 }
             } catch (IOException | ClassNotFoundException e) {
@@ -139,6 +144,8 @@ public class Worker extends Thread {
                 try {
                     in.close();
                     out.close();
+                    System.out.println("Bye");
+
                     endOfThread = true;
                 } catch (IOException ioException) {
                     ioException.printStackTrace();

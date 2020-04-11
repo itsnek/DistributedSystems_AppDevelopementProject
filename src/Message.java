@@ -34,7 +34,7 @@ public class Message implements Serializable {
     }
 
     public Message(String a, String song){
-        this.address = a;
+        this.a = a;
         this.song = song;
     }
 
