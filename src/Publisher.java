@@ -55,7 +55,7 @@ public class Publisher extends Node{
 
     private void ReadDataFile (String artistsToGet) {
 
-        File file = new File ("D:\\Nikos\\Documents\\οπα\\Κατανεμημένα συστήματα\\Project\\Datasets\\dataset2\\dataset2");
+        File file = new File ("dataset2\\dataset2");
         Mp3File mp3File;
         ID3v1 id3v1Tag;
         ID3v2 id3v2Tag;
