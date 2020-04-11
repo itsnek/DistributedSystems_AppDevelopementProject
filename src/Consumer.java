@@ -1,16 +1,19 @@
 import java.io.*;
 import java.net.*;
-import java.util.Scanner;
-import java.util.logging.Handler;
+import java.util.*;
 
-public class Consumer extends Node implements Runnable { //den ginetai me to extend thread na kanw extend mia allh klash taytoxrona,me to interface runnable mporw
+public class Consumer extends Node { //den ginetai me to extend thread na kanw extend mia allh klash taytoxrona,me to interface runnable mporw
 
     String arg1,arg2;
-    int hash;
-
+    int hash,i = 0;
+    Message broker;
+    List<Broker> BrokerList ;
+    List<ArrayList<Integer>> BrokerHashtables ;
+    Queue<MusicChunk> SongReceived = new LinkedList<>(); ;
     private Socket requestSocket = null;
     private ObjectOutputStream out = null;
     private ObjectInputStream in = null;
+    boolean found = false;
 
     Consumer(){}
 
@@ -34,64 +37,59 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
         return arg2;
     }
 
-    /*public void register (Broker br , ArtistName artN){
-
-        try {
-
-            requestSocket = new Socket(br.getAddress(), 4321); //opens connection //"127.0.0.1" sees as server the cpu of my own pc
-            out = new ObjectOutputStream(requestSocket.getOutputStream()); // streams
-            in = new ObjectInputStream(requestSocket.getInputStream());    //  used
-
-            Message request = new Message(artN.getArtistName()); // create message
-            System.out.println("Message created.");
-            out.writeObject(request); //send message
-            out.flush();
-            System.out.println("Message sent.");
-
-        }catch (UnknownHostException unknownHost) {
-            System.out.println("Error!You are trying to connect to an unknown host!");
-        }catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-
-    }*/
-
     public void handshake(ArtistName artist){
 
-        boolean foundCorrectBroker = false;
+        //boolean foundCorrectBroker = false;
         try {
 
-            requestSocket = new Socket("127.0.0.1", 4321);
+            requestSocket = new Socket("192.168.2.5", 50221);
             out = new ObjectOutputStream(requestSocket.getOutputStream());
             in = new ObjectInputStream(requestSocket.getInputStream());
 
-            int ip = requestSocket.getInetAddress().getHostAddress().hashCode();
-            int socketNumber = requestSocket.getLocalPort();
             int artistHash = artist.getArtistName().hashCode();
-            int sum = ip + socketNumber;
-            int clientHash = Integer.hashCode(sum);
 
-            Message handshake = new Message(clientHash , artistHash);
+            Message handshake = new Message(artistHash);
 
             out.writeObject(handshake);
 
-            if(in.readBoolean()){
-                System.out.println("mphka");
-                foundCorrectBroker = true;
-            }
+            Message temp = (Message) in.readObject();
+            if(temp.getBoolean()){
+                BrokerList = temp.getBrokers();
+                BrokerHashtables = temp.getBrokersHashtable();
+            }else{
 
-            while(!foundCorrectBroker) {
-                System.out.println("mphka2");
-                requestSocket = new Socket("127.0.0.1", 4321);
-                if(in.readBoolean()){
-                    foundCorrectBroker = true;
+                System.out.println("Im not serving this artist. Here are all the other Brokers");
+
+                //Message temp = (Message) in.readObject();
+                BrokerList = temp.getBrokers();
+                BrokerHashtables = temp.getBrokersHashtable();
+
+                for(int j = 0; j < BrokerHashtables.size(); j++){
+
+                    ArrayList<Integer> temp2 = BrokerHashtables.get(j);
+                    if (temp2.contains(artistHash)) {
+                        requestSocket = new Socket(BrokerList.get(j).getAddress(), BrokerList.get(j).getPort() - 1);
+                        out = new ObjectOutputStream(requestSocket.getOutputStream());
+                        out.flush();
+                        in = new ObjectInputStream(requestSocket.getInputStream());
+
+                        found = true;
+                    }
+
                 }
+                if (!found){
+                    System.out.println("Sorry,why don't have any song of this artist in our system.");
+                }
+
             }
 
         }catch(UnknownHostException unknownHost){
             System.out.println("Error!You are trying to connect to an unknown host!");
         }catch (IOException ioException) {
             ioException.printStackTrace();
+        }catch (ClassNotFoundException e) {
+            System.out.println("/nUnknown object type received.");
+            e.printStackTrace();
         }
     }
 
@@ -132,8 +130,11 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
     public void playData (){
 
         try {
+            //Collecting them in a queue.Another option is to collect them in a folder.
+            Message temp = (Message) in.readObject();
+            SongReceived.add(temp.getChunk()); //try to read received message,the type may differ.
 
-            System.out.println("Message received is: " + ( in.readObject().toString())); //try to read received message,the type may differ.
+            //TODO:Start playing each chunk(suggested method ---> manually)
 
         }catch (ClassNotFoundException e) {
             System.out.println("/nUnknown object type received.");
@@ -156,55 +157,53 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
         }
 
     }
-
-    public void run(){
-
-        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-        ArtistName artist = new ArtistName(myObj.nextLine());
-
-        //Handshake with a random broker and check if its the correct one and register, else try again.
-        handshake(artist);
-        //Look for the songs of one artist.
-        lookForArtist(artist);
-        //Check if the broker has the artist i want.
-        playData();
-        //Request artist's song.
-        System.out.println("Which song of this artist do you want to listen?/n");
-        requestSong(myObj.nextLine());
-
-        playData();
-
-        disconnect();
-
-    }
+//
+//    public void run(){
+//
+//        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+//        ArtistName artist = new ArtistName(myObj.nextLine());
+//
+//        //Handshake with a random broker and check if its the correct one and register, else try again.
+//        handshake(artist);
+//        //Look for the songs of one artist.
+//        lookForArtist(artist);
+//        //Request artist's song.
+//        System.out.println("Which song of this artist do you want to listen?/n");
+//        requestSong(myObj.nextLine());
+//        //Collect received chunks and play them manually.
+//        playData();
+//
+//        disconnect();
+//
+//    }
 
 
+//    public static void main(String args[]) {
+//
+//        //First thread created and executed
+//        Consumer cons1 = new Consumer();
+//        Thread t1 = new Thread(cons1);
+//        t1.start();
+//
+//        //Second thread created and executed
+//       /* Consumer cons2 = new Consumer();
+//        Thread t2 = new Thread(cons2);
+//        t2.start();*/
+//
+//    }
+    //THE MAIN FOR EVERY CONSUMER AFTER THE FINAL VERSION :
     public static void main(String args[]) {
 
-        //First thread created and executed
         Consumer cons1 = new Consumer();
-        Thread t1 = new Thread(cons1);
-        t1.start();
-
-        //Second thread created and executed
-       /* Consumer cons2 = new Consumer();
-        Thread t2 = new Thread(cons2);
-        t2.start();*/
-
-    }
-    //THE MAIN FOR EVERY CONSUMER AFTER THE FINAL VERSION :
-    /*public static void main(String args[]) {
-
-        Consumer cons1 = new Consumer();
-
         Scanner myObj = new Scanner(System.in);  // Create a Scanner object
         ArtistName artist = new ArtistName(myObj.nextLine());
 
         //Handshake with a random broker and check if its the correct one and register, else try again.
         cons1.handshake(artist);
-        cons1.requestSong(artist.getArtistName());
-        //Check if the broker has the artist i want.
-        cons1.playData(); //new Value(new MusicFile (getArg2()))
+
+        //Look for the songs of one artist.
+        cons1.lookForArtist(artist);
+
         //Request artist's song.
         System.out.println("Which song of this artist do you want to listen?/n");
         cons1.requestSong(myObj.nextLine());
@@ -212,7 +211,6 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
         cons1.playData();
 
         cons1.disconnect();
-
-    }*/
+    }
 
 }

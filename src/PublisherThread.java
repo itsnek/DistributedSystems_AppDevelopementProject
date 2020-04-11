@@ -6,6 +6,7 @@ public class PublisherThread extends Thread{
 
     private ArrayList<ArtistName> Artists = null;
     private ArrayList <MusicFile> Songs = null;
+    private ArrayList<MusicChunk> Chunks = new ArrayList<>();
     private Socket clientSocket;
     private ObjectInputStream in = null;
     private ObjectOutputStream out = null;
@@ -31,37 +32,37 @@ public class PublisherThread extends Thread{
 
     }
 
-    public void pushList(String artN){
-
-        try {
-
-            //First returns the list of the artist's songs,or failure message.
-            out.writeBytes(artN + "'s list of songs :");
-            for (int i = 0; i < Songs.size(); i++) {
-                if (Songs.get(i).getArtistName().equals(artN)) {
-                    out.writeBytes(Songs.get(i).getTrackName());
-                    found = true;
-                }
-            }
-
-        }catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-
-    }
-
-    public  void notifyFailure() {
-        try {
-
-            out.writeBytes("Sorry,we don't have any songs of this artist.");
-
-            found = false;
-            foundS = false;
-
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-    }
+//    public void pushList(String artN){
+//
+//        try {
+//
+//            //First returns the list of the artist's songs,or failure message.
+//            out.writeBytes(artN + "'s list of songs :");
+//            for (int i = 0; i < Songs.size(); i++) {
+//                if (Songs.get(i).getArtistName().equals(artN)) {
+//                    out.writeBytes(Songs.get(i).getTrackName());
+//                    found = true;
+//                }
+//            }
+//
+//        }catch (IOException ioe) {
+//            ioe.printStackTrace();
+//        }
+//
+//    }
+//
+//    public  void notifyFailure() {
+//        try {
+//
+//            out.writeBytes("Sorry,we don't have any songs of this artist.");
+//
+//            found = false;
+//            foundS = false;
+//
+//        } catch (IOException ioe) {
+//            ioe.printStackTrace();
+//        }
+//    }
 
 
     public void push(String song){
@@ -71,7 +72,14 @@ public class PublisherThread extends Thread{
             //if client answers the song he requests then :
             for (int i = 0; i < Songs.size(); i++) {
                 if (Songs.get(i).getTrackName() == song) {
-                    //out.write(Songs.get(i).getMusicFileExtract());
+
+                    Chunks = Songs.get(i).createChunks();
+
+                    for (int j = 0; j < Chunks.size(); j++) {
+                        Message temp = new Message(Chunks.get(i));
+                        out.writeObject(temp);
+                    }
+
                     foundS = true;
                 }
             }
@@ -93,15 +101,17 @@ public class PublisherThread extends Thread{
             Message request = (Message)in.readObject();     // Gives value to inputStream.
             System.out.println("Message received from Broker.");
 
-            if (Artists.contains(request.toString()) && found == false){
-                pushList(request.toString());
-            }else if(found){
-                push(request.toString());
-                found = false;
-                foundS = false;
-            }else {
-                notifyFailure();
-            }
+//            if (Artists.contains(request.toString()) && found == false){
+//                pushList(request.toString());
+//            }else if(found){
+//                push(request.toString());
+//                found = false;
+//                foundS = false;
+//            }else {
+//                notifyFailure();
+//            }
+
+            push(request.toString());
 
             System.out.println("Job's done here!");
             out.writeObject(request);                       // Gives value to outputStream.
