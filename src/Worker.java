@@ -8,37 +8,22 @@ import static java.lang.Integer.parseInt;
 
 public class Worker extends Thread {
 
-    private  int hash;
-    private String Scope;
+    private int mode;
     private Socket requestSocket = null;
     private Socket connection = null;
-    private Socket connectionPub = null;
     ObjectOutputStream out = null;
     ObjectInputStream in = null;
-    ObjectOutputStream outPub = null;
-    ObjectInputStream inPub = null;
     private ObjectOutputStream publisherOut = null;
     private ObjectInputStream publisherIn = null;
     private ArrayList<Consumer> registeredUsers =  new ArrayList<>();
     private ArrayList<Publisher> registeredPublishers =  new ArrayList<>();
     private ArrayList<Integer> artists =  new ArrayList<>();
-    private List<Broker> registeredBrokers;
-    private List<ArrayList<Integer>> BrokersHashtable;
+    private ArrayList<Broker> registeredBrokers;
+    private ArrayList<ArrayList<Integer>> BrokersHashtable;
     private boolean endOfThread = false;
-    private boolean publisher = false,broker = true;
+    private boolean entrance = false;
 
-    public Worker(Socket connection,int key,boolean t){
-        this.connectionPub = connection;
-        this.hash = key;
-        this.publisher = t;
-        try {
-            outPub = new ObjectOutputStream(connection.getOutputStream());
-            inPub = new ObjectInputStream(connection.getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    public Worker(Socket connection,ArrayList<Consumer> registeredUsers,ArrayList<Publisher> registeredPublishers,List<Broker> registeredBrokers,ArrayList<Integer> artists,List<ArrayList<Integer>> BrokersHashtable) {
+    public Worker(Socket connection,ArrayList<Consumer> registeredUsers,ArrayList<Publisher> registeredPublishers,ArrayList<Broker> registeredBrokers,ArrayList<Integer> artists,ArrayList<ArrayList<Integer>> BrokersHashtable) {
         this.registeredUsers = registeredUsers;
         this.registeredBrokers = registeredBrokers;
         this.registeredPublishers = registeredPublishers;
@@ -57,57 +42,45 @@ public class Worker extends Thread {
         return registeredUsers;
     }
 
-    public ArrayList<Publisher> getRegisteredPublishers() { return registeredPublishers; }
+    public boolean getEntrance(){
+        return entrance;
+    }
 
-    public boolean getPublisher(){ return publisher; }
-
-    public boolean getBroker(){ return broker; }
+    public void setEntrance(boolean entrance) {
+        this.entrance = entrance;
+    }
 
     public boolean getEndOfThread () {
         return endOfThread;
     }
 
-    public List<ArrayList<Integer>> getBrokersHashtable() {
+    public ArrayList<ArrayList<Integer>> getBrokersHashtable() {
         return BrokersHashtable;
-    }
-
-    public void receiveArtists(ArrayList<String> artistsMessage){
-        int myHash = hash;
-        for(int i = 0; i < artistsMessage.size(); i++) {
-            if (myHash > artistsMessage.get(i).hashCode()) {
-                artists.add(artistsMessage.get(i).hashCode());
-            }
-        }
     }
 
     public void run() {
         endOfThread = false;
         try {
             try {
-                if(getPublisher()){
-                    Message temp = (Message)in.readObject();
-                    System.out.println(temp.toString());
-                    Scope = temp.toString();
-                    receiveArtists(temp.getArtists());
-                    System.out.println(artists.size());
 
-                    registeredPublishers.add(new Publisher(connectionPub.getInetAddress().getHostAddress(),Scope));
-                    if(artists.size()!=0) {
-                        out.writeObject(new Message(artists));
-                        out.flush();
-                    }
-
-                }
-                else if(getBroker()) {
+                if(!getEntrance()) {
                     for (int i = 0; i < registeredBrokers.size(); i++) {
+
                         if (registeredBrokers.get(i).getAddress().equals(connection.getInetAddress().getHostAddress())) {
                             System.out.println("You son of a bitch. Im in.");
 
                             Message temp = (Message) in.readObject();
                             BrokersHashtable.add(i, temp.getHashtable());
-                            System.out.println("mphka2");
+                            for (int j = 0; j < BrokersHashtable.size(); j++) {
+                                if (BrokersHashtable.get(j) == null) {
+                                    BrokersHashtable.remove(j);
+                                }
+                            }
+                            System.out.println(i);
+                            System.out.println(BrokersHashtable.size());
                             if (registeredBrokers.size() == BrokersHashtable.size()) {
-                                broker = false;
+                                System.out.println("mphka3");
+                                entrance = true;
                             }
                         }
                     }
@@ -117,12 +90,16 @@ public class Worker extends Thread {
                     Message request = (Message) in.readObject();
                     System.out.println("Message received from Client.");
 
+                    int artistHash = request.toString().hashCode();
+
                     //Checks if the hash of the client is less than the Broker's.
-                    if (!artists.contains(request.getArtistHash())) {
-                        Message brokersInfo = new Message(BrokersHashtable, registeredBrokers);
+                    if (!artists.contains(artistHash)) {
+                        System.out.println("here");
+                        Message brokersInfo = new Message(BrokersHashtable, registeredBrokers,false);
                         out.writeObject(brokersInfo);
                     } else {
-
+                        Message brokersInfo = new Message(BrokersHashtable, registeredBrokers,true);
+                        out.writeObject(brokersInfo);
                         if(!registeredUsers.contains(new Consumer(connection.getInetAddress().getHostAddress()))){
                             registeredUsers.add(new Consumer(connection.getInetAddress().getHostAddress()));
                         }
