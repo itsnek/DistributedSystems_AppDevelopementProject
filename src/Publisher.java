@@ -9,7 +9,7 @@ public class Publisher extends Node{
     private static ArrayList <String> Songs = new ArrayList<String> (300);
     private static ArrayList <MusicFile> SongFiles = new ArrayList<MusicFile> (300);
     private static final int startingSocketNumber = 50190;
-    private List <Broker> Brokers;
+    private ArrayList <Broker> Brokers;
     private List<ArrayList<Integer>> BrokersHashtables;
     private Socket clientSocket = null;
     private ServerSocket serverSocket = null;
@@ -159,8 +159,9 @@ public class Publisher extends Node{
                 out.writeObject(ArtistListPlusScope);
 
                 Message temp = (Message) in.readObject();
-//                if(temp.getHashtable().size()!= 0) BrokersHashtables.add(i,temp.getHashtable());
-
+//                if(temp.getHashtable().size() != 0) {
+//                    BrokersHashtables.add(i, temp.getHashtable());
+//                }
             }
         }catch(UnknownHostException unknownHost){
             System.out.println("Error!You are trying to connect to an unknown host!");
@@ -214,13 +215,13 @@ public class Publisher extends Node{
     public static void main(String args[]){
 
         try {
-
             //Insert Publisher Scope.
             File file = new File(args[0]);
             Scanner scanner = new Scanner(file);
+
             //Make instances.
             Publisher p = new Publisher();
-            //Publisher p2 = new Publisher();
+
             //Read file of songs.
             if (scanner.hasNextLine()) {
                 Scope = scanner.nextLine();
@@ -230,15 +231,15 @@ public class Publisher extends Node{
 
             //Initiate the arraylists of each publisher with the appropriate songs.
             p.init();
-           // p2.init();
+
             //Get the Broker's ips and ports.
             p.setBrokers(new File("src\\Brokers.txt"));
+
             //Notify every Broker about your artist's Scope.
             p.notifyBrokers();
-            //p2.notifyBrokers();
+
             //Make connection with Brokers.
             p.connect();
-            //p2.connect();
 
             //Close the connection channel.
             //p.disconnect();

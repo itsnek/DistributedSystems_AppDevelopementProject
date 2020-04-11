@@ -2,7 +2,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class Consumer extends Node implements Runnable { //den ginetai me to extend thread na kanw extend mia allh klash taytoxrona,me to interface runnable mporw
+public class Consumer extends Node { //den ginetai me to extend thread na kanw extend mia allh klash taytoxrona,me to interface runnable mporw
 
     String arg1,arg2;
     int hash,i = 0;
@@ -46,30 +46,32 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
             out = new ObjectOutputStream(requestSocket.getOutputStream());
             in = new ObjectInputStream(requestSocket.getInputStream());
 
-            int artistHash = artist.getArtistName().hashCode();
-
-            Message handshake = new Message(artistHash);
+            Message handshake = new Message(artist.getArtistName());
 
             out.writeObject(handshake);
 
-            if(in.readBoolean()){
-
+            Message temp = (Message) in.readObject();
+            if(temp.getBoolean()){
+                BrokerList = temp.getBrokers();
+                BrokerHashtables = temp.getBrokersHashtable();
             }else{
 
                 System.out.println("Im not serving this artist. Here are all the other Brokers");
 
-                Message temp = (Message) in.readObject();
+                //Message temp = (Message) in.readObject();
                 BrokerList = temp.getBrokers();
                 BrokerHashtables = temp.getBrokersHashtable();
 
                 for(int j = 0; j < BrokerHashtables.size(); j++){
 
                     ArrayList<Integer> temp2 = BrokerHashtables.get(j);
-                    if (temp2.contains(artistHash)) {
+                    if (temp2.contains(artist.getArtistName().hashCode())) {
                         requestSocket = new Socket(BrokerList.get(j).getAddress(), BrokerList.get(j).getPort() - 1);
                         out = new ObjectOutputStream(requestSocket.getOutputStream());
                         out.flush();
                         in = new ObjectInputStream(requestSocket.getInputStream());
+
+                        out.writeObject(handshake);
 
                         found = true;
                     }
@@ -155,25 +157,25 @@ public class Consumer extends Node implements Runnable { //den ginetai me to ext
         }
 
     }
-
-    public void run(){
-
-        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-        ArtistName artist = new ArtistName(myObj.nextLine());
-
-        //Handshake with a random broker and check if its the correct one and register, else try again.
-        handshake(artist);
-        //Look for the songs of one artist.
-        lookForArtist(artist);
-        //Request artist's song.
-        System.out.println("Which song of this artist do you want to listen?/n");
-        requestSong(myObj.nextLine());
-        //Collect received chunks and play them manually.
-        playData();
-
-        disconnect();
-
-    }
+//
+//    public void run(){
+//
+//        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+//        ArtistName artist = new ArtistName(myObj.nextLine());
+//
+//        //Handshake with a random broker and check if its the correct one and register, else try again.
+//        handshake(artist);
+//        //Look for the songs of one artist.
+//        lookForArtist(artist);
+//        //Request artist's song.
+//        System.out.println("Which song of this artist do you want to listen?/n");
+//        requestSong(myObj.nextLine());
+//        //Collect received chunks and play them manually.
+//        playData();
+//
+//        disconnect();
+//
+//    }
 
 
 //    public static void main(String args[]) {

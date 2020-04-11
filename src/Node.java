@@ -28,17 +28,17 @@ public class Node {
     //Reading the addresses of the Brokers form the csv file.
     public void setBrokers(File Brokers) {
 
-        List<String> temp = ReadFile(Brokers);
+        ArrayList<String> temp = ReadFile(Brokers);
         for(int i = 0; i < temp.size(); i = i + 2){
             this.brokers.add(new Broker(temp.get(i), Integer.parseInt(temp.get(i + 1))));
         }
     }
 
-    public List<Broker> getBrokers(){
+    public ArrayList<Broker> getBrokers(){
         return brokers;
     }
 
-    public List ReadFile(File Brokers){
+    public ArrayList<String> ReadFile(File Brokers){
 
         try (BufferedReader br = new BufferedReader(new FileReader(Brokers))) {
 
