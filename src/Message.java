@@ -4,6 +4,7 @@ import java.util.Hashtable;
 import java.util.List;
 
 public class Message implements Serializable {
+    //private static final long serialVersionUID = 7526472295622776147L;
     String a, address;
     int hash, artist,port, artistHash;
     ArrayList<String> artists;

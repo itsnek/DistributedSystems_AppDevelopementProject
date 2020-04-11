@@ -37,6 +37,10 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
         return arg2;
     }
 
+    public Boolean getFound(){
+        return found;
+    }
+
     public void handshake(ArtistName artist){
 
         //boolean foundCorrectBroker = false;
@@ -54,6 +58,7 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
             if(temp.getBoolean()){
                 BrokerList = temp.getBrokers();
                 BrokerHashtables = temp.getBrokersHashtable();
+                found = true;
             }else{
 
                 System.out.println("Im not serving this artist. Here are all the other Brokers");
@@ -65,6 +70,7 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
                 for(int j = 0; j < BrokerHashtables.size(); j++){
 
                     ArrayList<Integer> temp2 = BrokerHashtables.get(j);
+
                     if (temp2.contains(artist.getArtistName().hashCode())) {
                         requestSocket = new Socket(BrokerList.get(j).getAddress(), BrokerList.get(j).getPort() - 1);
                         out = new ObjectOutputStream(requestSocket.getOutputStream());
@@ -72,7 +78,7 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
                         in = new ObjectInputStream(requestSocket.getInputStream());
 
                         out.writeObject(handshake);
-
+                        System.out.println("egine true");
                         found = true;
                     }
 
@@ -201,16 +207,18 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
         //Handshake with a random broker and check if its the correct one and register, else try again.
         cons1.handshake(artist);
 
-        //Look for the songs of one artist.
-        cons1.lookForArtist(artist);
+        if (cons1.getFound()) {
+            //Look for the songs of one artist.
+            cons1.lookForArtist(artist);
 
-        //Request artist's song.
-        System.out.println("Which song of this artist do you want to listen?/n");
-        cons1.requestSong(myObj.nextLine());
+            //Request artist's song.
+            System.out.println("Which song of this artist do you want to listen?/n");
+            cons1.requestSong(myObj.nextLine());
 
-        cons1.playData();
+            cons1.playData();
+        }
 
-        cons1.disconnect();
+        //cons1.disconnect();
     }
 
 }

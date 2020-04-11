@@ -8,7 +8,7 @@ import static java.lang.Integer.parseInt;
 
 public class Worker extends Thread {
 
-    private int mode;
+    private int counter = 0;
     private Socket requestSocket = null;
     private Socket connection = null;
     ObjectOutputStream out = null;
@@ -78,11 +78,16 @@ public class Worker extends Thread {
                             }
                             System.out.println(i);
                             System.out.println(BrokersHashtable.size());
-                            if (registeredBrokers.size() == BrokersHashtable.size()) {
-                                System.out.println("mphka3");
-                                entrance = true;
-                            }
+//                            if (registeredBrokers.size() == BrokersHashtable.size()) {
+//                                System.out.println("mphka3");
+//                                entrance = true;
+//                            }
+                            counter++;
                         }
+                    }
+                    if (BrokersHashtable.size() == registeredBrokers.size()-1) {
+                        System.out.println("mphka3");
+                        entrance = true;
                     }
                 }
                 else {
@@ -122,7 +127,8 @@ public class Worker extends Thread {
                             ioException.printStackTrace();
                         }
                         System.out.println("Job's done!");
-                        out.writeObject((Message) publisherIn.readObject());
+                        Message temp = (Message) publisherIn.readObject();
+                        out.writeObject(temp);
                         System.out.println("Object returning to client...");
                     }
                 }
