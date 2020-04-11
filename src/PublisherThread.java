@@ -98,18 +98,8 @@ public class PublisherThread extends Thread{
 
         try {
 
-            Message request = (Message)in.readObject();     // Gives value to inputStream.
+            Message request = (Message) in.readObject();     // Gives value to inputStream.
             System.out.println("Message received from Broker.");
-
-//            if (Artists.contains(request.toString()) && found == false){
-//                pushList(request.toString());
-//            }else if(found){
-//                push(request.toString());
-//                found = false;
-//                foundS = false;
-//            }else {
-//                notifyFailure();
-//            }
 
             push(request.toString());
 

@@ -92,7 +92,7 @@ public class Broker extends Node implements Serializable  {
     public void receiveArtists(ArrayList<String> artistsMessage,Socket connection){
         int myHash = calculateKeys(connection);
         for(int i = 0; i < artistsMessage.size(); i++) {
-            if (myHash > artistsMessage.get(i).hashCode()) {
+            if (myHash > artistsMessage.get(i).hashCode() && !artists.contains(artistsMessage.get(i).hashCode())) {
                 artists.add(artistsMessage.get(i).hashCode());
             }
         }
@@ -110,12 +110,11 @@ public class Broker extends Node implements Serializable  {
                 ObjectInputStream in = new ObjectInputStream(connectionPub.getInputStream());
 
                 Message temp = (Message)in.readObject();
-                System.out.println(temp.toString());
                 Scope = temp.toString();
                 receiveArtists(temp.getArtists(),connectionPub);
-                System.out.println(artists.size());
 
-                registeredPublishers.add(new Publisher(connectionPub.getInetAddress().getHostAddress(),Scope));
+                Publisher p = new Publisher(connectionPub.getInetAddress().getHostAddress(),Scope);
+                registeredPublishers.add(p);
 
                 if(artists.size() != 0) {
                     out.writeObject(new Message(artists));
