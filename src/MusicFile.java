@@ -40,7 +40,7 @@ public class MusicFile {
             byte [] partition;
             for (int i=0; i<numberOfChunks; i++) {
                 partition = Arrays.copyOfRange(bytesOfSong, i * MAXIMUM_CHUNK_SIZE, (i + 1) * MAXIMUM_CHUNK_SIZE);
-                ch = new MusicChunk(this.artistName, this.trackName, partition,i);
+                ch = new MusicChunk(this.artistName, this.trackName, partition, i);
                 chunks.add(ch);
             }
             if (bytesOfSong.length % MAXIMUM_CHUNK_SIZE > 0) {
