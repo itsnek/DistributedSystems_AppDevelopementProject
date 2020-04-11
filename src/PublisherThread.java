@@ -71,13 +71,23 @@ public class PublisherThread extends Thread{
 
             //if client answers the song he requests then :
             for (int i = 0; i < Songs.size(); i++) {
-                if (Songs.get(i).getTrackName() == song) {
+
+                if (Songs.get(i).getTrackName().equals(song)) {
+                    System.out.println(Songs.get(i).getTrackName());
 
                     Chunks = Songs.get(i).createChunks();
 
+                    System.out.println("Chunks : " + Chunks.size());
+                    System.out.println("Job's done here!");
+
                     for (int j = 0; j < Chunks.size(); j++) {
-                        Message temp = new Message(Chunks.get(i));
+
+                        System.out.println(Chunks.get(j));
+                        Message temp = new Message(Chunks.get(j));
                         out.writeObject(temp);
+
+                        System.out.println("Object returning to Broker...");
+
                     }
 
                     foundS = true;
@@ -102,10 +112,6 @@ public class PublisherThread extends Thread{
             System.out.println("Message received from Broker.");
 
             push(request.toString());
-
-            System.out.println("Job's done here!");
-            out.writeObject(request);                       // Gives value to outputStream.
-            System.out.println("Object returning to Broker...");
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

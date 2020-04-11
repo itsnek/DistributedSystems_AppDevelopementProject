@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,11 +27,23 @@ public class MusicFile {
     }
 
     public ArrayList<MusicChunk> createChunks () {
+        System.out.println("mphka Chunks");
+
         try {
-            byte [] bytesOfSong = Files.readAllBytes(Paths.get(filename));
+            Path p = Paths.get("D:\\Nikos\\Documents\\οπα\\Κατανεμημένα συστήματα\\Project\\Datasets\\dataset2\\dataset2\\" + filename);
+
+            byte [] bytesOfSong = Files.readAllBytes(p);
+            System.out.println(bytesOfSong.length);
+
+            for(int i = 0; i <10; i++){
+
+                System.out.println(bytesOfSong[i]);
+            }
+
             chunks = new ArrayList<MusicChunk>();
             MusicChunk ch;
             if (bytesOfSong.length <= MAXIMUM_CHUNK_SIZE) {
+                System.out.println("1");
                 ch = new MusicChunk(this.artistName, this.trackName, bytesOfSong, 0);
                 ch.setTotalPartitions(1);
                 chunks.add(ch);
@@ -42,20 +55,31 @@ public class MusicFile {
                 partition = Arrays.copyOfRange(bytesOfSong, i * MAXIMUM_CHUNK_SIZE, (i + 1) * MAXIMUM_CHUNK_SIZE);
                 ch = new MusicChunk(this.artistName, this.trackName, partition, i);
                 chunks.add(ch);
+                System.out.println("2");
             }
             if (bytesOfSong.length % MAXIMUM_CHUNK_SIZE > 0) {
                 partition = Arrays.copyOfRange (bytesOfSong, numberOfChunks * MAXIMUM_CHUNK_SIZE, bytesOfSong.length);
                 ch = new MusicChunk(this.artistName, this.trackName, partition, numberOfChunks + 1);
                 numberOfChunks++;
                 chunks.add(ch);
+                System.out.println("3");
+
             }
             for (int i=0; i<chunks.size(); i++) {
+                System.out.println("4");
+
                 chunks.get(i).setTotalPartitions(numberOfChunks);
             }
             return chunks;
 
         } catch (IOException ioe) {
             ioe.getMessage();
+            return null;
+        }catch (OutOfMemoryError out) {
+            System.out.println("ayto");
+            return null;
+        }catch (SecurityException sec) {
+            System.out.println("h ayto");
             return null;
         }
     }

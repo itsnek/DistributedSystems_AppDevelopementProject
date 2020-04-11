@@ -138,18 +138,21 @@ public class Worker extends Thread {
                                 ioException.printStackTrace();
                             }
                             System.out.println("Job's done!");
+                            System.out.println((Message) publisherIn.readObject());
                             int totalPartitions;
                             while (true) {
-                                if (in.available() > 0) {
+
+                                if (publisherIn.available() > 0) {
                                     Message chunk = (Message) publisherIn.readObject();
                                     totalPartitions = chunk.getChunk().getTotalPartitions();
+                                    System.out.println(chunk.getChunk().getPartitionNumber());
                                     out.writeObject(chunk);
                                     break; //It get out from while by "break;" .
                                 }
                             }
                             int chunksSent = 1;
                             while (chunksSent < totalPartitions) {
-                                if (in.available() > 0) {
+                                if (publisherIn.available() > 0) {
                                     out.writeObject( (Message) publisherIn.readObject() );
                                     chunksSent++;
                                 }
