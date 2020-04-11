@@ -11,7 +11,7 @@ public class Message implements Serializable {
     List<Broker> Brokers;
     List<ArrayList<Integer>> BrokersHashtable;
     List<Broker> registeredBrokers;
-    MusicChunk Chunk;
+    private MusicChunk Chunk;
     boolean t;
 
     public Message(String a){

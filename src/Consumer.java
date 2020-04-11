@@ -133,7 +133,12 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
             //Collecting them in a queue.Another option is to collect them in a folder.
             Message temp = (Message) in.readObject();
             SongReceived.add(temp.getChunk()); //try to read received message,the type may differ.
-
+            int recievedChunks = 1;
+            while (recievedChunks < temp.getChunk().getTotalPartitions()) {
+                temp = (Message) in.readObject();
+                SongReceived.add(temp.getChunk());
+                recievedChunks++;
+            }
             //TODO:Start playing each chunk(suggested method ---> manually)
 
         }catch (ClassNotFoundException e) {
