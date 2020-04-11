@@ -67,7 +67,6 @@ public class Worker extends Thread {
                     for (int i = 0; i < registeredBrokers.size(); i++) {
 
                         if (registeredBrokers.get(i).getAddress().equals(connection.getInetAddress().getHostAddress())) {
-                            System.out.println("You son of a bitch. Im in.");
 
                             Message temp = (Message) in.readObject();
                             BrokersHashtable.add(i, temp.getHashtable());
@@ -120,7 +119,24 @@ public class Worker extends Thread {
                             ioException.printStackTrace();
                         }
                         System.out.println("Job's done!");
-                        out.writeObject((Message) publisherIn.readObject());
+                        /* You need to take first chunk seperately for learning the total number of chunks that come for this song.
+                        Program is going to receive and send the rest of chunks for this song.*/
+                        int totalPartitions;
+                        while (true) {
+                            if (in.available() > 0) {
+                                Message chunk = (Message) publisherIn.readObject();
+                                totalPartitions = chunk.getChunk().getTotalPartitions();
+                                out.writeObject(chunk);
+                                break; //It get out from while by "break;" .
+                            }
+                        }
+                        int chunksSent = 1;
+                        while (chunksSent < totalPartitions) {
+                            if (in.available() > 0) {
+                                out.writeObject( (Message) publisherIn.readObject() );
+                                chunksSent++;
+                            }
+                        }
                         System.out.println("Object returning to client...");
                     }
                 }
