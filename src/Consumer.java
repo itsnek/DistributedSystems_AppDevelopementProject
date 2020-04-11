@@ -7,6 +7,7 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
     String arg1,arg2;
     int hash,i = 0;
     Message broker;
+    Broker tempBroker;
     List<Broker> BrokerList ;
     List<ArrayList<Integer>> BrokerHashtables ;
     Queue<MusicChunk> SongReceived = new LinkedList<>(); ;
@@ -50,7 +51,9 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
             out = new ObjectOutputStream(requestSocket.getOutputStream());
             in = new ObjectInputStream(requestSocket.getInputStream());
 
-            Message handshake = new Message(artist.getArtistName());
+            tempBroker = new Broker("192.168.2.5", 50221);
+
+            Message handshake = new Message(artist.getArtistName(),null);
 
             out.writeObject(handshake);
 
@@ -72,10 +75,10 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
                     ArrayList<Integer> temp2 = BrokerHashtables.get(j);
 
                     if (temp2.contains(artist.getArtistName().hashCode())) {
-                        requestSocket = new Socket(BrokerList.get(j).getAddress(), BrokerList.get(j).getPort() - 1);
-                        out = new ObjectOutputStream(requestSocket.getOutputStream());
-                        out.flush();
-                        in = new ObjectInputStream(requestSocket.getInputStream());
+                        System.out.println(BrokerList.get(j).getAddress());
+                        System.out.println(BrokerList.get(j).getPort() - 1);
+
+                        tempBroker = new Broker(BrokerList.get(j).getAddress(), BrokerList.get(j).getPort() - 1);
 
                         found = true;
                     }
@@ -100,6 +103,13 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
     public void requestSong(ArtistName artist,String song){
 
         try {
+            System.out.println(tempBroker.getAddress());
+            System.out.println(tempBroker.getPort());
+
+            requestSocket = new Socket(tempBroker.getAddress(), tempBroker.getPort());
+            out = new ObjectOutputStream(requestSocket.getOutputStream());
+            out.flush();
+            in = new ObjectInputStream(requestSocket.getInputStream());
 
             Message requestSong = new Message(artist.getArtistName(),song); // create message
             System.out.println("Message of the song created.");
