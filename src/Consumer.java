@@ -155,7 +155,6 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
                         if (partLookingFor == SongReceived.get(j).getPartitionNumber()) {
                             Files.write(Paths.get("Project\\song.mp3"), SongReceived.get(j).getPartition(), StandardOpenOption.APPEND);
                             foundChunk = true;
-                            break;
                         }
                         j++;
                     }
