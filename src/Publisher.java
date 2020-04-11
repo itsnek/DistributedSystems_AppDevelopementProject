@@ -178,25 +178,20 @@ public class Publisher extends Node{
     public void connect() {
         try {
             System.out.println("eimai edw");
-            serverSocket = new ServerSocket(startingSocketNumber,2);
+            serverSocket = new ServerSocket(startingSocketNumber, 2);
             System.out.println("exw mpei");
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
 
-        while (true) {
-
-            try {
+            while (true) {
 
                 clientSocket = serverSocket.accept();
 
-                PublisherThread pt = new PublisherThread (clientSocket,Artists,SongFiles);
+                PublisherThread pt = new PublisherThread(clientSocket, Artists, SongFiles);
                 pt.start();
 
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
-            }
 
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
     }
 

@@ -1,15 +1,13 @@
-import java.io.File;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.lang.*;
 
 import static java.lang.Integer.parseInt;
 
-public class Broker extends Node {
+public class Broker extends Node implements Serializable  {
 
+    //private static final long serialVersionUID = 7526472295622776147L;
     private ServerSocket providerSocket = null;
     private ServerSocket providerSocketPub = null;
     private Socket connection = null;
@@ -141,15 +139,17 @@ public class Broker extends Node {
         try{
             System.out.println("mphka1");
 
-            while (true) {
-                //Check if it's an incoming message from Broker.
-                if (!entrance) {
+            //Check if it's an incoming message from Broker.
+            if (!entrance) {
+
+                providerSocket = new ServerSocket(BrokersPort, 15);
+
+                while (true) {
                     System.out.println("mphka2");
 
-                    providerSocket = new ServerSocket(BrokersPort, 15);
                     connection = providerSocket.accept();
 
-                    Worker wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists,BrokersHashtables);
+                    Worker wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists, BrokersHashtables);
 
                     System.out.println("U son of bitch.Im in.");
                     new Thread(wk).start();
@@ -160,39 +160,40 @@ public class Broker extends Node {
                     BrokersHashtables = wk.getBrokersHashtable();
                     System.out.println(BrokersHashtables.size());
 
-                    if(BrokersHashtables.size()==registeredBrokers.size()) {
+                    if (BrokersHashtables.size() == registeredBrokers.size()) {
                         System.out.println("Yo");
                         entrance = wk.getEntrance();
+                        break;
                     }
-
-
                 }
-
-
-                //if true, register the new client and start a worker in normal mode.
-                //TODO: Create a check so old clients are only registered once.
-                else {
-                    System.out.println(getPort() - 1);
-
-                    providerSocket = new ServerSocket(getPort() - 1, 10);
-                    connection = providerSocket.accept();
-
-                    Worker wk = new Worker(connection,registeredUsers, registeredPublishers, registeredBrokers,artists, BrokersHashtables);
-                    wk.setEntrance(true);
-                    System.out.println("Worker created.");
-
-                    new Thread(wk).start();
-                    while (!wk.getEndOfThread()) {
-                        System.out.println("Loading");
-                        //connection.close();
-                    }
-                    registeredUsers = wk.getRegisteredUsers();
-
-
-                   // connection.close();
-                }
-
+                //connection.close();
             }
+
+
+            //if true, register the new client and start a worker in normal mode.
+            //TODO: Create a check so old clients are only registered once.
+
+            System.out.println(getPort() - 1);
+            providerSocket = new ServerSocket(getPort() - 1, 10);
+
+            while (true) {
+                connection = providerSocket.accept();
+
+                Worker wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists, BrokersHashtables);
+                wk.setEntrance(true);
+                System.out.println("Worker created.");
+
+                new Thread(wk).start();
+                while (!wk.getEndOfThread()) {
+                    System.out.println("Loading..");
+                }
+                registeredUsers = wk.getRegisteredUsers();
+            }
+//                    if() {
+//                        connection.close();
+//                    }
+
+
 
         }catch (IOException ioException) {
             ioException.printStackTrace();
