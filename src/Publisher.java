@@ -232,11 +232,6 @@ public class Publisher extends Node{
             //Initiate the arraylists of each publisher with the appropriate songs.
             p.init();
 
-            for (int i=0; i<SongFiles.size(); i++) {
-
-                System.out.println(SongFiles.get(i).getArtistName() + " " + SongFiles.get(i).getTrackName());
-
-            }
             //Get the Broker's ips and ports.
             p.setBrokers(new File("src\\Brokers.txt"));
 
