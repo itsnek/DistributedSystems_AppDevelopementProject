@@ -1,5 +1,9 @@
 import java.io.*;
 import java.net.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
 
 public class Consumer extends Node { //den ginetai me to extend thread na kanw extend mia allh klash taytoxrona,me to interface runnable mporw
@@ -9,7 +13,7 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
     Message broker;
     List<Broker> BrokerList ;
     List<ArrayList<Integer>> BrokerHashtables ;
-    Queue<MusicChunk> SongReceived = new LinkedList<>(); ;
+    LinkedList<MusicChunk> SongReceived = new LinkedList<>(); ;
     private Socket requestSocket = null;
     private ObjectOutputStream out = null;
     private ObjectInputStream in = null;
@@ -141,6 +145,31 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
                     recievedChunks++;
                 }
             }
+
+            try {
+                int partLookingFor = 0;
+                for (int i=0; i<SongReceived.size(); i++) {
+                    boolean foundChunk = false;
+                    int j = 0;
+                    while (!foundChunk) {
+                        if (partLookingFor == SongReceived.get(j).getPartitionNumber()) {
+                            Files.write(Paths.get("Project\\song.mp3"), SongReceived.get(j).getPartition(), StandardOpenOption.APPEND);
+                            foundChunk = true;
+                            break;
+                        }
+                        j++;
+                    }
+                    partLookingFor++;
+                }
+            } catch (UnsupportedOperationException unsO) {
+                System.out.println ("Appending isn't available.");
+                unsO.printStackTrace();
+            } catch (SecurityException sec) {
+              sec.printStackTrace();
+            } catch (IOException io) {
+                io.printStackTrace();
+            }
+
 
             //TODO:Start playing each chunk(suggested method ---> manually)
 
