@@ -9,7 +9,7 @@ import static java.lang.Integer.parseInt;
 
 public class Worker extends Thread {
 
-    int myHash;
+    int myHash,biggestHash,smallestHash;
     String requestedSong;
     Message tempA;
     private Socket requestSocket = null;
@@ -69,43 +69,48 @@ public class Worker extends Thread {
                 //Check the incoming from other Brokers.
                 if(!getEntrance()) {
                     ArrayList<Integer> temporArray;
+                    smallestHash = myHash;
                     for (int i = 0; i < registeredBrokers.size(); i++) {
 
                         if (registeredBrokers.get(i).getAddress().equals(connection.getInetAddress().getHostAddress())) {
                             Message temp = (Message) in.readObject();
                             temporArray = temp.getHashtable();
+                            registeredBrokers.get(i).setMyHash(temp.getMyHash());
                             System.out.println("You son of a bitch. Im in.");
-                            System.out.println(myHash);
-                            System.out.println(temp.getMyHash());
+
+                            if(smallestHash > temp.getMyHash()) {
+                                smallestHash = temp.getMyHash();
+                            }
 
                             if(myHash > temp.getMyHash()) {
-                                System.out.println("edw mphka");
-
+                                biggestHash = myHash;
                                 for (int j = 0; j < artists.size(); j++) {
                                     if (artists.get(j) < temp.getMyHash()) {
                                         artists.remove(artists.get(j));
                                     }
                                 }
                             }else{
-                                System.out.println("oxi edw");
-
+                                biggestHash = temp.getMyHash();
                                 for (int j = 0; j < temporArray.size(); j++) {
                                     if (temporArray.get(j) < myHash) {
                                         temporArray.remove(temp.getHashtable().get(j));
                                     }
                                 }
                             }
+
                             for (int j = 0; j < BrokersHashtable.size(); j++) {
                                 if(BrokersHashtable.get(j) != null && !changed){
                                     BrokersHashtable.add(BrokersHashtable.get(j));
                                     BrokersHashtable.remove(BrokersHashtable.get(j+1));
                                     changed = true;
                                 }
-                                if (BrokersHashtable.get(j) == null) {
+                                else if (BrokersHashtable.get(j) == null) {
                                     BrokersHashtable.remove(BrokersHashtable.get(j));
                                 }
                             }
+
                             BrokersHashtable.add(i, temporArray);
+
                         }
                     }
                     if (BrokersHashtable.size() == registeredBrokers.size()-1) {
@@ -126,6 +131,18 @@ public class Worker extends Thread {
                         System.out.println("here");
                         Message brokersInfo = new Message(BrokersHashtable, registeredBrokers,false);
                         out.writeObject(brokersInfo);
+
+                        if(artistHash > biggestHash){
+
+                            artistHash = artistHash%smallestHash;
+
+                            for (int j = 0; j < BrokersHashtable.size(); j++) {
+                                if(registeredBrokers.get(j).getMyHash() == smallestHash){
+                                    BrokersHashtable.get(j).add(artistHash);
+                                }
+                            }
+
+                        }
                     } else {
                         Message brokersInfo = new Message(BrokersHashtable, registeredBrokers, true);
                         out.writeObject(brokersInfo);
