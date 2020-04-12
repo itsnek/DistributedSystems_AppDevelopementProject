@@ -144,18 +144,35 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
 //
 //    }
 public void playData (){
-
+    File myObj = new File("D:\\Nikos\\Documents\\GitHub\\distributed\\song.mp3");
     try {
-        //Collecting them in a queue.Another option is to collect them in a folder.
-        Message temp = (Message) in.readObject();
-        SongReceived.add(temp.getChunk()); //try to read received message,the type may differ.
-        int recievedChunks = 1;
-        while (recievedChunks < temp.getChunk().getTotalPartitions()) {
-            if (in.available() > 0) { //if there is avaliable chunk  use a method avaliable() from ObjectInputStream
-                temp = (Message) in.readObject();
-                SongReceived.add(temp.getChunk());
-                recievedChunks++;
+        while(true) {
+            if(in.readObject()!=null){
+                break;
             }
+        }
+
+        //Collecting them in a queue.Another option is to collect them in a folder.
+        Message temp1 = (Message) in.readObject();
+
+        SongReceived.add(temp1.getChunk()); //try to read received message,the type may differ.
+        System.out.println("perasa");
+
+        int recievedChunks = 1;
+        while (recievedChunks < temp1.getChunk().getTotalPartitions()) {
+//            System.out.println(temp.getChunk().getTotalPartitions());
+//            System.out.println(temp.getChunk().getPartitionNumber() + " + " + temp.getChunk().getPartition().length);
+
+            Message temp = (Message) in.readObject();
+            System.out.println("perasa");
+
+            System.out.println(recievedChunks);
+
+            //System.out.println(temp.getChunk().getTotalPartitions());
+            System.out.println(temp.getChunk().getPartitionNumber() + " + " + temp.getChunk().getPartition().length);
+            SongReceived.add(temp.getChunk());
+            recievedChunks++;
+
         }
 
         try {
@@ -163,10 +180,14 @@ public void playData (){
             for (int i=0; i<SongReceived.size(); i++) {
                 boolean foundChunk = false;
                 int j = 0;
+                //Files.createDirectory("D:\\Nikos\\Documents\\GitHub\\distributed","Project");
+                myObj.createNewFile();
                 while (!foundChunk) {
                     if (partLookingFor == SongReceived.get(j).getPartitionNumber()) {
-                        Files.write(Paths.get("Project\\song.mp3"), SongReceived.get(j).getPartition(), StandardOpenOption.APPEND);
+                        Files.write(Paths.get("song.mp3"), SongReceived.get(j).getPartition(), StandardOpenOption.APPEND);
                         foundChunk = true;
+                        System.out.println ("Writing File");
+
                     }
                     j++;
                 }
@@ -177,8 +198,9 @@ public void playData (){
             unsO.printStackTrace();
         } catch (SecurityException sec) {
             sec.printStackTrace();
-        } catch (IOException io) {
-            io.printStackTrace();
+        } catch (EOFException eof) {
+            System.out.println("error");
+            eof.printStackTrace();
         }
 
 
@@ -222,8 +244,10 @@ public void playData (){
             cons1.requestSong(artist,myObj.nextLine());
 
             cons1.playData();
-        }
+            System.out.println ("ending.");
 
+        }
+        myObj.close();
         //cons1.disconnect();
     }
 
