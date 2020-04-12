@@ -9,6 +9,7 @@ import static java.lang.Integer.parseInt;
 
 public class Worker extends Thread {
 
+    int myHash;
     String requestedSong;
     Message tempA;
     private Socket requestSocket = null;
@@ -25,13 +26,14 @@ public class Worker extends Thread {
     private boolean endOfThread = false;
     private boolean changed = false,entrance = false;
 
-    public Worker(Socket connection,ArrayList<Consumer> registeredUsers,ArrayList<Publisher> registeredPublishers,ArrayList<Broker> registeredBrokers,ArrayList<Integer> artists,ArrayList<ArrayList<Integer>> BrokersHashtable) {
+    public Worker(Socket connection,ArrayList<Consumer> registeredUsers,ArrayList<Publisher> registeredPublishers,ArrayList<Broker> registeredBrokers,ArrayList<Integer> artists,ArrayList<ArrayList<Integer>> BrokersHashtable,int myHash) {
         this.registeredUsers = registeredUsers;
         this.registeredBrokers = registeredBrokers;
         this.registeredPublishers = registeredPublishers;
         this.artists = artists;
         this.BrokersHashtable = BrokersHashtable;
         this.connection = connection;
+        this.myHash = myHash;
         try {
             out = new ObjectOutputStream(connection.getOutputStream());
             in = new ObjectInputStream(connection.getInputStream());
@@ -64,23 +66,35 @@ public class Worker extends Thread {
         endOfThread = false;
         try {
             try {
-
+                //Check the incoming from other Brokers.
                 if(!getEntrance()) {
+                    ArrayList<Integer> temporArray;
                     for (int i = 0; i < registeredBrokers.size(); i++) {
 
                         if (registeredBrokers.get(i).getAddress().equals(connection.getInetAddress().getHostAddress())) {
-                            System.out.println("You son of a bitch. Im in.");
-
                             Message temp = (Message) in.readObject();
+                            temporArray = temp.getHashtable();
+                            System.out.println("You son of a bitch. Im in.");
+                            System.out.println(myHash);
+                            System.out.println(temp.getMyHash());
 
-                            for (int j = 0; j < artists.size(); j++) {
-                                if (artists.get(j)<temp.getMyHash()) {
-                                    artists.remove(artists.get(j));
+                            if(myHash > temp.getMyHash()) {
+                                System.out.println("edw mphka");
+
+                                for (int j = 0; j < artists.size(); j++) {
+                                    if (artists.get(j) < temp.getMyHash()) {
+                                        artists.remove(artists.get(j));
+                                    }
+                                }
+                            }else{
+                                System.out.println("oxi edw");
+
+                                for (int j = 0; j < temporArray.size(); j++) {
+                                    if (temporArray.get(j) < myHash) {
+                                        temporArray.remove(temp.getHashtable().get(j));
+                                    }
                                 }
                             }
-
-                            BrokersHashtable.add(i, temp.getHashtable());
-
                             for (int j = 0; j < BrokersHashtable.size(); j++) {
                                 if(BrokersHashtable.get(j) != null && !changed){
                                     BrokersHashtable.add(BrokersHashtable.get(j));
@@ -91,7 +105,7 @@ public class Worker extends Thread {
                                     BrokersHashtable.remove(BrokersHashtable.get(j));
                                 }
                             }
-
+                            BrokersHashtable.add(i, temporArray);
                         }
                     }
                     if (BrokersHashtable.size() == registeredBrokers.size()-1) {
@@ -99,7 +113,7 @@ public class Worker extends Thread {
                         entrance = true;
                     }
                 }
-                else {
+                else { //Check the incoming from Client.
 
                     Message request = (Message) in.readObject();
                     System.out.println("Message received from Client.");

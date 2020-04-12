@@ -69,14 +69,15 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
                 //Message temp = (Message) in.readObject();
                 BrokerList = temp.getBrokers();
                 BrokerHashtables = temp.getBrokersHashtable();
-
+                //System.out.println(BrokerHashtables.size());
                 for(int j = 0; j < BrokerHashtables.size(); j++){
-
+                    for (int i = 0; i<BrokerHashtables.get(j).size(); i++){
+                        System.out.println(BrokerHashtables.get(j).get(i));
+                    }
                     ArrayList<Integer> temp2 = BrokerHashtables.get(j);
 
                     if (temp2.contains(artist.getArtistName().hashCode())) {
-                        System.out.println(BrokerList.get(j).getAddress());
-                        System.out.println(BrokerList.get(j).getPort() - 1);
+                        System.out.println("pou eisai");
 
                         tempBroker = new Broker(BrokerList.get(j).getAddress(), BrokerList.get(j).getPort() - 1);
 
