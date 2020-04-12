@@ -19,26 +19,31 @@ public class Node {
         this.id = id;
     }
 
+    //Set method basically
     public void init(int i){
 
         this.id = i;
 
     }
 
+    // Setters/Getters
+
     //Reading the addresses of the Brokers form the csv file.
     public void setBrokers(File Brokers) {
-
-        List<String> temp = ReadFile(Brokers);
+        //Stores the result return from ReadFile temporarily.
+        ArrayList<String> temp = ReadFile(Brokers);
         for(int i = 0; i < temp.size(); i = i + 2){
+            //Basically gets the first and second place of each row(ip,port),creates an instance and adds it to the main arraylist.
             this.brokers.add(new Broker(temp.get(i), Integer.parseInt(temp.get(i + 1))));
         }
     }
 
-    public List<Broker> getBrokers(){
+    public ArrayList<Broker> getBrokers(){
         return brokers;
     }
 
-    public List ReadFile(File Brokers){
+    //Reads the file that includes Brokers information inserted in the beginning.
+    public ArrayList<String> ReadFile(File Brokers){
 
         try (BufferedReader br = new BufferedReader(new FileReader(Brokers))) {
 
@@ -59,12 +64,14 @@ public class Node {
         return addr;
     }
 
-    //Methods for the connection.
+    //Method used for the connection.
     public void connect(){
         try {
-            socket = new Socket("127.0.0.1", 4321); //opens connection    //"127.0.0.1" sees as server the cpu of my own pc
+
+            socket = new Socket("127.0.0.1", 4321); //opens connection
             out = new ObjectOutputStream(socket.getOutputStream()); // streams
             in = new ObjectInputStream(socket.getInputStream());    //  used
+
         }catch (IOException ioException) {
             ioException.printStackTrace();
         }
@@ -80,12 +87,6 @@ public class Node {
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-    }
-
-
-    public void updateNodes(){
-
-
     }
 
 }

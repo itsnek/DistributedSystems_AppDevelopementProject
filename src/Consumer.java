@@ -1,23 +1,22 @@
 import java.io.*;
 import java.net.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.StandardOpenOption;
 import java.util.*;
+import java.nio.file.*;
 
 public class Consumer extends Node { //den ginetai me to extend thread na kanw extend mia allh klash taytoxrona,me to interface runnable mporw
 
     String arg1,arg2;
     int hash,i = 0;
-    Message broker;
+    Broker tempBroker;
     List<Broker> BrokerList ;
     List<ArrayList<Integer>> BrokerHashtables ;
-    LinkedList<MusicChunk> SongReceived = new LinkedList<>(); ;
+    LinkedList<MusicChunk> SongReceived = new LinkedList<>();
     private Socket requestSocket = null;
     private ObjectOutputStream out = null;
     private ObjectInputStream in = null;
     boolean found = false;
+
+    //Constructors
 
     Consumer(){}
 
@@ -33,6 +32,8 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
         arg2 = b;
     }
 
+    //Setters / getters
+
     public String getArg1() {
         return arg1;
     }
@@ -41,41 +42,47 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
         return arg2;
     }
 
+    public Boolean getFound(){
+        return found;
+    }
+
     public void handshake(ArtistName artist){
 
-        //boolean foundCorrectBroker = false;
         try {
-
+            //Creates request socket.
             requestSocket = new Socket("192.168.2.5", 50221);
-            out = new ObjectOutputStream(requestSocket.getOutputStream());
-            in = new ObjectInputStream(requestSocket.getInputStream());
+            out = new ObjectOutputStream(requestSocket.getOutputStream());  // Streams
+            in = new ObjectInputStream(requestSocket.getInputStream());     //  used
 
-            int artistHash = artist.getArtistName().hashCode();
+            tempBroker = new Broker("192.168.2.5", 50221);
 
-            Message handshake = new Message(artistHash);
+            Message handshake = new Message(artist.getArtistName(),null);
 
+            //Sends artist's name.
             out.writeObject(handshake);
 
+            //Checks his response.
             Message temp = (Message) in.readObject();
             if(temp.getBoolean()){
+                //Receives the hashtables and BrokerList
                 BrokerList = temp.getBrokers();
                 BrokerHashtables = temp.getBrokersHashtable();
+                found = true;
             }else{
 
                 System.out.println("Im not serving this artist. Here are all the other Brokers");
 
-                //Message temp = (Message) in.readObject();
+                //Receives the hashtables and BrokerList
                 BrokerList = temp.getBrokers();
                 BrokerHashtables = temp.getBrokersHashtable();
 
                 for(int j = 0; j < BrokerHashtables.size(); j++){
 
                     ArrayList<Integer> temp2 = BrokerHashtables.get(j);
-                    if (temp2.contains(artistHash)) {
-                        requestSocket = new Socket(BrokerList.get(j).getAddress(), BrokerList.get(j).getPort() - 1);
-                        out = new ObjectOutputStream(requestSocket.getOutputStream());
-                        out.flush();
-                        in = new ObjectInputStream(requestSocket.getInputStream());
+
+                    if (temp2.contains(artist.getArtistName().hashCode())) {
+
+                        tempBroker = new Broker(BrokerList.get(j).getAddress(), BrokerList.get(j).getPort() - 1);
 
                         found = true;
                     }
@@ -97,27 +104,16 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
         }
     }
 
-    public void lookForArtist(ArtistName artN){
+    public void requestSong(ArtistName artist,String song){
+
         try {
 
-            Message request = new Message(artN.getArtistName());
-            System.out.println("Message created.");
-            out.writeObject(request); //send message
+            requestSocket = new Socket(tempBroker.getAddress(), tempBroker.getPort());
+            out = new ObjectOutputStream(requestSocket.getOutputStream());
             out.flush();
-            System.out.println("Message sent.");
+            in = new ObjectInputStream(requestSocket.getInputStream());
 
-        }catch (UnknownHostException unknownHost) {
-            System.out.println("Error!You are trying to connect to an unknown host!");
-        }catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-    }
-
-    public void requestSong(String song){
-
-        try {
-
-            Message requestSong = new Message(song); // create message
+            Message requestSong = new Message(artist.getArtistName(),song); // create message
             System.out.println("Message of the song created.");
             out.writeObject(requestSong); //send message
             out.flush();
@@ -132,45 +128,62 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
     }
 
     public void playData (){
-
+        //Gets file's path.
+        File myObj = new File("D:\\Nikos\\Documents\\GitHub\\distributed\\song.mp3");
         try {
-            //Collecting them in a queue.Another option is to collect them in a folder.
-            Message temp = (Message) in.readObject();
-            SongReceived.add(temp.getChunk()); //try to read received message,the type may differ.
-            int recievedChunks = 1;
-            while (recievedChunks < temp.getChunk().getTotalPartitions()) {
-                if (in.available() > 0) { //if there is avaliable chunk  use a method avaliable() from ObjectInputStream
-                    temp = (Message) in.readObject();
-                    SongReceived.add(temp.getChunk());
-                    recievedChunks++;
+            while(true) {
+                if(in.readObject()!=null){
+                    break;
                 }
             }
 
+            //Collecting them in a queue.Another option is to collect them in a folder.
+            Message temp1 = (Message) in.readObject();
+
+            SongReceived.add(temp1.getChunk()); //try to read received message,the type may differ.
+
+            int recievedChunks = 1;
+            while (recievedChunks < temp1.getChunk().getTotalPartitions()) {
+
+                Message temp = (Message) in.readObject();
+
+                SongReceived.add(temp.getChunk());
+                recievedChunks++;
+
+            }
+
+            //Writes the in order in a file,which is playable.
             try {
                 int partLookingFor = 0;
+
                 for (int i=0; i<SongReceived.size(); i++) {
+
                     boolean foundChunk = false;
                     int j = 0;
+
+                    myObj.createNewFile();
+
                     while (!foundChunk) {
                         if (partLookingFor == SongReceived.get(j).getPartitionNumber()) {
-                            Files.write(Paths.get("Project\\song.mp3"), SongReceived.get(j).getPartition(), StandardOpenOption.APPEND);
+                            Files.write(Paths.get("song.mp3"), SongReceived.get(j).getPartition(), StandardOpenOption.APPEND);
                             foundChunk = true;
+                            System.out.println ("Writing File");
+
                         }
                         j++;
                     }
                     partLookingFor++;
                 }
+
             } catch (UnsupportedOperationException unsO) {
                 System.out.println ("Appending isn't available.");
                 unsO.printStackTrace();
             } catch (SecurityException sec) {
-              sec.printStackTrace();
-            } catch (IOException io) {
-                io.printStackTrace();
+                sec.printStackTrace();
+            } catch (EOFException eof) {
+                System.out.println("error");
+                eof.printStackTrace();
             }
-
-
-            //TODO:Start playing each chunk(suggested method ---> manually)
 
         }catch (ClassNotFoundException e) {
             System.out.println("/nUnknown object type received.");
@@ -193,60 +206,29 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
         }
 
     }
-//
-//    public void run(){
-//
-//        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-//        ArtistName artist = new ArtistName(myObj.nextLine());
-//
-//        //Handshake with a random broker and check if its the correct one and register, else try again.
-//        handshake(artist);
-//        //Look for the songs of one artist.
-//        lookForArtist(artist);
-//        //Request artist's song.
-//        System.out.println("Which song of this artist do you want to listen?/n");
-//        requestSong(myObj.nextLine());
-//        //Collect received chunks and play them manually.
-//        playData();
-//
-//        disconnect();
-//
-//    }
 
-
-//    public static void main(String args[]) {
-//
-//        //First thread created and executed
-//        Consumer cons1 = new Consumer();
-//        Thread t1 = new Thread(cons1);
-//        t1.start();
-//
-//        //Second thread created and executed
-//       /* Consumer cons2 = new Consumer();
-//        Thread t2 = new Thread(cons2);
-//        t2.start();*/
-//
-//    }
-    //THE MAIN FOR EVERY CONSUMER AFTER THE FINAL VERSION :
     public static void main(String args[]) {
 
         Consumer cons1 = new Consumer();
         Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-        ArtistName artist = new ArtistName(myObj.nextLine());
+        ArtistName artist = new ArtistName(myObj.nextLine()); //Client inserts the artist he wants.
 
         //Handshake with a random broker and check if its the correct one and register, else try again.
         cons1.handshake(artist);
 
-        //Look for the songs of one artist.
-        cons1.lookForArtist(artist);
+        if (cons1.getFound()) {
+            //Request artist's song.
+            System.out.println("Which song of this artist do you want to listen?/n");
+            cons1.requestSong(artist,myObj.nextLine());
 
-        //Request artist's song.
-        System.out.println("Which song of this artist do you want to listen?/n");
-        cons1.requestSong(myObj.nextLine());
+            //Put the incoming chunks in a file that can be played manually.
+            cons1.playData();
 
-        cons1.playData();
+            System.out.println("Enjoy!");
 
-        cons1.disconnect();
+        }
+        myObj.close();
+        //cons1.disconnect();
     }
 
 }

@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,8 +27,13 @@ public class MusicFile {
     }
 
     public ArrayList<MusicChunk> createChunks () {
+
         try {
-            byte [] bytesOfSong = Files.readAllBytes(Paths.get(filename));
+            //Path of folder of the song plus tracks name.
+            Path p = Paths.get("D:\\Nikos\\Documents\\οπα\\Κατανεμημένα συστήματα\\Project\\Datasets\\dataset2\\dataset2\\" + filename);
+
+            byte [] bytesOfSong = Files.readAllBytes(p);
+
             chunks = new ArrayList<MusicChunk>();
             MusicChunk ch;
             if (bytesOfSong.length <= MAXIMUM_CHUNK_SIZE) {
@@ -45,7 +51,7 @@ public class MusicFile {
             }
             if (bytesOfSong.length % MAXIMUM_CHUNK_SIZE > 0) {
                 partition = Arrays.copyOfRange (bytesOfSong, numberOfChunks * MAXIMUM_CHUNK_SIZE, bytesOfSong.length);
-                ch = new MusicChunk(this.artistName, this.trackName, partition, numberOfChunks + 1);
+                ch = new MusicChunk(this.artistName, this.trackName, partition, numberOfChunks);
                 numberOfChunks++;
                 chunks.add(ch);
             }
@@ -56,6 +62,10 @@ public class MusicFile {
 
         } catch (IOException ioe) {
             ioe.getMessage();
+            return null;
+        }catch (OutOfMemoryError out) {
+            return null;
+        }catch (SecurityException sec) {
             return null;
         }
     }
