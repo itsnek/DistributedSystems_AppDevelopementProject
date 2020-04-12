@@ -151,7 +151,7 @@ public class Broker extends Node implements Serializable  {
 
                     connection = providerSocket.accept();
 
-                    Worker wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists, BrokersHashtables);
+                    Worker wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists, BrokersHashtables,getMyHash());
 
                     System.out.println("U son of bitch.Im in.");
                     new Thread(wk).start();
@@ -184,7 +184,7 @@ public class Broker extends Node implements Serializable  {
             while (true) {
                 connection = providerSocket.accept();
 
-                Worker wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists, BrokersHashtables);
+                Worker wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists, BrokersHashtables,getMyHash());
                 wk.setEntrance(true);
                 System.out.println("Worker created.");
 
