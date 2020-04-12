@@ -26,6 +26,8 @@ public class Worker extends Thread {
     private boolean endOfThread = false;
     private boolean changed = false,entrance = false;
 
+    // Constructors
+
     public Worker(Socket connection,ArrayList<Consumer> registeredUsers,ArrayList<Publisher> registeredPublishers,ArrayList<Broker> registeredBrokers,ArrayList<Integer> artists,ArrayList<ArrayList<Integer>> BrokersHashtable,int myHash) {
         this.registeredUsers = registeredUsers;
         this.registeredBrokers = registeredBrokers;
@@ -41,6 +43,8 @@ public class Worker extends Thread {
             e.printStackTrace();
         }
     }
+
+    // Setters / Getters
 
     public ArrayList<Consumer> getRegisteredUsers() {
         return registeredUsers;
@@ -62,6 +66,7 @@ public class Worker extends Thread {
         return BrokersHashtable;
     }
 
+
     public void run() {
         endOfThread = false;
         try {
@@ -73,15 +78,18 @@ public class Worker extends Thread {
                     for (int i = 0; i < registeredBrokers.size(); i++) {
 
                         if (registeredBrokers.get(i).getAddress().equals(connection.getInetAddress().getHostAddress())) {
+                            //Receives the message from every Broker.
                             Message temp = (Message) in.readObject();
                             temporArray = temp.getHashtable();
+                            //Adds value to this field in the the registeredBrokers existing arraylist.
                             registeredBrokers.get(i).setMyHash(temp.getMyHash());
-                            System.out.println("You son of a bitch. Im in.");
 
+                            //Compares the hashes so as to make the necessary changes if a hash has bigger value than all Brokers hashes.
                             if(smallestHash > temp.getMyHash()) {
                                 smallestHash = temp.getMyHash();
                             }
 
+                            //Here removes the hashes that already exist in Brokers with smaller/bigger hash,depending on circumstances.
                             if(myHash > temp.getMyHash()) {
                                 biggestHash = myHash;
                                 for (int j = 0; j < artists.size(); j++) {
@@ -98,6 +106,7 @@ public class Worker extends Thread {
                                 }
                             }
 
+                            //Checks for any null value left from the initiating of the arraylist and removes it.
                             for (int j = 0; j < BrokersHashtable.size(); j++) {
                                 if(BrokersHashtable.get(j) != null && !changed){
                                     BrokersHashtable.add(BrokersHashtable.get(j));
@@ -113,8 +122,8 @@ public class Worker extends Thread {
 
                         }
                     }
+                    //Condition so as to know when no more Broker message will occur.
                     if (BrokersHashtable.size() == registeredBrokers.size()-1) {
-                        System.out.println("mphka3");
                         entrance = true;
                     }
                 }
@@ -128,34 +137,36 @@ public class Worker extends Thread {
 
                     //Checks if the hash of the client is less than the Broker's.
                     if (!artists.contains(artistHash)) {
-                        System.out.println("here");
+                        //Return Hashtables and BrokerList to the client.
                         Message brokersInfo = new Message(BrokersHashtable, registeredBrokers,false);
                         out.writeObject(brokersInfo);
 
-                        if(artistHash > biggestHash){
-
-                            artistHash = artistHash%smallestHash;
-
-                            for (int j = 0; j < BrokersHashtable.size(); j++) {
-                                if(registeredBrokers.get(j).getMyHash() == smallestHash){
-                                    BrokersHashtable.get(j).add(artistHash);
-                                }
-                            }
-
-                        }
+                        //Compares the hashes so as to make the necessary changes if a hash has bigger value than all Brokers hashes.
+//                        if(artistHash > biggestHash){
+//
+//                            artistHash = artistHash%smallestHash;
+//
+//                            for (int j = 0; j < BrokersHashtable.size(); j++) {
+//                                if(registeredBrokers.get(j).getMyHash() == smallestHash){
+//                                    BrokersHashtable.get(j).add(artistHash);
+//                                }
+//                            }
+//
+//                        }
                     } else {
+                        //Return Hashtables and BrokerList to the client.
                         Message brokersInfo = new Message(BrokersHashtable, registeredBrokers, true);
                         out.writeObject(brokersInfo);
+                        //Checks if the user is already registered.
                         if (!registeredUsers.contains(new Consumer(connection.getInetAddress().getHostAddress()))) {
                             registeredUsers.add(new Consumer(connection.getInetAddress().getHostAddress()));
                         }
                         if (requestedSong!=null) {
-                            System.out.println("hi");
 
                             try {
                                 for (int i = 0; i < registeredPublishers.size(); i++) {
-                                    //TODO: Check the limits,doesnt find the correct publisher.
 
+                                    //Delivers the message to the appropriate Publisher.
                                     if (request.toString().charAt(0) >= registeredPublishers.get(i).getScope().charAt(0) && request.toString().charAt(0) <= registeredPublishers.get(i).getScope().charAt(1)) {
 
                                         requestSocket = new Socket(registeredPublishers.get(i).getAddress(), 50190); //opens connection
@@ -174,43 +185,36 @@ public class Worker extends Thread {
                             } catch (IOException ioException) {
                                 ioException.printStackTrace();
                             }
+
                             System.out.println("Job's done!");
+
+                            //Reads incoming message(chunk) from the publisher and passes it back to the consumer.
+                            //Getting first chunk.
                             int totalPartitions;
                             while (true) {
 
                                 Message chunk = (Message) publisherIn.readObject();
 
                                 totalPartitions = chunk.getChunk().getTotalPartitions();
-                                System.out.println("edw eimai");
-                                System.out.println(chunk.getChunk().getPartitionNumber());
-                                System.out.println(chunk.getChunk().getPartition().length);
 
                                 out.writeObject(chunk);
                                 break; //It get out from while by "break;" .
 
                             }
+
+                            //Getting the rest chunks.
                             int chunksSent = 1;
                             while (chunksSent < totalPartitions) {
 
-                                System.out.println("edw mpainw " + chunksSent);
-
                                 Message chunk = (Message) publisherIn.readObject();
 
-                                System.out.println(chunk.getChunk().getPartitionNumber() + " + " + chunk.getChunk().getPartition().length);
-
                                 out.writeObject(chunk);
-                                System.out.println("teleiwses?");
-                                chunksSent++;
-                                System.out.println(chunksSent);
-                            }
-                            System.out.println("Object returning to client...");
-                            long startTime = System.currentTimeMillis();
-                            long elapsedTime = 0L;
 
-                            while (elapsedTime < 10*1000) {
-                                //perform db poll/check
-                                elapsedTime = (new Date()).getTime() - startTime;
+                                chunksSent++;
+
                             }
+
+                            System.out.println("Object returning to client...");
 
                         }
                     }

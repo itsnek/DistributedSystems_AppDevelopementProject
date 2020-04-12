@@ -15,6 +15,8 @@ public class Message implements Serializable {
     MusicChunk Chunk;
     boolean t;
 
+    // CONSTRUCTORS
+
     public Message(String a){
         this.a = a;
     }
@@ -63,6 +65,7 @@ public class Message implements Serializable {
     }
 
 
+    //  GETTERS
 
     public List<ArrayList<Integer>> getBrokersHashtable() { return BrokersHashtable; }
     public MusicChunk getChunk() { return Chunk; }

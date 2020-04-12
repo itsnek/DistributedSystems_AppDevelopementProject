@@ -7,6 +7,7 @@ class MusicChunk implements Serializable {
     private int partitionNumber; // # of chunk
     private int totalPartitions; // the total number of partitions
 
+    // CONSTRUCTORS
     public MusicChunk () {
         this.artistName = null;
         this.songTitle = null;
@@ -21,6 +22,8 @@ class MusicChunk implements Serializable {
         this.partitionNumber = partitionNumber;
         totalPartitions = 0;
     }
+
+    //  SETTERS / GETTERS
 
     public void setArtistName(String artistName){
         this.artistName = artistName;

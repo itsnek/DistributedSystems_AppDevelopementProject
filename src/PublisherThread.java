@@ -13,6 +13,7 @@ public class PublisherThread extends Thread{
     boolean found = false;
     boolean foundS = false;
 
+    //Constructor
     public PublisherThread (Socket cs , ArrayList Artists , ArrayList Songs) {
 
         this.Artists = Artists;
@@ -32,39 +33,7 @@ public class PublisherThread extends Thread{
 
     }
 
-//    public void pushList(String artN){
-//
-//        try {
-//
-//            //First returns the list of the artist's songs,or failure message.
-//            out.writeBytes(artN + "'s list of songs :");
-//            for (int i = 0; i < Songs.size(); i++) {
-//                if (Songs.get(i).getArtistName().equals(artN)) {
-//                    out.writeBytes(Songs.get(i).getTrackName());
-//                    found = true;
-//                }
-//            }
-//
-//        }catch (IOException ioe) {
-//            ioe.printStackTrace();
-//        }
-//
-//    }
-//
-//    public  void notifyFailure() {
-//        try {
-//
-//            out.writeBytes("Sorry,we don't have any songs of this artist.");
-//
-//            found = false;
-//            foundS = false;
-//
-//        } catch (IOException ioe) {
-//            ioe.printStackTrace();
-//        }
-//    }
-
-
+    //Main method used for passing the chunks to the brokers.
     public void push(String song){
 
         try {
@@ -73,16 +42,15 @@ public class PublisherThread extends Thread{
             for (int i = 0; i < Songs.size(); i++) {
 
                 if (Songs.get(i).getTrackName().equals(song)) {
-                    System.out.println(Songs.get(i).getTrackName());
 
+                    //Divides song into chunks.
                     Chunks = Songs.get(i).createChunks();
 
-                    System.out.println("Chunks : " + Chunks.size());
                     System.out.println("Job's done here!");
 
                     for (int j = 0; j < Chunks.size(); j++) {
 
-                        System.out.println(Chunks.get(j).getPartitionNumber() + " + " +  Chunks.get(j).getPartition().length);
+                        //Starts sending chunks one by one,without waiting a response though.
                         Message temp = new Message(Chunks.get(j));
                         out.writeObject(temp);
                         out.flush();
@@ -95,6 +63,7 @@ public class PublisherThread extends Thread{
                 }
             }
 
+            //If not found returns an appropriate message.
             if (!foundS){
                 out.writeBytes("Invalid input!Song not found.");
             }
@@ -108,8 +77,8 @@ public class PublisherThread extends Thread{
     public void run () {
 
         try {
-
-            Message request = (Message) in.readObject();     // Gives value to inputStream.
+            //Reads the message delivered from the Broker.
+            Message request = (Message) in.readObject();
             System.out.println("Message received from Broker.");
 
             push(request.toString());

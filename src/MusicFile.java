@@ -27,18 +27,12 @@ public class MusicFile {
     }
 
     public ArrayList<MusicChunk> createChunks () {
-        System.out.println("mphka Chunks");
 
         try {
+            //Path of folder of the song plus tracks name.
             Path p = Paths.get("D:\\Nikos\\Documents\\οπα\\Κατανεμημένα συστήματα\\Project\\Datasets\\dataset2\\dataset2\\" + filename);
 
             byte [] bytesOfSong = Files.readAllBytes(p);
-            System.out.println(bytesOfSong.length);
-
-            for(int i = 0; i <10; i++){
-
-                System.out.println(bytesOfSong[i]);
-            }
 
             chunks = new ArrayList<MusicChunk>();
             MusicChunk ch;
@@ -70,10 +64,8 @@ public class MusicFile {
             ioe.getMessage();
             return null;
         }catch (OutOfMemoryError out) {
-            System.out.println("ayto");
             return null;
         }catch (SecurityException sec) {
-            System.out.println("h ayto");
             return null;
         }
     }

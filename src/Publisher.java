@@ -19,20 +19,18 @@ public class Publisher extends Node{
     private String scope,address;
     String artistname;
 
+    //Constructors
 
     Publisher(){
 
     }
 
-    /*Publisher(int Hashkey){
-        this.Hashkey = Hashkey;
-        //this.Scope = Scope;
-    }*/
-
     Publisher(String address,String scope){
         this.address = address;
         this.scope = scope;
     }
+
+    // Setters/Getters
 
     public String getAddress() {
         return address;
@@ -50,6 +48,7 @@ public class Publisher extends Node{
         Brokers = super.getBrokers();
     }
 
+    //Gives values inserted by an external file to the fields.
     public void init () {
 
         getSongNames();
@@ -59,14 +58,16 @@ public class Publisher extends Node{
 
     private void ReadDataFile (String artistsToGet) {
 
+        //Filepath
         File file = new File ("D:\\Nikos\\Documents\\οπα\\Κατανεμημένα συστήματα\\Project\\Datasets\\dataset2\\dataset2");
         Mp3File mp3File;
         ID3v1 id3v1Tag;
         ID3v2 id3v2Tag;
-        File [] list = file.listFiles(); // h arxikh lista pou periexei ola ta arxeia
+        File [] list = file.listFiles(); // Initiating list with all the files
 
         for (int i=0; i<list.length; i++) {
 
+            //Distinct the files with null fields.
             if (!list[i].getName().startsWith("._") && list[i].getName().endsWith(".mp3")) {
 
                 try {
@@ -107,7 +108,7 @@ public class Publisher extends Node{
                         }
                     }
 
-                }  catch (UnsupportedTagException unsTag) { // I put catch here so lines after "mp3File = new Mp3File (songs.get(i));" be not executed and program proceed to next repetition in for loop.
+                }  catch (UnsupportedTagException unsTag) {
                     System.out.println("We caught UnsupportedTagException");
                     unsTag.printStackTrace();
                 } catch (InvalidDataException invData) {
@@ -149,23 +150,23 @@ public class Publisher extends Node{
     }
 
     public void notifyBrokers(){
+        //Get the registered Brokers from the parent class(inserted by a txt file).
         getBrokerList();
         try {
             for (int i = 0; i < brokers.size(); i++) {
 
-
+                //Creates a request socket.
                 requestSocket = new Socket(brokers.get(i).getAddress(), brokers.get(i).getPort());
                 out = new ObjectOutputStream(requestSocket.getOutputStream());
                 in = new ObjectInputStream(requestSocket.getInputStream());
 
+                //Unite the Broker's information(Hashtable + Range of artists that he is responsible).
                 Message ArtistListPlusScope = new Message(Artists, getScope());
 
                 out.writeObject(ArtistListPlusScope);
 
                 Message temp = (Message) in.readObject();
-//                if(temp.getHashtable().size() != 0) {
-//                    BrokersHashtables.add(i, temp.getHashtable());
-//                }
+
             }
         }catch(UnknownHostException unknownHost){
             System.out.println("Error!You are trying to connect to an unknown host!");
@@ -181,9 +182,8 @@ public class Publisher extends Node{
     // Create client side connection.
     public void connect() {
         try {
-            System.out.println("eimai edw");
+            //Publisher creates a listening channel,listening in a specific port.
             serverSocket = new ServerSocket(startingSocketNumber, 2);
-            System.out.println("exw mpei");
 
             while (true) {
 
@@ -226,13 +226,12 @@ public class Publisher extends Node{
                 String Scope = scanner.nextLine();
                 p.setScope(Scope);
                 p.ReadDataFile(Scope);
-                //p2.ReadDataFile(Scope);
             }
 
             //Initiate the arraylists of each publisher with the appropriate songs.
             p.init();
 
-            //Get the Broker's ips and ports.
+            //Get the Broker's IPs and ports.
             p.setBrokers(new File("src\\Brokers.txt"));
 
             //Notify every Broker about your artist's Scope.
