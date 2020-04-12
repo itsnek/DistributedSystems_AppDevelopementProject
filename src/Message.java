@@ -6,7 +6,7 @@ import java.util.List;
 public class Message implements Serializable {
     //private static final long serialVersionUID = 7526472295622776147L;
     String a, address,song;
-    int hash, artist,port, artistHash;
+    int hash, artist,port, artistHash,myHash;
     ArrayList<String> artists;
     ArrayList<Integer> hashtable;
     ArrayList<Broker> Brokers;
@@ -47,6 +47,11 @@ public class Message implements Serializable {
         this.hashtable = hashtable;
     }
 
+    public Message(ArrayList<Integer> hashtable,int myHash){
+        this.hashtable = hashtable;
+        this.myHash = myHash;
+    }
+
     public Message(List<ArrayList<Integer>> BrokersHashtable, ArrayList<Broker> Brokers,boolean t){
         this.BrokersHashtable = BrokersHashtable;
         this.Brokers = Brokers;
@@ -75,5 +80,6 @@ public class Message implements Serializable {
     public boolean getBoolean(){
         return t;
     }
+    public int getMyHash() { return myHash; }
 
 }
