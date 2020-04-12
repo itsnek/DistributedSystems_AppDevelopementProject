@@ -19,7 +19,7 @@ public class Broker extends Node implements Serializable  {
     ArrayList<ArrayList<Integer>> BrokersHashtables = new ArrayList<>();
     ObjectInputStream in;
     final static int BrokersPort = 50850;
-    int serverHash, port;
+    int serverHash, port , myHash;
     String address,Scope;
     boolean entrance = false;
 
@@ -46,6 +46,8 @@ public class Broker extends Node implements Serializable  {
         return port;
     }
 
+    public int getMyHash() { return myHash; }
+
     public void init() {
         registeredBrokers = super.getBrokers();
 
@@ -64,8 +66,8 @@ public class Broker extends Node implements Serializable  {
         }
     }
 
-    public int calculateKeys(Socket connection) {
-        String ip = connection.getInetAddress().getHostAddress();
+    public int calculateKeys(Socket connection) throws UnknownHostException {
+        String ip = InetAddress.getLocalHost().getHostAddress();
         String socketNumber = String.valueOf(connection.getLocalPort());
         String sum = ip + socketNumber;
         serverHash = sum.hashCode();
@@ -82,15 +84,16 @@ public class Broker extends Node implements Serializable  {
                     BrokersHashtables.add(i, artists);
                 }
             }
-            BrokerCommunicator BrC = new BrokerCommunicator(artists, registeredBrokers);
+            BrokerCommunicator BrC = new BrokerCommunicator(artists, registeredBrokers,getMyHash());
             new Thread(BrC).start();
         }catch (UnknownHostException unknownHost){
             System.out.println("Error!You are trying to connect to an unknown host!");
         }
     }
 
-    public void receiveArtists(ArrayList<String> artistsMessage,Socket connection){
-        int myHash = calculateKeys(connection);
+    public void receiveArtists(ArrayList<String> artistsMessage,Socket connection) throws UnknownHostException{
+        myHash = calculateKeys(connection);
+        System.out.println(myHash);
         for(int i = 0; i < artistsMessage.size(); i++) {
             if (myHash > artistsMessage.get(i).hashCode() && !artists.contains(artistsMessage.get(i).hashCode())) {
                 artists.add(artistsMessage.get(i).hashCode());
@@ -159,16 +162,19 @@ public class Broker extends Node implements Serializable  {
                     BrokersHashtables = wk.getBrokersHashtable();
                     System.out.println(BrokersHashtables.size());
 
-                    if (BrokersHashtables.size() == registeredBrokers.size()) {
-                        System.out.println("Yo");
-                        entrance = wk.getEntrance();
-                        break;
-                    }
+                   // if (BrokersHashtables.size() == registeredBrokers.size()) {
+                    System.out.println("Yo");
+                    entrance = wk.getEntrance();
+                    break;
+                   // }
                 }
                 //connection.close();
             }
 
 
+            for (int i = 0; i<artists.size(); i++){
+                System.out.println(artists.get(i));
+            }
             //if true, register the new client and start a worker in normal mode.
             //TODO: Create a check so old clients are only registered once.
 
@@ -188,11 +194,6 @@ public class Broker extends Node implements Serializable  {
                 }
                 registeredUsers = wk.getRegisteredUsers();
             }
-//                    if() {
-//                        connection.close();
-//                    }
-
-
 
         }catch (IOException ioException) {
             ioException.printStackTrace();

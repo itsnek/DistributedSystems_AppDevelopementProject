@@ -11,14 +11,16 @@ public class BrokerCommunicator extends Thread {
     ArrayList<Integer> hashtable;
     List<Broker> registeredBrokers;
     private Socket requestSocket = null;
+    private int myHash;
 
     BrokerCommunicator(){
 
     }
 
-    BrokerCommunicator(ArrayList<Integer> hashtable,List<Broker> registeredBrokers){
+    BrokerCommunicator(ArrayList<Integer> hashtable,List<Broker> registeredBrokers,int myHash){
         this.hashtable = hashtable;
         this.registeredBrokers = registeredBrokers;
+        this.myHash = myHash;
     }
 
     public void run() {
@@ -36,7 +38,7 @@ public class BrokerCommunicator extends Thread {
                         ObjectOutputStream out = new ObjectOutputStream(requestSocket.getOutputStream());
                         //ObjectInputStream in = new ObjectInputStream(requestSocket.getInputStream());
 
-                        out.writeObject(new Message(hashtable));
+                        out.writeObject(new Message(hashtable,myHash));
 
                     } catch (IOException e) {
                         e.printStackTrace();

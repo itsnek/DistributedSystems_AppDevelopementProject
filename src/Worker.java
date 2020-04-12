@@ -23,7 +23,7 @@ public class Worker extends Thread {
     private ArrayList<Broker> registeredBrokers;
     private ArrayList<ArrayList<Integer>> BrokersHashtable;
     private boolean endOfThread = false;
-    private boolean entrance = false;
+    private boolean changed = false,entrance = false;
 
     public Worker(Socket connection,ArrayList<Consumer> registeredUsers,ArrayList<Publisher> registeredPublishers,ArrayList<Broker> registeredBrokers,ArrayList<Integer> artists,ArrayList<ArrayList<Integer>> BrokersHashtable) {
         this.registeredUsers = registeredUsers;
@@ -72,18 +72,26 @@ public class Worker extends Thread {
                             System.out.println("You son of a bitch. Im in.");
 
                             Message temp = (Message) in.readObject();
-                            BrokersHashtable.add(i, temp.getHashtable());
-                            for (int j = 0; j < BrokersHashtable.size(); j++) {
-                                if (BrokersHashtable.get(j) == null) {
-                                    BrokersHashtable.remove(j);
+
+                            for (int j = 0; j < artists.size(); j++) {
+                                if (artists.get(j)<temp.getMyHash()) {
+                                    artists.remove(artists.get(j));
                                 }
                             }
-                            System.out.println(i);
-                            System.out.println(BrokersHashtable.size());
-//                            if (registeredBrokers.size() == BrokersHashtable.size()) {
-//                                System.out.println("mphka3");
-//                                entrance = true;
-//                            }
+
+                            BrokersHashtable.add(i, temp.getHashtable());
+
+                            for (int j = 0; j < BrokersHashtable.size(); j++) {
+                                if(BrokersHashtable.get(j) != null && !changed){
+                                    BrokersHashtable.add(BrokersHashtable.get(j));
+                                    BrokersHashtable.remove(BrokersHashtable.get(j+1));
+                                    changed = true;
+                                }
+                                if (BrokersHashtable.get(j) == null) {
+                                    BrokersHashtable.remove(BrokersHashtable.get(j));
+                                }
+                            }
+
                         }
                     }
                     if (BrokersHashtable.size() == registeredBrokers.size()-1) {

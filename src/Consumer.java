@@ -73,7 +73,6 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
                 for(int j = 0; j < BrokerHashtables.size(); j++){
 
                     ArrayList<Integer> temp2 = BrokerHashtables.get(j);
-                    System.out.println("edw mphka");
 
                     if (temp2.contains(artist.getArtistName().hashCode())) {
                         System.out.println(BrokerList.get(j).getAddress());
@@ -235,6 +234,8 @@ public void playData (){
         Scanner myObj = new Scanner(System.in);  // Create a Scanner object
         ArtistName artist = new ArtistName(myObj.nextLine());
 
+        int i = artist.getArtistName().hashCode();
+        System.out.println(i);
         //Handshake with a random broker and check if its the correct one and register, else try again.
         cons1.handshake(artist);
 
