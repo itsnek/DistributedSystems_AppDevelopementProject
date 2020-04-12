@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import static java.lang.Integer.parseInt;
 public class Worker extends Thread {
 
     String requestedSong;
+    Message tempA;
     private Socket requestSocket = null;
     private Socket connection = null;
     ObjectOutputStream out = null;
@@ -114,13 +116,8 @@ public class Worker extends Thread {
                             try {
                                 for (int i = 0; i < registeredPublishers.size(); i++) {
                                     //TODO: Check the limits,doesnt find the correct publisher.
-                                    System.out.println(registeredPublishers.get(i).getScope().charAt(0));
-                                    System.out.println(registeredPublishers.get(i).getScope().charAt(1));
-                                    System.out.println(request.toString().charAt(0));
-                                    System.out.println(request.toString().charAt(1));
+
                                     if (request.toString().charAt(0) >= registeredPublishers.get(i).getScope().charAt(0) && request.toString().charAt(0) <= registeredPublishers.get(i).getScope().charAt(1)) {
-                                        System.out.println(registeredPublishers.get(i).getScope().charAt(0));
-                                        System.out.println(registeredPublishers.get(i).getScope().charAt(1));
 
                                         requestSocket = new Socket(registeredPublishers.get(i).getAddress(), 50190); //opens connection
                                         publisherOut = new ObjectOutputStream(requestSocket.getOutputStream()); // streams
@@ -130,6 +127,7 @@ public class Worker extends Thread {
                                         publisherOut.writeObject(new Message(requestedSong)); //send message
                                         publisherOut.flush();
                                         System.out.println("Message sent to publisher.");
+
                                     }
                                 }
                             } catch (UnknownHostException unknownHost) {
@@ -138,26 +136,43 @@ public class Worker extends Thread {
                                 ioException.printStackTrace();
                             }
                             System.out.println("Job's done!");
-                            System.out.println((Message) publisherIn.readObject());
                             int totalPartitions;
                             while (true) {
 
-                                if (publisherIn.available() > 0) {
-                                    Message chunk = (Message) publisherIn.readObject();
-                                    totalPartitions = chunk.getChunk().getTotalPartitions();
-                                    System.out.println(chunk.getChunk().getPartitionNumber());
-                                    out.writeObject(chunk);
-                                    break; //It get out from while by "break;" .
-                                }
+                                Message chunk = (Message) publisherIn.readObject();
+
+                                totalPartitions = chunk.getChunk().getTotalPartitions();
+                                System.out.println("edw eimai");
+                                System.out.println(chunk.getChunk().getPartitionNumber());
+                                System.out.println(chunk.getChunk().getPartition().length);
+
+                                out.writeObject(chunk);
+                                break; //It get out from while by "break;" .
+
                             }
                             int chunksSent = 1;
                             while (chunksSent < totalPartitions) {
-                                if (publisherIn.available() > 0) {
-                                    out.writeObject( (Message) publisherIn.readObject() );
-                                    chunksSent++;
-                                }
+
+                                System.out.println("edw mpainw " + chunksSent);
+
+                                Message chunk = (Message) publisherIn.readObject();
+
+                                System.out.println(chunk.getChunk().getPartitionNumber() + " + " + chunk.getChunk().getPartition().length);
+
+                                out.writeObject(chunk);
+                                System.out.println("teleiwses?");
+                                chunksSent++;
+                                System.out.println(chunksSent);
                             }
                             System.out.println("Object returning to client...");
+                            long startTime = System.currentTimeMillis();
+                            long elapsedTime = 0L;
+
+                            while (elapsedTime < 10*1000) {
+                                //perform db poll/check
+                                elapsedTime = (new Date()).getTime() - startTime;
+                            }
+
                         }
                     }
                 }
@@ -168,7 +183,6 @@ public class Worker extends Thread {
                     in.close();
                     out.close();
                     System.out.println("Bye");
-
                     endOfThread = true;
                 } catch (IOException ioException) {
                     ioException.printStackTrace();

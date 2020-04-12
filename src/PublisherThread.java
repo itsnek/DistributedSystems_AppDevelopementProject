@@ -82,9 +82,10 @@ public class PublisherThread extends Thread{
 
                     for (int j = 0; j < Chunks.size(); j++) {
 
-                        System.out.println(Chunks.get(j));
+                        System.out.println(Chunks.get(j).getPartitionNumber() + " + " +  Chunks.get(j).getPartition().length);
                         Message temp = new Message(Chunks.get(j));
                         out.writeObject(temp);
+                        out.flush();
 
                         System.out.println("Object returning to Broker...");
 
