@@ -158,7 +158,6 @@ public class Broker extends Node implements Serializable  {
                 while (true) {
                     //Waits for an incoming request.
                     connection = providerSocket.accept();
-                    System.out.println(getMyHash());
 
                     //Creates a worker/handler thread,used to read the incoming messages from other Brokers.
                     Worker wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists, BrokersHashtables,getMyHash());
@@ -183,8 +182,6 @@ public class Broker extends Node implements Serializable  {
             providerSocket = new ServerSocket(getPort() - 1, 10);
 
             while (true) {
-                System.out.println("Here we are");
-
                 //Waits for an incoming request.
                 connection = providerSocket.accept();
 

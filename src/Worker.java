@@ -142,17 +142,17 @@ public class Worker extends Thread {
                         out.writeObject(brokersInfo);
 
                         //Compares the hashes so as to make the necessary changes if a hash has bigger value than all Brokers hashes.
-//                        if(artistHash > biggestHash){
-//
-//                            artistHash = artistHash%smallestHash;
-//
-//                            for (int j = 0; j < BrokersHashtable.size(); j++) {
-//                                if(registeredBrokers.get(j).getMyHash() == smallestHash){
-//                                    BrokersHashtable.get(j).add(artistHash);
-//                                }
-//                            }
-//
-//                        }
+                        if(artistHash > biggestHash){
+
+                            artistHash = artistHash%smallestHash;
+
+                            for (int j = 0; j < BrokersHashtable.size(); j++) {
+                                if(registeredBrokers.get(j).getMyHash() == smallestHash){
+                                    BrokersHashtable.get(j).add(artistHash);
+                                }
+                            }
+
+                        }
                     } else {
                         //Return Hashtables and BrokerList to the client.
                         Message brokersInfo = new Message(BrokersHashtable, registeredBrokers, true);
@@ -225,7 +225,6 @@ public class Worker extends Thread {
                 try {
                     in.close();
                     out.close();
-                    System.out.println("Bye");
                     endOfThread = true;
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
