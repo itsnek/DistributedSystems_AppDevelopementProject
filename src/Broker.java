@@ -38,6 +38,8 @@ public class Broker extends Node implements Serializable  {
         this.address = address;
     }
 
+    public void setMyHash(int myHash) { this.myHash = myHash; }
+
     public String getAddress() {
         return address;
     }
@@ -162,13 +164,11 @@ public class Broker extends Node implements Serializable  {
                     BrokersHashtables = wk.getBrokersHashtable();
                     System.out.println(BrokersHashtables.size());
 
-                   // if (BrokersHashtables.size() == registeredBrokers.size()) {
                     System.out.println("Yo");
                     entrance = wk.getEntrance();
                     break;
-                   // }
+
                 }
-                //connection.close();
             }
 
 
