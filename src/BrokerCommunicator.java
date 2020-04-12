@@ -8,35 +8,41 @@ import java.util.Hashtable;
 import java.util.List;
 
 public class BrokerCommunicator extends Thread {
+
     ArrayList<Integer> hashtable;
     List<Broker> registeredBrokers;
     private Socket requestSocket = null;
+    private int myHash;
+
+    //Constructors
 
     BrokerCommunicator(){
 
     }
 
-    BrokerCommunicator(ArrayList<Integer> hashtable,List<Broker> registeredBrokers){
+    BrokerCommunicator(ArrayList<Integer> hashtable,List<Broker> registeredBrokers,int myHash){
         this.hashtable = hashtable;
         this.registeredBrokers = registeredBrokers;
+        this.myHash = myHash;
     }
 
     public void run() {
 
         try {
-
+            //Sends to every registered Broker the hashtable and the hash of the broker that created the thread.
             for (int i = 0; i < registeredBrokers.size(); i++) {
-
+                //Overrides his registry.
                 if (registeredBrokers.get(i).getAddress().equals(InetAddress.getLocalHost().getHostAddress())) {
                     System.out.println("This is my ip.");
                 } else {
                     try {
-
+                        //Creates a request socket.
                         requestSocket = new Socket(registeredBrokers.get(i).getAddress(), 50850);
                         ObjectOutputStream out = new ObjectOutputStream(requestSocket.getOutputStream());
                         //ObjectInputStream in = new ObjectInputStream(requestSocket.getInputStream());
 
-                        out.writeObject(new Message(hashtable));
+                        //Sends his information.
+                        out.writeObject(new Message(hashtable,myHash));
 
                     } catch (IOException e) {
                         e.printStackTrace();

@@ -13,6 +13,7 @@ public class PublisherThread extends Thread{
     boolean found = false;
     boolean foundS = false;
 
+    //Constructor
     public PublisherThread (Socket cs , ArrayList Artists , ArrayList Songs) {
 
         this.Artists = Artists;
@@ -32,58 +33,37 @@ public class PublisherThread extends Thread{
 
     }
 
-//    public void pushList(String artN){
-//
-//        try {
-//
-//            //First returns the list of the artist's songs,or failure message.
-//            out.writeBytes(artN + "'s list of songs :");
-//            for (int i = 0; i < Songs.size(); i++) {
-//                if (Songs.get(i).getArtistName().equals(artN)) {
-//                    out.writeBytes(Songs.get(i).getTrackName());
-//                    found = true;
-//                }
-//            }
-//
-//        }catch (IOException ioe) {
-//            ioe.printStackTrace();
-//        }
-//
-//    }
-//
-//    public  void notifyFailure() {
-//        try {
-//
-//            out.writeBytes("Sorry,we don't have any songs of this artist.");
-//
-//            found = false;
-//            foundS = false;
-//
-//        } catch (IOException ioe) {
-//            ioe.printStackTrace();
-//        }
-//    }
-
-
+    //Main method used for passing the chunks to the brokers.
     public void push(String song){
 
         try {
 
             //if client answers the song he requests then :
             for (int i = 0; i < Songs.size(); i++) {
-                if (Songs.get(i).getTrackName() == song) {
 
+                if (Songs.get(i).getTrackName().equals(song)) {
+
+                    //Divides song into chunks.
                     Chunks = Songs.get(i).createChunks();
 
+                    System.out.println("Job's done here!");
+
                     for (int j = 0; j < Chunks.size(); j++) {
-                        Message temp = new Message(Chunks.get(i));
+
+                        //Starts sending chunks one by one,without waiting a response though.
+                        Message temp = new Message(Chunks.get(j));
                         out.writeObject(temp);
+                        out.flush();
+
+                        System.out.println("Object returning to Broker...");
+
                     }
 
                     foundS = true;
                 }
             }
 
+            //If not found returns an appropriate message.
             if (!foundS){
                 out.writeBytes("Invalid input!Song not found.");
             }
@@ -97,15 +77,11 @@ public class PublisherThread extends Thread{
     public void run () {
 
         try {
-
-            Message request = (Message)in.readObject();     // Gives value to inputStream.
+            //Reads the message delivered from the Broker.
+            Message request = (Message) in.readObject();
             System.out.println("Message received from Broker.");
 
             push(request.toString());
-
-            System.out.println("Job's done here!");
-            out.writeObject(request);                       // Gives value to outputStream.
-            System.out.println("Object returning to Broker...");
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
