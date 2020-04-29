@@ -1,287 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e1ba10cd-b686-42b7-89fe-8fb33cad5633" name="Default" comment="changes">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spotify/Worker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spotify/Worker.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/song.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Broker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Broker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Worker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Worker.java" afterDir="false" />
+    <list default="true" id="2ddab086-eb16-486c-8232-844a0b09ea9b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/distributed.iml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="kats" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="ROOT_SYNC" value="DONT_SYNC" />
-    <option name="UPDATE_TYPE" value="MERGE" />
   </component>
-  <component name="ProjectId" id="1Zd2KNVERuzdi3Xk4c83UYJXgax" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="1bEN7AazHC2V4TRCYuo6IOwAvbX" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="Downloaded.Files.Path.Enabled" value="false" />
-    <property name="Repository.Attach.Annotations" value="false" />
-    <property name="Repository.Attach.JavaDocs" value="false" />
-    <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../jar_files/mp3agic-0.9.0.jar!/" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="project.structure.last.edited" value="Libraries" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
-  </component>
-  <component name="RunManager" selected="Compound.Handshake">
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <module />
-    </configuration>
-    <configuration name="Broker" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="Broker" />
-      <module name="spotify" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Consumer" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="Consumer" />
-      <module name="spotify" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Publisher" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="Publisher" />
-      <module name="spotify" />
-      <option name="PROGRAM_PARAMETERS" value="src\PublisherScope.txt" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="Application" factoryName="Application">
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Handshake" type="CompoundRunConfigurationType">
-      <toRun name="Broker" type="Application" />
-      <toRun name="Consumer" type="Application" />
-      <toRun name="Publisher" type="Application" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="TestNG">
-      <option name="TEST_OBJECT" value="CLASS" />
-      <option name="VM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType">
-      <module name="" />
-      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
-      <option name="PROGRAM_PARAMETERS" />
-      <predefined_log_file enabled="true" id="idea.log" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <list>
-      <item itemvalue="Application.Publisher" />
-      <item itemvalue="Application.Broker" />
-      <item itemvalue="Application.Consumer" />
-      <item itemvalue="Compound.Handshake" />
-    </list>
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="e1ba10cd-b686-42b7-89fe-8fb33cad5633" name="Default" comment="" />
-      <created>1584207227950</created>
+      <changelist id="2ddab086-eb16-486c-8232-844a0b09ea9b" name="Default Changelist" comment="" />
+      <created>1588193122440</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1584207227950</updated>
-      <workItem from="1584207232060" duration="788000" />
-      <workItem from="1585154591603" duration="4199000" />
-      <workItem from="1585348158858" duration="849000" />
-      <workItem from="1585349266137" duration="3070000" />
-      <workItem from="1585352348348" duration="8673000" />
-      <workItem from="1585499134566" duration="6124000" />
-      <workItem from="1585653135204" duration="3439000" />
-      <workItem from="1585729267284" duration="11290000" />
-      <workItem from="1585757079324" duration="13000" />
-      <workItem from="1585763397068" duration="5271000" />
-      <workItem from="1585771221073" duration="21000" />
-      <workItem from="1585826392567" duration="7363000" />
-      <workItem from="1585859994691" duration="6909000" />
-      <workItem from="1586430066854" duration="708000" />
-      <workItem from="1586611173054" duration="3848000" />
-      <workItem from="1586615038450" duration="1295000" />
-      <workItem from="1586616346351" duration="7812000" />
-      <workItem from="1586634216028" duration="13114000" />
-      <workItem from="1586647374116" duration="1596000" />
-      <workItem from="1586674759526" duration="25714000" />
-      <workItem from="1586710470275" duration="6357000" />
-      <workItem from="1586716846199" duration="1635000" />
+      <updated>1588193122440</updated>
+      <workItem from="1588193123727" duration="62000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="409" y="44" key="#Consumer" timestamp="1585998010584">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="409" y="44" key="#Consumer/0.0.1366.728@0.0.1366.728" timestamp="1585998010584" />
-    <state x="409" y="44" key="#Publisher" timestamp="1585995042149">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="409" y="44" key="#Publisher/0.0.1366.728@0.0.1366.728" timestamp="1585995042149" />
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586611343017">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585500926507" />
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586611343017" />
-    <state x="740" y="225" key="#com.intellij.ide.macro.MacrosDialog" timestamp="1585827972012">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="740" y="225" key="#com.intellij.ide.macro.MacrosDialog/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1585827972012" />
-    <state x="808" y="409" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1585499150601">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="808" y="409" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585499150601" />
-    <state x="563" y="122" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog" timestamp="1585946928348">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="563" y="122" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog/0.0.1366.728@0.0.1366.728" timestamp="1585946928348" />
-    <state x="666" y="261" key="FileChooserDialogImpl" timestamp="1585763681535">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="666" y="261" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585653921297" />
-    <state x="666" y="261" key="FileChooserDialogImpl/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1585763681535" />
-    <state width="1877" height="168" key="GridCell.Tab.0.bottom" timestamp="1586718640990">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1323" height="251" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1585997969056" />
-    <state width="1877" height="189" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585658098674" />
-    <state width="1877" height="168" key="GridCell.Tab.0.bottom/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586718640990" />
-    <state width="1877" height="168" key="GridCell.Tab.0.center" timestamp="1586718640990">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1323" height="251" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1585997969056" />
-    <state width="1877" height="189" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585658098674" />
-    <state width="1877" height="168" key="GridCell.Tab.0.center/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586718640990" />
-    <state width="1877" height="168" key="GridCell.Tab.0.left" timestamp="1586718640990">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1323" height="251" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1585997969056" />
-    <state width="1877" height="189" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585658098674" />
-    <state width="1877" height="168" key="GridCell.Tab.0.left/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586718640990" />
-    <state width="1877" height="168" key="GridCell.Tab.0.right" timestamp="1586718640990">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1323" height="251" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1585997969056" />
-    <state width="1877" height="189" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585658098674" />
-    <state width="1877" height="168" key="GridCell.Tab.0.right/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586718640990" />
-    <state x="672" y="236" key="MultipleFileMergeDialog" timestamp="1585049757786">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="672" y="236" key="MultipleFileMergeDialog/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585049757786" />
-    <state x="440" y="94" key="SettingsEditor" timestamp="1586392119673">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="313" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1585993708357" />
-    <state x="440" y="94" key="SettingsEditor/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585654329965" />
-    <state x="440" y="94" key="SettingsEditor/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586392119673" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1586717723098">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585509645079" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586717723098" />
-    <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1586623063155">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586623063155" />
-    <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog" timestamp="1586115578947">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586115578947" />
-    <state x="656" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1586716851288">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="467" y="241" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1585990500471" />
-    <state x="656" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585653180554" />
-    <state x="656" y="344" key="com.intellij.ide.util.TipDialog/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586716851288" />
-    <state x="664" y="413" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1585763148803">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="664" y="413" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1585763148803" />
-    <state x="494" y="283" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1585990506658">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="494" y="283" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.728@0.0.1366.728" timestamp="1585990506658" />
-    <state x="1144" y="141" width="1296" height="808" key="dock-window-1" timestamp="1586677726119">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="1144" y="141" width="1296" height="808" key="dock-window-1/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586677726119" />
-    <state x="741" y="233" key="git4idea.branch.GitSmartOperationDialog" timestamp="1585049717529">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="741" y="233" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585049717529" />
-    <state x="690" y="311" key="git4idea.merge.GitPullDialog" timestamp="1586624082697">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="690" y="311" key="git4idea.merge.GitPullDialog/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1586624082697" />
-    <state x="616" y="240" key="run.anything.popup" timestamp="1585862125007">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="616" y="240" key="run.anything.popup/1920.0.1280.984/0.0.1920.1040@0.0.1920.1040" timestamp="1585862125007" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1585655200024">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1585655200024" />
   </component>
 </project>
