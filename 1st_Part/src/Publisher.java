@@ -152,9 +152,16 @@ public class Publisher extends Node{
     public void notifyBrokers(){
         //Get the registered Brokers from the parent class(inserted by a txt file).
         getBrokerList();
+
+//        for (int i = 0; i < brokers.size(); i++) {
+//            System.out.println(brokers.get(i).getAddress());
+//        }
+
         try {
             for (int i = 0; i < brokers.size(); i++) {
+                System.out.println("edw");
 
+                System.out.println(brokers.get(i).getAddress());
                 //Creates a request socket.
                 requestSocket = new Socket(brokers.get(i).getAddress(), brokers.get(i).getPort());
                 out = new ObjectOutputStream(requestSocket.getOutputStream());
@@ -165,17 +172,18 @@ public class Publisher extends Node{
 
                 out.writeObject(ArtistListPlusScope);
 
-                Message temp = (Message) in.readObject();
+                //Message temp = (Message) in.readObject();
 
             }
         }catch(UnknownHostException unknownHost){
             System.out.println("Error!You are trying to connect to an unknown host!");
         }catch(IOException ioException) {
             ioException.printStackTrace();
-        }catch (ClassNotFoundException e) {
-            System.out.println("/nUnknown object type received.");
-            e.printStackTrace();
         }
+//        }catch (ClassNotFoundException e) {
+//            System.out.println("/nUnknown object type received.");
+//            e.printStackTrace();
+//        }
 
     }
 

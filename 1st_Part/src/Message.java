@@ -6,11 +6,12 @@ import java.util.List;
 public class Message implements Serializable {
     //private static final long serialVersionUID = 7526472295622776147L;
     String a, address,song;
-    int hash, artist,port, artistHash,myHash;
+    int hash, artist,port, artistHash;
+    long myHash,Hash;
     ArrayList<String> artists;
-    ArrayList<Integer> hashtable;
+    ArrayList<Long> hashtable;
     ArrayList<Broker> Brokers;
-    List<ArrayList<Integer>> BrokersHashtable;
+    List<ArrayList<Long>> BrokersHashtable;
     List<Broker> registeredBrokers;
     MusicChunk Chunk;
     boolean t;
@@ -45,16 +46,16 @@ public class Message implements Serializable {
         this.a = a;
     }
 
-    public Message(ArrayList<Integer> hashtable){
+    public Message(ArrayList<Long> hashtable){
         this.hashtable = hashtable;
     }
 
-    public Message(ArrayList<Integer> hashtable,int myHash){
+    public Message(ArrayList<Long> hashtable,long myHash){
         this.hashtable = hashtable;
         this.myHash = myHash;
     }
 
-    public Message(List<ArrayList<Integer>> BrokersHashtable, ArrayList<Broker> Brokers,boolean t){
+    public Message(List<ArrayList<Long>> BrokersHashtable, ArrayList<Broker> Brokers,boolean t){
         this.BrokersHashtable = BrokersHashtable;
         this.Brokers = Brokers;
         this.t=t;
@@ -64,13 +65,16 @@ public class Message implements Serializable {
         this.Chunk = Chunk;
     }
 
+    public Message(long Hash){
+        this.Hash = Hash;
+    }
 
     //  GETTERS
 
-    public List<ArrayList<Integer>> getBrokersHashtable() { return BrokersHashtable; }
+    public List<ArrayList<Long>> getBrokersHashtable() { return BrokersHashtable; }
     public MusicChunk getChunk() { return Chunk; }
     public ArrayList<Broker> getBrokers() { return Brokers; }
-    public ArrayList<Integer> getHashtable() { return hashtable; }
+    public ArrayList<Long> getHashtable() { return hashtable; }
     public String toString(){
         return (a);
     }
@@ -83,6 +87,6 @@ public class Message implements Serializable {
     public boolean getBoolean(){
         return t;
     }
-    public int getMyHash() { return myHash; }
+    public long getMyHash() { return myHash; }
 
 }
