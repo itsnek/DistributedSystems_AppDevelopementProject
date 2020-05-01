@@ -12,7 +12,7 @@ public class BrokerCommunicator extends Thread {
     ArrayList<Integer> hashtable;
     List<Broker> registeredBrokers;
     private Socket requestSocket = null;
-    private int myHash;
+    private long myHash;
 
     //Constructors
 
@@ -20,7 +20,7 @@ public class BrokerCommunicator extends Thread {
 
     }
 
-    BrokerCommunicator(ArrayList<Integer> hashtable,List<Broker> registeredBrokers,int myHash){
+    BrokerCommunicator(ArrayList<Integer> hashtable,List<Broker> registeredBrokers,long myHash){
         this.hashtable = hashtable;
         this.registeredBrokers = registeredBrokers;
         this.myHash = myHash;

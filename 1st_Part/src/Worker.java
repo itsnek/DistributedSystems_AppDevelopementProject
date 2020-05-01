@@ -9,7 +9,7 @@ import static java.lang.Integer.parseInt;
 
 public class Worker extends Thread {
 
-    int myHash,biggestHash,smallestHash;
+    long myHash,biggestHash,smallestHash;
     String requestedSong;
     Message tempA;
     private Socket requestSocket = null;
@@ -22,13 +22,13 @@ public class Worker extends Thread {
     private ArrayList<Publisher> registeredPublishers =  new ArrayList<>();
     private ArrayList<Integer> artists =  new ArrayList<>();
     private ArrayList<Broker> registeredBrokers;
-    private ArrayList<ArrayList<Integer>> BrokersHashtable;
+    private ArrayList<ArrayList<Long>> BrokersHashtable;
     private boolean endOfThread = false;
     private boolean changed = false,entrance = false;
 
     // Constructors
 
-    public Worker(Socket connection,ArrayList<Consumer> registeredUsers,ArrayList<Publisher> registeredPublishers,ArrayList<Broker> registeredBrokers,ArrayList<Integer> artists,ArrayList<ArrayList<Integer>> BrokersHashtable,int myHash) {
+    public Worker(Socket connection,ArrayList<Consumer> registeredUsers,ArrayList<Publisher> registeredPublishers,ArrayList<Broker> registeredBrokers,ArrayList<Integer> artists,ArrayList<ArrayList<Long>> BrokersHashtable,long myHash) {
         this.registeredUsers = registeredUsers;
         this.registeredBrokers = registeredBrokers;
         this.registeredPublishers = registeredPublishers;
@@ -62,7 +62,7 @@ public class Worker extends Thread {
         return endOfThread;
     }
 
-    public ArrayList<ArrayList<Integer>> getBrokersHashtable() {
+    public ArrayList<ArrayList<Long>> getBrokersHashtable() {
         return BrokersHashtable;
     }
 
@@ -73,7 +73,7 @@ public class Worker extends Thread {
             try {
                 //Check the incoming from other Brokers.
                 if(!getEntrance()) {
-                    ArrayList<Integer> temporArray;
+                    ArrayList<Long> temporArray;
                     smallestHash = myHash;
                     for (int i = 0; i < registeredBrokers.size(); i++) {
 
@@ -108,6 +108,8 @@ public class Worker extends Thread {
 
                             //Checks for any null value left from the initiating of the arraylist and removes it.
                             for (int j = 0; j < BrokersHashtable.size(); j++) {
+                                System.out.println(BrokersHashtable.size());
+                                System.out.println(BrokersHashtable.get(i));
                                 if(BrokersHashtable.get(j) != null && !changed){
                                     BrokersHashtable.add(BrokersHashtable.get(j));
                                     BrokersHashtable.remove(BrokersHashtable.get(j+1));
@@ -132,7 +134,7 @@ public class Worker extends Thread {
                     Message request = (Message) in.readObject();
                     System.out.println("Message received from Client.");
 
-                    int artistHash = request.toString().hashCode();
+                    long artistHash = request.toString().hashCode();
                     requestedSong = request.getSong();
 
                     //Checks if the hash of the client is less than the Broker's.

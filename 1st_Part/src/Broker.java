@@ -16,7 +16,8 @@ public class Broker extends Node implements Serializable  {
     ArrayList<Broker> registeredBrokers;
     ArrayList<ArrayList<Integer>> BrokersHashtables = new ArrayList<>();
     final static int BrokersPort = 50850;
-    int serverHash, port , myHash;
+    int port ;
+    long serverHash, myHash;
     String address,Scope;
     boolean entrance = false;
 
@@ -35,7 +36,7 @@ public class Broker extends Node implements Serializable  {
         this.address = address;
     }
 
-    public void setMyHash(int myHash) { this.myHash = myHash; }
+    public void setMyHash(long myHash) { this.myHash = myHash; }
 
     public String getAddress() {
         return address;
@@ -45,7 +46,7 @@ public class Broker extends Node implements Serializable  {
         return port;
     }
 
-    public int getMyHash() { return myHash; }
+    public long getMyHash() { return myHash; }
 
     public void init() {
         registeredBrokers = super.getBrokers();
@@ -66,7 +67,7 @@ public class Broker extends Node implements Serializable  {
     }
 
     //Calculating the hash for my Broker.
-    public int calculateKeys(Socket connection) throws UnknownHostException {
+    public long calculateKeys(Socket connection) throws UnknownHostException {
         String ip = InetAddress.getLocalHost().getHostAddress();
         String socketNumber = String.valueOf(connection.getLocalPort());
         String sum = ip + socketNumber;
@@ -180,6 +181,7 @@ public class Broker extends Node implements Serializable  {
 
             //Broker creates a listening channel.Waits for clients requests,listening in a nearby port of the given one by the txt file in the beginning of the app.
             providerSocket = new ServerSocket(getPort() - 1, 10);
+            System.out.println(getPort() - 1);
 
             while (true) {
                 //Waits for an incoming request.
@@ -228,10 +230,16 @@ public class Broker extends Node implements Serializable  {
 
         //Give values to this Broker instance.
         br1.init();
+        System.out.println("edw eimai1");
 
         //Explained above.
         br1.notifyPublisher();
+        System.out.println("edw eimai2");
+
         br1.NotifyBrokers();
+        System.out.println("edw eimai3");
+        System.out.println(br1.getMyHash());
+
         br1.acceptConnection();
 
     }

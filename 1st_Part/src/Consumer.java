@@ -50,14 +50,15 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
 
         try {
             //Creates request socket.
-            requestSocket = new Socket("192.168.2.5", 50221);
+            requestSocket = new Socket("192.168.2.2", 50221);
             out = new ObjectOutputStream(requestSocket.getOutputStream());  // Streams
             in = new ObjectInputStream(requestSocket.getInputStream());     //  used
 
-            tempBroker = new Broker("192.168.2.5", 50221);
+            tempBroker = new Broker("192.168.2.2", 50221);
 
             Message handshake = new Message(artist.getArtistName(),null);
 
+            System.out.println(artist.getArtistName().hashCode());
             //Sends artist's name.
             out.writeObject(handshake);
 
@@ -77,12 +78,14 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
                 BrokerHashtables = temp.getBrokersHashtable();
 
                 for(int j = 0; j < BrokerHashtables.size(); j++){
+                    System.out.println("mphka?");
 
                     ArrayList<Integer> temp2 = BrokerHashtables.get(j);
 
                     if (temp2.contains(artist.getArtistName().hashCode())) {
 
                         tempBroker = new Broker(BrokerList.get(j).getAddress(), BrokerList.get(j).getPort() - 1);
+                        System.out.println("edw?");
 
                         found = true;
                     }
@@ -129,7 +132,7 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
 
     public void playData (){
         //Gets file's path.
-        File myObj = new File("D:\\Nikos\\Documents\\GitHub\\distributed\\song.mp3");
+        File myObj = new File("D:\\Nikos\\Documents\\GitHub\\distributed\\1st_Part\\song.mp3");
         try {
             while(true) {
                 if(in.readObject()!=null){
@@ -183,13 +186,16 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
             } catch (EOFException eof) {
                 System.out.println("error");
                 eof.printStackTrace();
+            }finally {
+                System.out.println("Enjoy!");
             }
 
         }catch (ClassNotFoundException e) {
             System.out.println("/nUnknown object type received.");
             e.printStackTrace();
         }catch (IOException ioException) {
-            ioException.printStackTrace();
+            System.out.println("Sorry,why don't have this song in our system.");
+            //ioException.printStackTrace();
         }
 
     }
@@ -223,8 +229,6 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
 
             //Put the incoming chunks in a file that can be played manually.
             cons1.playData();
-
-            System.out.println("Enjoy!");
 
         }
         myObj.close();
