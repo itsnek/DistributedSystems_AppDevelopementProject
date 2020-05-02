@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.lang.*;
+import java.math.*;
 
 public class Broker extends Node implements Serializable  {
 
@@ -12,9 +13,9 @@ public class Broker extends Node implements Serializable  {
     private Socket connectionPub = null;
     private ArrayList<Consumer> registeredUsers = new ArrayList<>();
     private ArrayList<Publisher> registeredPublishers =  new ArrayList<>();
-    private ArrayList<Integer> artists =  new ArrayList<>();
+    private ArrayList<Long> artists =  new ArrayList<>();
     ArrayList<Broker> registeredBrokers;
-    ArrayList<ArrayList<Integer>> BrokersHashtables = new ArrayList<>();
+    ArrayList<ArrayList<Long>> BrokersHashtables = new ArrayList<>();
     final static int BrokersPort = 50850;
     int port ;
     long serverHash, myHash;
@@ -71,7 +72,7 @@ public class Broker extends Node implements Serializable  {
         String ip = InetAddress.getLocalHost().getHostAddress();
         String socketNumber = String.valueOf(connection.getLocalPort());
         String sum = ip + socketNumber;
-        serverHash = sum.hashCode();
+        serverHash = (long)Math.abs(sum.hashCode());
         return serverHash;
     }
 
@@ -99,8 +100,8 @@ public class Broker extends Node implements Serializable  {
 
         for(int i = 0; i < artistsMessage.size(); i++) {
             //Check if the condition is false and if the hashkey is already included in the hashtable.
-            if (myHash > artistsMessage.get(i).hashCode() && !artists.contains(artistsMessage.get(i).hashCode())) {
-                artists.add(artistsMessage.get(i).hashCode());
+            if (myHash > artistsMessage.get(i).hashCode() && !artists.contains((long)artistsMessage.get(i).hashCode())) {
+                artists.add((long)artistsMessage.get(i).hashCode());
             }
         }
 
@@ -126,6 +127,7 @@ public class Broker extends Node implements Serializable  {
                 Scope = temp.toString();
                 receiveArtists(temp.getArtists(),connectionPub);
 
+                System.out.println(artists.size());
                 //Adds the Publisher in the arraylist.
                 registeredPublishers.add(new Publisher(connectionPub.getInetAddress().getHostAddress(),Scope));
 
@@ -164,6 +166,7 @@ public class Broker extends Node implements Serializable  {
                     Worker wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists, BrokersHashtables,getMyHash());
 
                     new Thread(wk).start();
+                    System.out.println("Loading");
 
                     //Used so as to to keep the process busy while waiting for the thread's results.
                     while (!wk.getEndOfThread()) {
@@ -171,6 +174,7 @@ public class Broker extends Node implements Serializable  {
                     }
                     //Retrieve the hashtables from the worker/handler.
                     BrokersHashtables = wk.getBrokersHashtable();
+                    System.out.println("Loading");
 
                     //Returning boolean variable used for avoiding entering this field after Broker's communication has ended.
                     entrance = wk.getEntrance();

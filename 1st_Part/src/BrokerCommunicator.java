@@ -9,7 +9,7 @@ import java.util.List;
 
 public class BrokerCommunicator extends Thread {
 
-    ArrayList<Integer> hashtable;
+    ArrayList<Long> hashtable;
     List<Broker> registeredBrokers;
     private Socket requestSocket = null;
     private long myHash;
@@ -20,7 +20,7 @@ public class BrokerCommunicator extends Thread {
 
     }
 
-    BrokerCommunicator(ArrayList<Integer> hashtable,List<Broker> registeredBrokers,long myHash){
+    BrokerCommunicator(ArrayList<Long> hashtable,List<Broker> registeredBrokers,long myHash){
         this.hashtable = hashtable;
         this.registeredBrokers = registeredBrokers;
         this.myHash = myHash;
