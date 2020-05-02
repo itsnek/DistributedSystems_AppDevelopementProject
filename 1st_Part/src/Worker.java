@@ -20,7 +20,7 @@ public class Worker extends Thread {
     private ObjectInputStream publisherIn = null;
     private ArrayList<Consumer> registeredUsers =  new ArrayList<>();
     private ArrayList<Publisher> registeredPublishers =  new ArrayList<>();
-    private ArrayList<Integer> artists =  new ArrayList<>();
+    private ArrayList<Long> artists =  new ArrayList<>();
     private ArrayList<Broker> registeredBrokers;
     private ArrayList<ArrayList<Long>> BrokersHashtable;
     private boolean endOfThread = false;
@@ -28,7 +28,7 @@ public class Worker extends Thread {
 
     // Constructors
 
-    public Worker(Socket connection,ArrayList<Consumer> registeredUsers,ArrayList<Publisher> registeredPublishers,ArrayList<Broker> registeredBrokers,ArrayList<Integer> artists,ArrayList<ArrayList<Long>> BrokersHashtable,long myHash) {
+    public Worker(Socket connection,ArrayList<Consumer> registeredUsers,ArrayList<Publisher> registeredPublishers,ArrayList<Broker> registeredBrokers,ArrayList<Long> artists,ArrayList<ArrayList<Long>> BrokersHashtable,long myHash) {
         this.registeredUsers = registeredUsers;
         this.registeredBrokers = registeredBrokers;
         this.registeredPublishers = registeredPublishers;
@@ -69,12 +69,13 @@ public class Worker extends Thread {
 
     public void run() {
         endOfThread = false;
+        smallestHash = myHash;
+
         try {
             try {
                 //Check the incoming from other Brokers.
                 if(!getEntrance()) {
                     ArrayList<Long> temporArray;
-                    smallestHash = myHash;
                     for (int i = 0; i < registeredBrokers.size(); i++) {
 
                         if (registeredBrokers.get(i).getAddress().equals(connection.getInetAddress().getHostAddress())) {
@@ -125,7 +126,7 @@ public class Worker extends Thread {
                         }
                     }
                     //Condition so as to know when no more Broker message will occur.
-                    if (BrokersHashtable.size() == registeredBrokers.size()-1) {
+                    if (BrokersHashtable.size() == registeredBrokers.size()) {
                         entrance = true;
                     }
                 }

@@ -9,7 +9,7 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
     int hash,i = 0;
     Broker tempBroker;
     List<Broker> BrokerList ;
-    List<ArrayList<Integer>> BrokerHashtables ;
+    List<ArrayList<Long>> BrokerHashtables ;
     LinkedList<MusicChunk> SongReceived = new LinkedList<>();
     private Socket requestSocket = null;
     private ObjectOutputStream out = null;
@@ -80,9 +80,9 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
                 for(int j = 0; j < BrokerHashtables.size(); j++){
                     System.out.println("mphka?");
 
-                    ArrayList<Integer> temp2 = BrokerHashtables.get(j);
+                    ArrayList<Long> temp2 = BrokerHashtables.get(j);
 
-                    if (temp2.contains(artist.getArtistName().hashCode())) {
+                    if (temp2.contains((long)artist.getArtistName().hashCode())) {
 
                         tempBroker = new Broker(BrokerList.get(j).getAddress(), BrokerList.get(j).getPort() - 1);
                         System.out.println("edw?");
