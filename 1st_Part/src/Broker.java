@@ -16,7 +16,7 @@ public class Broker extends Node implements Serializable  {
     private ArrayList<Long> artists =  new ArrayList<>();
     ArrayList<Broker> registeredBrokers;
     ArrayList<ArrayList<Long>> BrokersHashtables = new ArrayList<>();
-    List<Long> HashList ;
+    ArrayList<Long> HashList = new ArrayList<Long>();
     final static int BrokersPort = 50850;
     int port ;
     long serverHash,myHash,biggestHash,smallestHash;
@@ -71,32 +71,31 @@ public class Broker extends Node implements Serializable  {
     //Calculating the hash for my Broker.
     public long calculateKeys(Socket connection) throws UnknownHostException {
         String ip = InetAddress.getLocalHost().getHostAddress();
-        String socketNumber = String.valueOf(connection.getLocalPort());
+        String socketNumber = String.valueOf(connection.getLocalPort() - 1);
         String sum = ip + socketNumber;
         serverHash = (long)Math.abs(sum.hashCode());
+        HashList.add(serverHash);
         return serverHash;
     }
 
     public void calculateKeys(){
-        biggestHash = myHash;
-        smallestHash = myHash;
 
         for (int i = 0; i < registeredBrokers.size(); i++) {
+            //HashList.add(null);
             String ip = registeredBrokers.get(i).getAddress();
             String socketNumber = String.valueOf(registeredBrokers.get(i).getPort() - 1);
             String sum = ip + socketNumber;
             long Hash = (long)Math.abs(sum.hashCode());
-            if(biggestHash<Hash){
-                biggestHash = Hash;
+            int j = 0;
+            while(i < HashList.size()){
+                if(HashList.get(j)<Hash && !HashList.contains(Hash)) {
+                    HashList.add(j,Hash);
+                    break;
+                }else j++;
             }
-            else if(smallestHash<Hash){
-                HashList.add(Hash);
-            }else {
-                smallestHash = Hash;
-            }
+
         }
-        HashList.add(0,biggestHash);
-        HashList.add(2,smallestHash);
+
     }
 
     //Method used for the communication between Brokers.
@@ -120,26 +119,52 @@ public class Broker extends Node implements Serializable  {
     //Checks which artists does this Broker have to include in his hashtable.
     public void receiveArtists(ArrayList<String> artistsMessage,Socket connection) throws UnknownHostException{
 
-        myHash = calculateKeys(connection);
+        setMyHash(calculateKeys(connection));
         calculateKeys();
+        smallestHash = HashList.size()-1;
+        biggestHash = HashList.get(0);
+
+        System.out.println(HashList.size());
+        for (int i = 0;i < HashList.size(); i++) {
+            System.out.println(HashList.get(i));
+
+        }
 
         //Check if the condition is false and if the hashkey is already included in the hashtable.
         for(int i = 0; i < artistsMessage.size(); i++) {
 
-            if(biggestHash == myHash && myHash >= artistsMessage.get(i).hashCode() && HashList.get(1) < artistsMessage.get(i).hashCode() && !artists.contains((long)artistsMessage.get(i).hashCode())){
-                artists.add((long)artistsMessage.get(i).hashCode());
+            for (int j = 0;j < HashList.size(); j++) {
+
+                if(HashList.get(j) == getMyHash() && HashList.get(j) != smallestHash){
+                    if(getMyHash() >= artistsMessage.get(i).hashCode() && HashList.get(j+1) < artistsMessage.get(i).hashCode() && !artists.contains((long)artistsMessage.get(i).hashCode())){
+                        artists.add((long)artistsMessage.get(i).hashCode());
+                    }
+                }else if(HashList.get(j) == getMyHash() && HashList.get(j) == smallestHash){
+                    if(getMyHash() >= artistsMessage.get(i).hashCode() && !artists.contains((long)artistsMessage.get(i).hashCode())){
+                        artists.add((long)artistsMessage.get(i).hashCode());
+                    }else if(biggestHash < artistsMessage.get(i).hashCode()){
+                        long artistHash = artistsMessage.get(i).hashCode();
+                        artistHash = artistHash%smallestHash;
+                        artists.add(artistHash);
+                    }
+                }
+
             }
-            else if(smallestHash == myHash && myHash >= artistsMessage.get(i).hashCode() && !artists.contains((long)artistsMessage.get(i).hashCode())){
-                artists.add((long)artistsMessage.get(i).hashCode());
-            }
-            else if(myHash >= artistsMessage.get(i).hashCode() && HashList.get(2) < artistsMessage.get(i).hashCode() && !artists.contains((long)artistsMessage.get(i).hashCode())) {
-                artists.add((long)artistsMessage.get(i).hashCode());
-            }
-            else if(myHash == smallestHash && artistsMessage.get(i).hashCode() > biggestHash && !artists.contains((long)artistsMessage.get(i).hashCode())) {
-                long artistHash = 0;
-                artistHash = artistHash%smallestHash;
-                artists.add(artistHash);
-            }
+
+//            if(biggestHash == myHash && myHash >= artistsMessage.get(i).hashCode() && HashList.get(1) < artistsMessage.get(i).hashCode() && !artists.contains((long)artistsMessage.get(i).hashCode())){
+//                artists.add((long)artistsMessage.get(i).hashCode());
+//            }
+//            else if(smallestHash == myHash && myHash >= artistsMessage.get(i).hashCode() && !artists.contains((long)artistsMessage.get(i).hashCode())){
+//                artists.add((long)artistsMessage.get(i).hashCode());
+//            }
+//            else if(myHash >= artistsMessage.get(i).hashCode() && HashList.get(2) < artistsMessage.get(i).hashCode() && !artists.contains((long)artistsMessage.get(i).hashCode())) {
+//                artists.add((long)artistsMessage.get(i).hashCode());
+//            }
+//            else if(myHash == smallestHash && artistsMessage.get(i).hashCode() > biggestHash && !artists.contains((long)artistsMessage.get(i).hashCode())) {
+//                long artistHash = 0;
+//                artistHash = artistHash%smallestHash;
+//                artists.add(artistHash);
+//            }
 
         }
 
