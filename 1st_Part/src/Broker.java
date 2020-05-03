@@ -119,7 +119,7 @@ public class Broker extends Node implements Serializable  {
 
     //Checks which artists does this Broker have to include in his hashtable.
     public void receiveArtists(ArrayList<String> artistsMessage,Socket connection) throws UnknownHostException{
-        
+
         myHash = calculateKeys(connection);
         calculateKeys();
 
@@ -134,6 +134,11 @@ public class Broker extends Node implements Serializable  {
             }
             else if(myHash >= artistsMessage.get(i).hashCode() && HashList.get(2) < artistsMessage.get(i).hashCode() && !artists.contains((long)artistsMessage.get(i).hashCode())) {
                 artists.add((long)artistsMessage.get(i).hashCode());
+            }
+            else if(myHash == smallestHash && artistsMessage.get(i).hashCode() > biggestHash && !artists.contains((long)artistsMessage.get(i).hashCode())) {
+                long artistHash = 0;
+                artistHash = artistHash%smallestHash;
+                artists.add(artistHash);
             }
 
         }
