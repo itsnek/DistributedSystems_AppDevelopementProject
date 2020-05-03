@@ -85,32 +85,9 @@ public class Worker extends Thread {
                             //Adds value to this field in the the registeredBrokers existing arraylist.
                             registeredBrokers.get(i).setMyHash(temp.getMyHash());
 
-                            //Compares the hashes so as to make the necessary changes if a hash has bigger value than all Brokers hashes.
-//                            if(smallestHash > temp.getMyHash()) {
-//                                smallestHash = temp.getMyHash();
-//                            }
-//
-//                            //Here removes the hashes that already exist in Brokers with smaller/bigger hash,depending on circumstances.
-//                            if(myHash > temp.getMyHash()) {
-//                                biggestHash = myHash;
-//                                for (int j = 0; j < artists.size(); j++) {
-//                                    if (artists.get(j) < temp.getMyHash()) {
-//                                        artists.remove(artists.get(j));
-//                                    }
-//                                }
-//                            }else{
-//                                biggestHash = temp.getMyHash();
-//                                for (int j = 0; j < temporArray.size(); j++) {
-//                                    if (temporArray.get(j) < myHash) {
-//                                        temporArray.remove(temp.getHashtable().get(j));
-//                                    }
-//                                }
-//                            }
-
                             //Checks for any null value left from the initiating of the arraylist and removes it.
                             for (int j = 0; j < BrokersHashtable.size(); j++) {
-                                System.out.println(BrokersHashtable.size());
-                                System.out.println(BrokersHashtable.get(i));
+
                                 if(BrokersHashtable.get(j) != null && !changed){
                                     BrokersHashtable.add(BrokersHashtable.get(j));
                                     BrokersHashtable.remove(BrokersHashtable.get(j+1));
@@ -119,11 +96,11 @@ public class Worker extends Thread {
                                 else if (BrokersHashtable.get(j) == null) {
                                     BrokersHashtable.remove(BrokersHashtable.get(j));
                                 }
+
                             }
-
                             BrokersHashtable.add(i, temporArray);
-
                         }
+
                     }
                     //Condition so as to know when no more Broker message will occur.
                     if (BrokersHashtable.size() == registeredBrokers.size()) {
@@ -140,22 +117,11 @@ public class Worker extends Thread {
 
                     //Checks if the hash of the client is less than the Broker's.
                     if (!artists.contains(artistHash)) {
+
                         //Return Hashtables and BrokerList to the client.
                         Message brokersInfo = new Message(BrokersHashtable, registeredBrokers,false);
                         out.writeObject(brokersInfo);
 
-                        //Compares the hashes so as to make the necessary changes if a hash has bigger value than all Brokers hashes.
-//                        if(artistHash > biggestHash){
-//
-//                            artistHash = artistHash%smallestHash;
-//
-//                            for (int j = 0; j < BrokersHashtable.size(); j++) {
-//                                if(registeredBrokers.get(j).getMyHash() == smallestHash){
-//                                    BrokersHashtable.get(j).add(artistHash);
-//                                }
-//                            }
-//
-//                        }
                     } else {
                         //Return Hashtables and BrokerList to the client.
                         Message brokersInfo = new Message(BrokersHashtable, registeredBrokers, true);
