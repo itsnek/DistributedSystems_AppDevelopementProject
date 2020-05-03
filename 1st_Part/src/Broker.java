@@ -16,9 +16,10 @@ public class Broker extends Node implements Serializable  {
     private ArrayList<Long> artists =  new ArrayList<>();
     ArrayList<Broker> registeredBrokers;
     ArrayList<ArrayList<Long>> BrokersHashtables = new ArrayList<>();
+    List<Long> HashList ;
     final static int BrokersPort = 50850;
     int port ;
-    long serverHash, myHash;
+    long serverHash,myHash,biggestHash,smallestHash;
     String address,Scope;
     boolean entrance = false;
 
@@ -76,6 +77,28 @@ public class Broker extends Node implements Serializable  {
         return serverHash;
     }
 
+    public void calculateKeys(){
+        biggestHash = myHash;
+        smallestHash = myHash;
+
+        for (int i = 0; i < registeredBrokers.size(); i++) {
+            String ip = registeredBrokers.get(i).getAddress();
+            String socketNumber = String.valueOf(registeredBrokers.get(i).getPort() - 1);
+            String sum = ip + socketNumber;
+            long Hash = (long)Math.abs(sum.hashCode());
+            if(biggestHash<Hash){
+                biggestHash = Hash;
+            }
+            else if(smallestHash<Hash){
+                HashList.add(Hash);
+            }else {
+                smallestHash = Hash;
+            }
+        }
+        HashList.add(0,biggestHash);
+        HashList.add(2,smallestHash);
+    }
+
     //Method used for the communication between Brokers.
     public void NotifyBrokers(){
         try {
@@ -96,13 +119,23 @@ public class Broker extends Node implements Serializable  {
 
     //Checks which artists does this Broker have to include in his hashtable.
     public void receiveArtists(ArrayList<String> artistsMessage,Socket connection) throws UnknownHostException{
+        
         myHash = calculateKeys(connection);
+        calculateKeys();
 
+        //Check if the condition is false and if the hashkey is already included in the hashtable.
         for(int i = 0; i < artistsMessage.size(); i++) {
-            //Check if the condition is false and if the hashkey is already included in the hashtable.
-            if (myHash > artistsMessage.get(i).hashCode() && !artists.contains((long)artistsMessage.get(i).hashCode())) {
+
+            if(biggestHash == myHash && myHash >= artistsMessage.get(i).hashCode() && HashList.get(1) < artistsMessage.get(i).hashCode() && !artists.contains((long)artistsMessage.get(i).hashCode())){
                 artists.add((long)artistsMessage.get(i).hashCode());
             }
+            else if(smallestHash == myHash && myHash >= artistsMessage.get(i).hashCode() && !artists.contains((long)artistsMessage.get(i).hashCode())){
+                artists.add((long)artistsMessage.get(i).hashCode());
+            }
+            else if(myHash >= artistsMessage.get(i).hashCode() && HashList.get(2) < artistsMessage.get(i).hashCode() && !artists.contains((long)artistsMessage.get(i).hashCode())) {
+                artists.add((long)artistsMessage.get(i).hashCode());
+            }
+
         }
 
     }

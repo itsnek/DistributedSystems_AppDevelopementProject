@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2b2e675e-3b8f-4e92-9e5d-3b82a9cec27d" name="Default Changelist" comment="" />
+    <list default="true" id="2b2e675e-3b8f-4e92-9e5d-3b82a9cec27d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Broker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Broker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Publisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Publisher.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,35 +29,106 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
+  <component name="RunManager" selected="Compound.Handshake">
+    <configuration name="Broker" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Broker" />
+      <module name="spotify" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Consumer" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Consumer" />
+      <module name="spotify" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Publisher" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Publisher" />
+      <module name="spotify" />
+      <option name="PROGRAM_PARAMETERS" value="\src\PublisherScope.txt" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Handshake" type="CompoundRunConfigurationType">
+      <toRun name="Consumer" type="Application" />
+      <toRun name="Broker" type="Application" />
+      <toRun name="Publisher" type="Application" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="CompoundRunConfigurationType">
+      <toRun name="Consumer" type="Application" />
+      <toRun name="Broker" type="Application" />
+      <toRun name="Publisher" type="Application" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.Broker" />
+      <item itemvalue="Application.Consumer" />
+      <item itemvalue="Application.Publisher" />
+      <item itemvalue="Compound.Handshake" />
+    </list>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="2ddab086-eb16-486c-8232-844a0b09ea9b" name="Default Changelist" comment="" />
+      <changelist id="2b2e675e-3b8f-4e92-9e5d-3b82a9cec27d" name="Default Changelist" comment="" />
       <created>1588193122440</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1588193122440</updated>
       <workItem from="1588193123727" duration="62000" />
+      <workItem from="1588517628734" duration="1908000" />
     </task>
+    <task id="LOCAL-00001" summary="final">
+      <created>1588454476456</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1588454476456</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="final" />
+    <option name="LAST_COMMIT_MESSAGE" value="final" />
+  </component>
   <component name="WindowStateProjectService">
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588455040147">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588455040147" />
+    <state x="689" y="304" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1588454990553">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="689" y="304" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588454990553" />
+    <state x="585" y="114" key="CommitChangelistDialog2" timestamp="1588454475273">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="585" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1588454475273" />
     <state x="184" y="86" key="MergeDialog" timestamp="1588453962779">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="184" y="86" key="MergeDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588453962779" />
-    <state x="672" y="236" key="MultipleFileMergeDialog" timestamp="1588454352405">
+    <state x="672" y="236" key="MultipleFileMergeDialog" timestamp="1588454646387">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="672" y="236" key="MultipleFileMergeDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588454352405" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1588454401119">
+    <state x="672" y="236" key="MultipleFileMergeDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588454646387" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1588520571365">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1588454401119" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1588520571365" />
+    <state x="656" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1588517701331">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="656" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588517701331" />
   </component>
 </project>
