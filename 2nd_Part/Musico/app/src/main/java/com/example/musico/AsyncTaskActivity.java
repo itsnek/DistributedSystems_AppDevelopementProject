@@ -1,5 +1,6 @@
 package com.example.musico;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +22,10 @@ public class AsyncTaskActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_async_task);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setIcon(R.mipmap.ic_music_disk_lime);
 
         ArrayList<recItem> List = new ArrayList<>();
         List.add(new recItem(R.drawable.ic_headset_black_24dp, "Mama", "Sin Boy"));
