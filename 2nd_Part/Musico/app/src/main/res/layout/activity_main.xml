@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="@string/musico"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/androids"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/ic_music"
+        android:layout_margin="50dp"/>
+
+    <Button
+        android:id="@+id/enterButton"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="@string/button_enter" />
+
+</LinearLayout>

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Musico</string>
+    <string name="button_enter">Enter</string>
+    <string name="musico">Musico</string>
+    <string name="song_placeholder">Song</string>
+    <string name="artist_placeholder">Artist</string>
+</resources>
