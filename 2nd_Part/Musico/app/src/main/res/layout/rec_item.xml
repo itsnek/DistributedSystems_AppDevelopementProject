@@ -17,29 +17,18 @@
             android:padding="2dp"/>
 
         <TextView
-            android:id="@+id/cSong"
+            android:id="@+id/cArtist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/cImage"
-            android:text="@string/song_placeholder"
+            android:layout_marginVertical="10dp"
+            android:layout_marginLeft="135dp"
+            android:text="@string/artist_placeholder"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_toRightOf="@+id/cImage" />
-
-        <TextView
-            android:id="@+id/cArtist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/cSong"
-            android:layout_marginStart="8dp"
-            android:layout_toEndOf="@+id/cImage"
-            android:text="@string/artist_placeholder"
-            android:textSize="15sp"
-            android:layout_toRightOf="@+id/cImage"
-            android:layout_marginLeft="8dp" />
-
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

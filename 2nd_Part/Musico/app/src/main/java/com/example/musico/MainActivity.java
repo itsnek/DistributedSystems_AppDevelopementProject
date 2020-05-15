@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         DiskImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent s = new Intent(view.getContext(), AsyncTaskActivity.class);
+                Intent s = new Intent(view.getContext(), ArtistSearchActivity.class);
                 startActivityForResult(s, 0);
             }
         });

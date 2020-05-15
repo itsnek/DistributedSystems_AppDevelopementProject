@@ -15,17 +15,37 @@ import java.util.ArrayList;
 public class rAdapter extends RecyclerView.Adapter<rAdapter.ViewHolder> {
 
 	private ArrayList<recItem> list;
+	private OnItemClickListener mListener;
+
+	public interface OnItemClickListener{
+		void onItemClick(int position);
+	}
+
+	public void setOnItemClickListener(OnItemClickListener listener){
+			mListener = listener;
+	}
+
 	public static class ViewHolder extends RecyclerView.ViewHolder{
 
 		private ImageView image;
-		private TextView song;
 		private TextView artist;
 
-		public ViewHolder(View itemView) {
+		public ViewHolder(View itemView, final OnItemClickListener listener) {
 			super(itemView);
 			image = itemView.findViewById(R.id.cImage);
-			song = itemView.findViewById(R.id.cSong);
 			artist = itemView.findViewById(R.id.cArtist);
+
+			itemView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (listener != null){
+						int postition = getAdapterPosition();
+						if (postition != RecyclerView.NO_POSITION){
+							listener.onItemClick(postition);
+						}
+					}
+				}
+			});
 		}
 	}
 
@@ -36,7 +56,7 @@ public class rAdapter extends RecyclerView.Adapter<rAdapter.ViewHolder> {
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.rec_item, parent, false);
-		ViewHolder vHolder = new ViewHolder(v);
+		ViewHolder vHolder = new ViewHolder(v, mListener);
 		return vHolder;
 	}
 
@@ -44,7 +64,6 @@ public class rAdapter extends RecyclerView.Adapter<rAdapter.ViewHolder> {
 	public void onBindViewHolder(ViewHolder holder, int position) {
 		recItem currentItem = list.get(position);
 		holder.image.setImageResource(currentItem.getImgResource());
-		holder.song.setText(currentItem.getSong());
 		holder.artist.setText(currentItem.getArtist());
 	}
 
