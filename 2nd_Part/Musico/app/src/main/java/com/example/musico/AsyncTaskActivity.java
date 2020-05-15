@@ -23,7 +23,7 @@ public class AsyncTaskActivity extends AppCompatActivity {
 
 		// Get the Intent that started this activity and extract the string
 		Intent intent = getIntent();
-		String artist = intent.getStringExtra(ArtistSearchActivity.EXTRA_MESSAGE);
+		artist = intent.getStringExtra(ArtistSearchActivity.EXTRA_MESSAGE);
 		TextView textView = findViewById(R.id.artist);
 		textView.setText(artist);
 
