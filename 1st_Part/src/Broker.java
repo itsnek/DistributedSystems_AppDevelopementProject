@@ -17,11 +17,13 @@ public class Broker extends Node implements Serializable  {
     ArrayList<Broker> registeredBrokers;
     ArrayList<ArrayList<Long>> BrokersHashtables = new ArrayList<>();
     ArrayList<Long> HashList = new ArrayList<Long>();
+    List<String> MegaArtistList;
     final static int BrokersPort = 50850;
-    int port ;
+    int port,c = 0;
     long serverHash,myHash,biggestHash,smallestHash;
     String address,Scope;
     boolean entrance = false;
+    Worker wk;
 
     Broker(){}
 
@@ -50,6 +52,10 @@ public class Broker extends Node implements Serializable  {
 
     public long getMyHash() { return myHash; }
 
+    public List<String> getMegaArtistList() {
+        return MegaArtistList;
+    }
+
     public void init() {
 
         try{
@@ -70,15 +76,6 @@ public class Broker extends Node implements Serializable  {
             System.out.println("Error!You are trying to connect to an unknown host!");
         }
     }
-
-    //Calculating the hash for my Broker.
-//    public long calculateKeys(Socket connection) throws UnknownHostException {
-//        String ip = InetAddress.getLocalHost().getHostAddress();
-//        String socketNumber = String.valueOf(connection.getLocalPort() - 1);
-//        String sum = ip + socketNumber;
-//        serverHash = (long)Math.abs(sum.hashCode());
-//        return serverHash;
-//    }
 
     public void calculateKeys(){
 
@@ -131,17 +128,13 @@ public class Broker extends Node implements Serializable  {
 
     //Checks which artists does this Broker have to include in his hashtable.
     public void receiveArtists(ArrayList<String> artistsMessage,Socket connection) throws UnknownHostException{
-        //setMyHash(calculateKeys(connection));
+
         smallestHash = HashList.size()-1;
         biggestHash = HashList.get(0);
 
-        for (int i = 0;i < HashList.size(); i++) {
-            System.out.println(HashList.get(i));
-
-        }
-
         //Check if the condition is false and if the hashkey is already included in the hashtable.
         for(int i = 0; i < artistsMessage.size(); i++) {
+            MegaArtistList.add(artistsMessage.get(i));
 
             for (int j = 0;j < HashList.size(); j++) {
                 System.out.println(HashList.size());
@@ -221,7 +214,7 @@ public class Broker extends Node implements Serializable  {
                     connection = providerSocket.accept();
 
                     //Creates a worker/handler thread,used to read the incoming messages from other Brokers.
-                    Worker wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists, BrokersHashtables,getMyHash());
+                    wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists, BrokersHashtables,getMyHash());
 
                     new Thread(wk).start();
                     System.out.println("Loading");
@@ -250,8 +243,15 @@ public class Broker extends Node implements Serializable  {
                 connection = providerSocket.accept();
 
                 //Creates a worker/handler thread,used to read the incoming messages from clients.
-                Worker wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists, BrokersHashtables,getMyHash());
+                if(c!=0) {
+                    wk = new Worker(getMegaArtistList());
+                    c++;
+                }
+                else {
+                    wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists, BrokersHashtables,getMyHash());
+                }
                 //Set a boolean value as true so as the worker recognises its a client and not an order broker anymore.
+                wk.setAsk(true);
                 wk.setEntrance(true);
                 System.out.println("Worker created.");
 
