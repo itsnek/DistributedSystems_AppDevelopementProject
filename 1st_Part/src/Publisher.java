@@ -10,7 +10,7 @@ public class Publisher extends Node{
     private static ArrayList <MusicFile> SongFiles = new ArrayList<MusicFile> (300);
     private static final int startingSocketNumber = 50190;
     private ArrayList <Broker> Brokers;
-    private List<ArrayList<Integer>> BrokersHashtables;
+    private List<ArrayList<Long>> BrokersHashtables;
     private Socket clientSocket = null;
     private ServerSocket serverSocket = null;
     private Socket requestSocket = null;

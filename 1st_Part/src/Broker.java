@@ -16,9 +16,10 @@ public class Broker extends Node implements Serializable  {
     private ArrayList<Long> artists =  new ArrayList<>();
     ArrayList<Broker> registeredBrokers;
     ArrayList<ArrayList<Long>> BrokersHashtables = new ArrayList<>();
+    ArrayList<Long> HashList = new ArrayList<Long>();
     final static int BrokersPort = 50850;
     int port ;
-    long serverHash, myHash;
+    long serverHash,myHash,biggestHash,smallestHash;
     String address,Scope;
     boolean entrance = false;
 
@@ -50,9 +51,10 @@ public class Broker extends Node implements Serializable  {
     public long getMyHash() { return myHash; }
 
     public void init() {
-        registeredBrokers = super.getBrokers();
 
         try{
+            registeredBrokers = super.getBrokers();
+
             //Setting ip and port to my Broker.Also initializing the arraylist with the hashtables(we use arraylists though) of the brokers.
             for (int i = 0; i < registeredBrokers.size(); i++) {
                 BrokersHashtables.add(null);
@@ -62,18 +64,51 @@ public class Broker extends Node implements Serializable  {
                 }
             }
 
+            calculateKeys();
+
         }catch (UnknownHostException unknownHost){
             System.out.println("Error!You are trying to connect to an unknown host!");
         }
     }
 
     //Calculating the hash for my Broker.
-    public long calculateKeys(Socket connection) throws UnknownHostException {
-        String ip = InetAddress.getLocalHost().getHostAddress();
-        String socketNumber = String.valueOf(connection.getLocalPort());
-        String sum = ip + socketNumber;
-        serverHash = (long)Math.abs(sum.hashCode());
-        return serverHash;
+//    public long calculateKeys(Socket connection) throws UnknownHostException {
+//        String ip = InetAddress.getLocalHost().getHostAddress();
+//        String socketNumber = String.valueOf(connection.getLocalPort() - 1);
+//        String sum = ip + socketNumber;
+//        serverHash = (long)Math.abs(sum.hashCode());
+//        return serverHash;
+//    }
+
+    public void calculateKeys(){
+
+        for (int i = 0; i < registeredBrokers.size(); i++) {
+            String ip = registeredBrokers.get(i).getAddress();
+            String socketNumber = String.valueOf(registeredBrokers.get(i).getPort() - 1);
+            String sum = ip + socketNumber;
+            long Hash = (long)Math.abs(sum.hashCode());
+            if(registeredBrokers.get(i).getAddress().equals(getAddress())){
+                setMyHash(Hash);
+            }
+
+            int j = 0;
+            while(j < HashList.size()){
+                if(HashList.get(j)<Hash) {
+                    HashList.add(j,Hash);
+                    break;
+                }else if(HashList.get(j)>Hash && j != HashList.size()-1){
+                    j++;
+                }else {
+                    HashList.add(j+1,Hash);
+                    break;
+                }
+            }
+            if(HashList.size() == 0){
+                HashList.add(Hash);
+            }
+
+        }
+
     }
 
     //Method used for the communication between Brokers.
@@ -96,13 +131,37 @@ public class Broker extends Node implements Serializable  {
 
     //Checks which artists does this Broker have to include in his hashtable.
     public void receiveArtists(ArrayList<String> artistsMessage,Socket connection) throws UnknownHostException{
-        myHash = calculateKeys(connection);
+        //setMyHash(calculateKeys(connection));
+        smallestHash = HashList.size()-1;
+        biggestHash = HashList.get(0);
 
+        for (int i = 0;i < HashList.size(); i++) {
+            System.out.println(HashList.get(i));
+
+        }
+
+        //Check if the condition is false and if the hashkey is already included in the hashtable.
         for(int i = 0; i < artistsMessage.size(); i++) {
-            //Check if the condition is false and if the hashkey is already included in the hashtable.
-            if (myHash > artistsMessage.get(i).hashCode() && !artists.contains((long)artistsMessage.get(i).hashCode())) {
-                artists.add((long)artistsMessage.get(i).hashCode());
+
+            for (int j = 0;j < HashList.size(); j++) {
+                System.out.println(HashList.size());
+
+                if(HashList.get(j) == getMyHash() && j != HashList.size()-1){
+                    if(getMyHash() >= artistsMessage.get(i).hashCode() && HashList.get(j+1) < artistsMessage.get(i).hashCode() && !artists.contains((long)artistsMessage.get(i).hashCode())){
+                        artists.add((long)artistsMessage.get(i).hashCode());
+                    }
+                }else if(HashList.get(j) == getMyHash() && j == HashList.size()-1){
+                    if(getMyHash() >= artistsMessage.get(i).hashCode() && !artists.contains((long)artistsMessage.get(i).hashCode())){
+                        artists.add((long)artistsMessage.get(i).hashCode());
+                    }else if(biggestHash < artistsMessage.get(i).hashCode()){
+                        long artistHash = artistsMessage.get(i).hashCode();
+                        artistHash = artistHash%smallestHash;
+                        artists.add(artistHash);
+                    }
+                }
+
             }
+
         }
 
     }
@@ -127,7 +186,6 @@ public class Broker extends Node implements Serializable  {
                 Scope = temp.toString();
                 receiveArtists(temp.getArtists(),connectionPub);
 
-                System.out.println(artists.size());
                 //Adds the Publisher in the arraylist.
                 registeredPublishers.add(new Publisher(connectionPub.getInetAddress().getHostAddress(),Scope));
 
@@ -234,14 +292,10 @@ public class Broker extends Node implements Serializable  {
 
         //Give values to this Broker instance.
         br1.init();
-        System.out.println("edw eimai1");
 
         //Explained above.
         br1.notifyPublisher();
-        System.out.println("edw eimai2");
-
         br1.NotifyBrokers();
-        System.out.println("edw eimai3");
         System.out.println(br1.getMyHash());
 
         br1.acceptConnection();
