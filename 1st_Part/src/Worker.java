@@ -47,16 +47,16 @@ public class Worker extends Thread {
         }
     }
 
-    public Worker(Socket connection,List<String> MegaArtistList){
-        this.connection = connection;
-        this.MegaArtistList = MegaArtistList;
-        try {
-            out = new ObjectOutputStream(connection.getOutputStream());
-            in = new ObjectInputStream(connection.getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public Worker(Socket connection,List<String> MegaArtistList){
+//        this.connection = connection;
+//        this.MegaArtistList = MegaArtistList;
+//        try {
+//            out = new ObjectOutputStream(connection.getOutputStream());
+//            in = new ObjectInputStream(connection.getInputStream());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     // Setters / Getters
 

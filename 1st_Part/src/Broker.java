@@ -255,7 +255,6 @@ public class Broker extends Node implements Serializable  {
                         System.out.println("ed eim");
                         System.out.println(MegaArtistList.size());
 
-                        //TODO: add to the worker th megalist or find a way to check if its the first time a client connects.
                         wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists, BrokersHashtables, getMyHash(),getMegaArtistList());
                         c++;
                         found = true;
@@ -268,7 +267,8 @@ public class Broker extends Node implements Serializable  {
                     System.out.println("edw15");
                     System.out.println(MegaArtistList.size());
 
-                    wk = new Worker(connection, getMegaArtistList());
+                    wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists, BrokersHashtables, getMyHash(),getMegaArtistList());
+
                     registeredUsers.add(new Consumer(connection.getInetAddress().getHostAddress()));
                 }
                 //Set a boolean value as true so as the worker recognises its a client and not an order broker anymore.
