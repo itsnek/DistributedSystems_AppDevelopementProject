@@ -9,6 +9,7 @@ import static java.lang.Integer.parseInt;
 
 public class Worker extends Thread {
 
+    int c = 0;
     long myHash,smallestHash;
     String requestedSong;
     Message tempA;
@@ -24,12 +25,12 @@ public class Worker extends Thread {
     private ArrayList<Broker> registeredBrokers;
     private ArrayList<ArrayList<Long>> BrokersHashtable;
     List<String> MegaArtistList;
-    private boolean endOfThread = false, ask = false;
+    private boolean endOfThread = false , ask = false , found = false;
     private boolean changed = false,entrance = false;
 
     // Constructors
 
-    public Worker(Socket connection,ArrayList<Consumer> registeredUsers,ArrayList<Publisher> registeredPublishers,ArrayList<Broker> registeredBrokers,ArrayList<Long> artists,ArrayList<ArrayList<Long>> BrokersHashtable,long myHash) {
+    public Worker(Socket connection,ArrayList<Consumer> registeredUsers,ArrayList<Publisher> registeredPublishers,ArrayList<Broker> registeredBrokers,ArrayList<Long> artists,ArrayList<ArrayList<Long>> BrokersHashtable,long myHash,List<String> MegaArtistList) {
         this.registeredUsers = registeredUsers;
         this.registeredBrokers = registeredBrokers;
         this.registeredPublishers = registeredPublishers;
@@ -37,6 +38,7 @@ public class Worker extends Thread {
         this.BrokersHashtable = BrokersHashtable;
         this.connection = connection;
         this.myHash = myHash;
+        this.MegaArtistList = MegaArtistList;
         try {
             out = new ObjectOutputStream(connection.getOutputStream());
             in = new ObjectInputStream(connection.getInputStream());
@@ -45,7 +47,8 @@ public class Worker extends Thread {
         }
     }
 
-    public Worker(List<String> MegaArtistList){
+    public Worker(Socket connection,List<String> MegaArtistList){
+        this.connection = connection;
         this.MegaArtistList = MegaArtistList;
         try {
             out = new ObjectOutputStream(connection.getOutputStream());
@@ -81,7 +84,9 @@ public class Worker extends Thread {
 
     public boolean getAsk(){ return ask; }
 
-
+    public List<String> getMegaArtistList() {
+        return MegaArtistList;
+    }
 
     public void run() {
         endOfThread = false;
@@ -124,36 +129,59 @@ public class Worker extends Thread {
                     }
                 }
                 else { //Check the incoming from Client.
+//                    System.out.println(getAsk());
 
-                    if(!getAsk()) {
-                        Message artistlist = (Message) in.readObject();
+                    Message request = (Message) in.readObject();
+                    System.out.println("Message received from Client.");
+                    System.out.println(request.toString());
+
+                    if(request.toString().equals("Hello")) {
+                        //Checks if the user is already registered.
+//                        if (!registeredUsers.contains(new Consumer(connection.getInetAddress().getHostAddress()))) {
+//                            System.out.println("edw mpainw?");
+//                            registeredUsers.add(new Consumer(connection.getInetAddress().getHostAddress()));
+//                        }
+                        while(c < registeredUsers.size()) {
+                            System.out.println("Mesa");
+
+                            if (registeredUsers.get(c).getArg1().equals(connection.getInetAddress().getHostAddress())) {
+                                c++;
+                                found = true;
+                            } else {
+                                c++;
+                            }
+                        }
+                        if(!found){
+                            registeredUsers.add(new Consumer(connection.getInetAddress().getHostAddress()));
+                        }
+                        System.out.println("e3w");
+
                         Message brokersInfo = new Message(MegaArtistList);
-                        out.writeObject(artistlist);
-                        setAsk(true);
+                        out.writeObject(brokersInfo);
                     }
                     else {
-
-                        Message request = (Message) in.readObject();
-                        System.out.println("Message received from Client.");
+                        System.out.println("mphka2");
+                        System.out.println(registeredUsers.size());
 
                         long artistHash = request.toString().hashCode();
                         requestedSong = request.getSong();
 
+                        System.out.println(artists.size());
                         //Checks if the hash of the client is less than the Broker's.
                         if (!artists.contains(artistHash)) {
+                            System.out.println("mphka3");
 
                             //Return Hashtables and BrokerList to the client.
                             Message brokersInfo = new Message(BrokersHashtable, registeredBrokers, false);
                             out.writeObject(brokersInfo);
 
                         } else {
+                            System.out.println("mphka4");
+
                             //Return Hashtables and BrokerList to the client.
                             Message brokersInfo = new Message(BrokersHashtable, registeredBrokers, true);
                             out.writeObject(brokersInfo);
-                            //Checks if the user is already registered.
-                            if (!registeredUsers.contains(new Consumer(connection.getInetAddress().getHostAddress()))) {
-                                registeredUsers.add(new Consumer(connection.getInetAddress().getHostAddress()));
-                            }
+
                             if (requestedSong != null) {
 
                                 try {
@@ -162,7 +190,7 @@ public class Worker extends Thread {
                                         //Delivers the message to the appropriate Publisher.
                                         if (request.toString().charAt(0) >= registeredPublishers.get(i).getScope().charAt(0) && request.toString().charAt(0) <= registeredPublishers.get(i).getScope().charAt(1)) {
 
-                                            requestSocket = new Socket(registeredPublishers.get(i).getAddress(), 50190); //opens connection
+                                            requestSocket = new Socket(registeredPublishers.get(i).getAddress(), 60000); //opens connection
                                             publisherOut = new ObjectOutputStream(requestSocket.getOutputStream()); // streams
                                             publisherIn = new ObjectInputStream(requestSocket.getInputStream());    //  used
                                             System.out.println(requestedSong);

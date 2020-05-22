@@ -35,6 +35,11 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
 
     //Setters / getters
 
+
+    public String getArg1() {
+        return arg1;
+    }
+
     public Boolean getFound(){
         return found;
     }
@@ -54,7 +59,7 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
             //Checks his response.
             Message temp = (Message) in.readObject();
 
-            ArtistList = temp.getMegaArtistList();
+            ArtistList=temp.getMegaArtistList();
 
         }catch (IOException ioException) {
             ioException.printStackTrace();
@@ -74,7 +79,7 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
 
             tempBroker = new Broker("192.168.2.2", 50221);
 
-            Message handshake = new Message(artist.getArtistName());
+            Message handshake = new Message(artist.getArtistName(),null);
 
             System.out.println(artist.getArtistName().hashCode());
             //Sends artist's name.
@@ -234,6 +239,10 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
     public static void main(String args[]) {
 
         Consumer cons1 = new Consumer();
+        cons1.getArtistList();
+        for(int i = 0; i < cons1.ArtistList.size(); i++){
+            System.out.println(cons1.ArtistList.get(i));
+        }
         Scanner myObj = new Scanner(System.in);  // Create a Scanner object
         ArtistName artist = new ArtistName(myObj.nextLine()); //Client inserts the artist he wants.
 
