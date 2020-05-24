@@ -13,7 +13,6 @@ public class Message implements Serializable {
     ArrayList<Broker> Brokers;
     List<ArrayList<Long>> BrokersHashtable;
     List<Broker> registeredBrokers;
-    List<String> MegaArtistList;
     MusicChunk Chunk;
     boolean t;
 
@@ -62,10 +61,6 @@ public class Message implements Serializable {
         this.t=t;
     }
 
-    public Message(List<String> MegaArtistList){
-        this.MegaArtistList = MegaArtistList;
-    }
-
     public Message(MusicChunk Chunk){
         this.Chunk = Chunk;
     }
@@ -77,7 +72,6 @@ public class Message implements Serializable {
     //  GETTERS
 
     public List<ArrayList<Long>> getBrokersHashtable() { return BrokersHashtable; }
-    public List<String> getMegaArtistList() {return MegaArtistList;}
     public MusicChunk getChunk() { return Chunk; }
     public ArrayList<Broker> getBrokers() { return Brokers; }
     public ArrayList<Long> getHashtable() { return hashtable; }

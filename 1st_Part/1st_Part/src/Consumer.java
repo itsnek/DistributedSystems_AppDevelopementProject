@@ -10,7 +10,6 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
     Broker tempBroker;
     List<Broker> BrokerList ;
     List<ArrayList<Long>> BrokerHashtables ;
-    List<String> ArtistList;
     LinkedList<MusicChunk> SongReceived = new LinkedList<>();
     private Socket requestSocket = null;
     private ObjectOutputStream out = null;
@@ -35,38 +34,16 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
 
     //Setters / getters
 
-
     public String getArg1() {
         return arg1;
     }
 
-    public Boolean getFound(){
-        return found;
+    public String getArg2() {
+        return arg2;
     }
 
-    public void getArtistList(){
-        try {
-            //Creates request socket.
-            requestSocket = new Socket("192.168.2.2", 50221);
-            out = new ObjectOutputStream(requestSocket.getOutputStream());  // Streams
-            in = new ObjectInputStream(requestSocket.getInputStream());     //  used
-
-            Message handshake = new Message("Hello");
-
-            //Sends hello message.
-            out.writeObject(handshake);
-
-            //Checks his response.
-            Message temp = (Message) in.readObject();
-
-            ArtistList=temp.getMegaArtistList();
-
-        }catch (IOException ioException) {
-            ioException.printStackTrace();
-        }catch (ClassNotFoundException e) {
-            System.out.println("/nUnknown object type received.");
-            e.printStackTrace();
-        }
+    public Boolean getFound(){
+        return found;
     }
 
     public void handshake(ArtistName artist){
@@ -239,10 +216,6 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
     public static void main(String args[]) {
 
         Consumer cons1 = new Consumer();
-        cons1.getArtistList();
-        for(int i = 0; i < cons1.ArtistList.size(); i++){
-            System.out.println(cons1.ArtistList.get(i));
-        }
         Scanner myObj = new Scanner(System.in);  // Create a Scanner object
         ArtistName artist = new ArtistName(myObj.nextLine()); //Client inserts the artist he wants.
 
