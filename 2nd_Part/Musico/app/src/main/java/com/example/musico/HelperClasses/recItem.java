@@ -1,12 +1,18 @@
 package com.example.musico.HelperClasses;
 
-public class recItem {
+public class recItemArtist {
     private int imgResource;
-    private String artist;
+    private String artist, song;
 
-    public recItem(int imgResource, String artist){
+    public recItemArtist(int imgResource, String artist){
         this.imgResource = imgResource;
         this.artist = artist;
+    }
+
+    public recItemArtist(int imgResource, String artist, String song){
+        this.imgResource = imgResource;
+        this.artist = artist;
+        this.song = song;
     }
 
     public int getImgResource(){
