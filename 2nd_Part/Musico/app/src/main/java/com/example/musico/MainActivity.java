@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(R.mipmap.ic_music_disk_lime);
-
     }
 
     public void onStart() {
@@ -38,14 +37,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(s, 0);
             }
         });
-
-//        Button button = (Button) findViewById(R.id.enterButton);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent s = new Intent(view.getContext(), AsyncTaskActivity.class);
-//                startActivityForResult(s, 0);
-//            }
-//        });
     }
 }

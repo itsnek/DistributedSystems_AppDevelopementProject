@@ -1,8 +1,13 @@
 package com.example.musico;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,8 +18,11 @@ import android.widget.TextView;
 
 import com.example.musico.HelperClasses.rAdapter;
 
+import java.io.File;
+
 public class MusicPlayerActivity extends AppCompatActivity {
 
+	private static final int PERMISSION_READ = ;
 	private Button btn;
 	private SeekBar positionBar;
 	private SeekBar volumeBar;
@@ -22,6 +30,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
 	private TextView remainingTimeLabel;
 	private MediaPlayer mp;
 	private int totalTime;
+	private File file;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +42,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
 		remainingTimeLabel = findViewById(R.id.remainingTime);
 
 		//Media Player
-		mp = MediaPlayer.create(this, R.raw);
+		mp = MediaPlayer.create(this, Uri.fromFile(file));
 		mp.setLooping(false);
 		mp.seekTo(0);
 		mp.setVolume(0.5f, 0.5f);
@@ -130,6 +139,23 @@ public class MusicPlayerActivity extends AppCompatActivity {
 		}else{
 			mp.pause();
 			btn.setBackgroundResource(R.drawable.ic_play);
+		}
+	}
+
+	public boolean checkPermission() {
+		int READ_EXTERNAL_PERMISSION = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+		if((READ_EXTERNAL_PERMISSION != PackageManager.PERMISSION_GRANTED)) {
+			ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_READ);
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (mp !=null){
+			mp.release();
 		}
 	}
 }

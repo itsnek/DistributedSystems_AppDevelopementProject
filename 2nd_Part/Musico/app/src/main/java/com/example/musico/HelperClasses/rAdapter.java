@@ -27,8 +27,9 @@ public class rAdapter extends RecyclerView.Adapter<rAdapter.ViewHolder> {
 
 	public static class ViewHolder extends RecyclerView.ViewHolder{
 
-		private ImageView image;
-		private TextView artist;
+		private ImageView image, delImage;
+		private TextView artist, song;
+
 
 		public ViewHolder(View itemView, final OnItemClickListener listener) {
 			super(itemView);
@@ -39,9 +40,9 @@ public class rAdapter extends RecyclerView.Adapter<rAdapter.ViewHolder> {
 				@Override
 				public void onClick(View v) {
 					if (listener != null){
-						int postition = getAdapterPosition();
-						if (postition != RecyclerView.NO_POSITION){
-							listener.onItemClick(postition);
+						int position = getAdapterPosition();
+						if (position != RecyclerView.NO_POSITION){
+							listener.onItemClick(position);
 						}
 					}
 				}
@@ -55,7 +56,7 @@ public class rAdapter extends RecyclerView.Adapter<rAdapter.ViewHolder> {
 
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.rec_item, parent, false);
+		View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.rec_item_artist, parent, false);
 		ViewHolder vHolder = new ViewHolder(v, mListener);
 		return vHolder;
 	}

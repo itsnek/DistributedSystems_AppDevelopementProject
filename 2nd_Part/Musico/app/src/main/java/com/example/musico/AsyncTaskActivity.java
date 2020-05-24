@@ -1,12 +1,13 @@
 package com.example.musico;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +16,8 @@ public class AsyncTaskActivity extends AppCompatActivity {
 	private Button btn;
 	private EditText editTxt;
 	private String artist, song;
+	private Switch swtch;
+	boolean online;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,17 @@ public class AsyncTaskActivity extends AppCompatActivity {
 		textView.setText(artist);
 
 		editTxt = findViewById(R.id.plain_text_input);
+		swtch = findViewById(R.id.swtch);
+		swtch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isChecked) {
+					online = true;
+				} else {
+					online = false;
+				}
+			}
+		});
 		btn = findViewById(R.id.searchBtn);
 		btn.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -36,9 +50,11 @@ public class AsyncTaskActivity extends AppCompatActivity {
 				if(song.isEmpty()){
 					Toast.makeText(AsyncTaskActivity.this, "Please Enter a Song", Toast.LENGTH_SHORT).show();
 				}else {
-
-					//EDO STELNEIS SONG KAI ARTIST
-
+					if(online){
+						//ONLINE MODE
+					}else{
+						//OFFLINE MODE
+					}
 				}
 			}
 		});

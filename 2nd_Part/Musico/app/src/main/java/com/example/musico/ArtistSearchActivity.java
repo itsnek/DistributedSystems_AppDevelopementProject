@@ -31,8 +31,11 @@ public class ArtistSearchActivity extends AppCompatActivity {
 		List.add(new recItem(R.drawable.ic_headset_black_24dp, "Jme"));
 		List.add(new recItem(R.drawable.ic_headset_black_24dp, "Skepta"));
 		//TODO: Dynamically fill the list with the songs provided by the broker
-		//TODO: Check if song is downloaded and load the correct resource (cross or check)
 
+		recyclerSetup(List);
+	}
+
+	private void recyclerSetup(final ArrayList<recItem> List){
 		recView = findViewById(R.id.recyclerView);
 		recView.setHasFixedSize(true);
 		rLayoutManager = new LinearLayoutManager(this);
