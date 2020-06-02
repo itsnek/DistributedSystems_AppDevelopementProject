@@ -241,26 +241,26 @@ public class Consumer extends Node implements Serializable { //den ginetai me to
 
     }
 
-    public static void main(String args[]) {
-
-        Consumer cons1 = new Consumer();
-        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-        ArtistName artist = new ArtistName(myObj.nextLine()); //Client inserts the artist he wants.
-
-        //Handshake with a random broker and check if its the correct one and register, else try again.
-        cons1.handshake(artist);
-
-        if (cons1.getFound()) {
-            //Request artist's song.
-            System.out.println("Which song of this artist do you want to listen?/n");
-            cons1.requestSong(artist,myObj.nextLine());
-
-            //Put the incoming chunks in a file that can be played manually.
-            cons1.playData();
-
-        }
-        myObj.close();
-        //cons1.disconnect();
-    }
+//    public static void main(String args[]) {
+//
+//        Consumer cons1 = new Consumer();
+//        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+//        ArtistName artist = new ArtistName(myObj.nextLine()); //Client inserts the artist he wants.
+//
+//        //Handshake with a random broker and check if its the correct one and register, else try again.
+//        cons1.handshake(artist);
+//
+//        if (cons1.getFound()) {
+//            //Request artist's song.
+//            System.out.println("Which song of this artist do you want to listen?/n");
+//            cons1.requestSong(artist,myObj.nextLine());
+//
+//            //Put the incoming chunks in a file that can be played manually.
+//            cons1.playData();
+//
+//        }
+//        myObj.close();
+//        //cons1.disconnect();
+//    }
 
 }
