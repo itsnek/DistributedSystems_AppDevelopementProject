@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -17,7 +18,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.musico.HelperClasses.rAdapter;
-//hhhhhhhh
+
 import java.io.File;
 
 public class MusicPlayerActivity extends AppCompatActivity {
@@ -30,7 +31,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
 	private TextView remainingTimeLabel;
 	private MediaPlayer mp;
 	private int totalTime;
-	private File file;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,18 @@ public class MusicPlayerActivity extends AppCompatActivity {
 		remainingTimeLabel = findViewById(R.id.remainingTime);
 
 		//Media Player
-		mp = MediaPlayer.create(this, Uri.fromFile(file));
+		Intent player = getIntent();
+		File mp3File;
+		if (player.hasExtra("online")) {
+			mp3File = new File(player.getStringExtra("file's name"));
+			boolean online = player.getBooleanExtra("online", false);
+		} else {
+			//TODO You need to insert song's name by putExtra to the point you will call MusicPlayerActivity for offline mode.
+			mp3File = new File(player.getStringExtra());
+			boolean online = false;
+			//TODO Somewhere you need to call onDestroy.
+		}
+		mp = MediaPlayer.create(this, Uri.fromFile(mp3File));
 		mp.setLooping(false);
 		mp.seekTo(0);
 		mp.setVolume(0.5f, 0.5f);
@@ -152,10 +163,13 @@ public class MusicPlayerActivity extends AppCompatActivity {
 	}
 
 	@Override
-	protected void onDestroy() {
+	protected void onDestroy(boolean online, File mp3File) {
 		super.onDestroy();
 		if (mp !=null){
 			mp.release();
+		}
+		if (online) {
+			mp3File.delete();
 		}
 	}
 }
