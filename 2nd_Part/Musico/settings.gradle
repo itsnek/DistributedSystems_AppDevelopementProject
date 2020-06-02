@@ -1,2 +1,2 @@
 rootProject.name='Musico'
-include ':app'
+include ':app', ''
