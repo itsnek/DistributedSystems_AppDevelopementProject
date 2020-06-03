@@ -1,5 +1,6 @@
 package com.example.musico;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,10 +22,11 @@ import android.widget.TextView;
 import com.example.musico.HelperClasses.rAdapter;
 
 import java.io.File;
+import java.util.Objects;
 
 public class MusicPlayerActivity extends AppCompatActivity {
 
-	private static final int PERMISSION_READ = ;
+	private static final int PERMISSION_READ = 1;
 	private Button btn;
 	private SeekBar positionBar;
 	private SeekBar volumeBar;
@@ -32,6 +35,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
 	private MediaPlayer mp;
 	private int totalTime;
 
+	@RequiresApi(api = Build.VERSION_CODES.KITKAT)
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,11 +49,11 @@ public class MusicPlayerActivity extends AppCompatActivity {
 		Intent player = getIntent();
 		File mp3File;
 		if (player.hasExtra("online")) {
-			mp3File = new File(player.getStringExtra("file's name"));
+			mp3File = new File(Objects.requireNonNull(player.getStringExtra("file's name")));
 			boolean online = player.getBooleanExtra("online", false);
 		} else {
 			//TODO You need to insert song's name by putExtra to the point you will call MusicPlayerActivity for offline mode.
-			mp3File = new File(player.getStringExtra());
+			mp3File = new File(Objects.requireNonNull(player.getStringExtra("song.mp3")));
 			boolean online = false;
 			//TODO Somewhere you need to call onDestroy.
 		}
@@ -162,7 +166,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
 		return true;
 	}
 
-	@Override
 	protected void onDestroy(boolean online, File mp3File) {
 		super.onDestroy();
 		if (mp !=null){

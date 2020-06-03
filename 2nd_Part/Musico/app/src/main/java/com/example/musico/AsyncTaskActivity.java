@@ -1,7 +1,9 @@
 package com.example.musico;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -50,6 +52,7 @@ public class AsyncTaskActivity extends AppCompatActivity {
 		});
 		btn = findViewById(R.id.searchBtn);
 		btn.setOnClickListener(new View.OnClickListener() {
+			@RequiresApi(api = Build.VERSION_CODES.O)
 			@Override
 			public void onClick(View v) {
 				song = editTxt.getText().toString();
@@ -78,6 +81,7 @@ public class AsyncTaskActivity extends AppCompatActivity {
 		});
 	}
 
+	@RequiresApi(api = Build.VERSION_CODES.O)
 	private void playSongOnline (Consumer cons) throws IOException, ClassNotFoundException {
         /* This list contains chunks that came earlier than than their order. For example chunk with number 3 if it arrived earlier
         than chunk with number 2. I delete a chunk after i use it.
