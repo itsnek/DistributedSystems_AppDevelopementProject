@@ -1,11 +1,11 @@
 package com.example.musico;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.os.Bundle;
 
 import com.example.musico.HelperClasses.rAdapter;
 import com.example.musico.HelperClasses.recItem;
@@ -28,7 +28,7 @@ public class ArtistSearchActivity extends AppCompatActivity {
 
 		final ArrayList<recItem> List = new ArrayList<>();
 		Consumer cons = new Consumer();
-		cons.getAllArtists();
+		getInfo(cons);
 		for (int i=0; i<cons.getArtistList().size(); i++) {
 			List.add(new recItem(R.drawable.ic_headset_black_24dp, cons.getArtistList().get(i)));
 		}
@@ -60,5 +60,9 @@ public class ArtistSearchActivity extends AppCompatActivity {
 				startActivity(intent);
 			}
 		});
+	}
+
+	public void getInfo(Consumer cons){
+		cons.getAllArtists();
 	}
 }
