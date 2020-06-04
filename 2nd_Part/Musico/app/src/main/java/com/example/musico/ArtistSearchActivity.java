@@ -28,7 +28,7 @@ public class ArtistSearchActivity extends AppCompatActivity {
 
 		final ArrayList<recItem> List = new ArrayList<>();
 		Consumer cons = new Consumer();
-		getInfo(cons);
+		getInfo();
 		for (int i=0; i<cons.getArtistList().size(); i++) {
 			List.add(new recItem(R.drawable.ic_headset_black_24dp, cons.getArtistList().get(i)));
 		}
@@ -62,7 +62,14 @@ public class ArtistSearchActivity extends AppCompatActivity {
 		});
 	}
 
-	public void getInfo(Consumer cons){
-		cons.getAllArtists();
+	public void getInfo(){
+		thread.start();
 	}
+	Thread thread = new Thread(new Runnable(){
+		@Override
+		public void run() {
+			Consumer cons = new Consumer();
+			cons.getAllArtists();
+		}
+	});
 }

@@ -242,6 +242,7 @@ public class Worker extends Thread {
                     }
                 }
             } catch (IOException | ClassNotFoundException e) {
+                Class.forName("Message");
                 e.printStackTrace();
             } finally {
                 try {
