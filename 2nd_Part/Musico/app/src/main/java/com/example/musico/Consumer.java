@@ -1,5 +1,9 @@
 package com.example.musico;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -37,6 +41,11 @@ public class Consumer extends Node implements Serializable { //den ginetai me to
 
     //Setters / getters
 
+
+    public String getArg1() {
+        return arg1;
+    }
+
     public Boolean getFound(){
         return found;
     }
@@ -52,7 +61,7 @@ public class Consumer extends Node implements Serializable { //den ginetai me to
     public void getAllArtists(){
         try {
             //Creates request socket.
-            requestSocket = new Socket("192.168.2.2", 50221);
+            requestSocket = new Socket("192.168.2.8", 50221);
             out = new ObjectOutputStream(requestSocket.getOutputStream());  // Streams
             in = new ObjectInputStream(requestSocket.getInputStream());     //  used
 
@@ -78,11 +87,11 @@ public class Consumer extends Node implements Serializable { //den ginetai me to
 
         try {
             //Creates request socket.
-            requestSocket = new Socket("192.168.2.2", 50221);
+            requestSocket = new Socket("192.168.2.8", 50221);
             out = new ObjectOutputStream(requestSocket.getOutputStream());  // Streams
             in = new ObjectInputStream(requestSocket.getInputStream());     //  used
 
-            tempBroker = new Broker("192.168.2.2", 50221);
+            tempBroker = new Broker("192.168.2.8", 50221);
 
             Message handshake = new Message(artist.getArtistName());
 
@@ -158,6 +167,7 @@ public class Consumer extends Node implements Serializable { //den ginetai me to
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void playData (String song){
         //Gets file's path.
         File myObj = new File("D:\\Nikos\\Documents\\GitHub\\distributed\\1st_Part\\" +song+ ".mp3");

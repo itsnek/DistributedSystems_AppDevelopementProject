@@ -47,7 +47,7 @@ public class Consumer extends Node { //den ginetai me to extend thread na kanw e
     public void getArtistList(){
         try {
             //Creates request socket.
-            requestSocket = new Socket("192.168.2.2", 50221);
+            requestSocket = new Socket("192.168.2.8", 50221);
             out = new ObjectOutputStream(requestSocket.getOutputStream());  // Streams
             in = new ObjectInputStream(requestSocket.getInputStream());     //  used
 

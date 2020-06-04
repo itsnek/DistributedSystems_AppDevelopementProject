@@ -10,7 +10,7 @@ public class Publisher extends Node{
     private static ArrayList <String> Artists = new ArrayList<>(30);
     private static ArrayList <String> Songs = new ArrayList<String> (300);
     private static ArrayList <MusicFile> SongFiles = new ArrayList<MusicFile> (300);
-    private static final int startingSocketNumber = 50190;
+    private static final int startingSocketNumber = 60000;
     private ArrayList <Broker> Brokers;
     private List<ArrayList<Long>> BrokersHashtables;
     private Socket clientSocket = null;
@@ -61,7 +61,7 @@ public class Publisher extends Node{
     private void ReadDataFile (String artistsToGet) {
 
         //Filepath
-        File file = new File ("C:\\Users\\User\\Desktop\\Distributed Systems\\android\\2nd_Part\\Musico\\app\\src\\main\\res\\raw");
+        File file = new File ("D:\\Nikos\\Documents\\οπα\\Κατανεμημένα συστήματα\\Project\\Datasets\\dataset2\\dataset2");
         Mp3File mp3File;
         ID3v1 id3v1Tag;
         ID3v2 id3v2Tag;

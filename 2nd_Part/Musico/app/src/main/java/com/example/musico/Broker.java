@@ -1,5 +1,4 @@
-package com.example.musico;
-
+package com.example.musico;//import java.awt.datatransfer.MimeTypeParameterList;
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -19,12 +18,12 @@ public class Broker extends Node implements Serializable  {
     ArrayList<Broker> registeredBrokers;
     ArrayList<ArrayList<Long>> BrokersHashtables = new ArrayList<>();
     ArrayList<Long> HashList = new ArrayList<Long>();
-    List<String> MegaArtistList;
+    List<String> MegaArtistList = new ArrayList<>();
     final static int BrokersPort = 50850;
     int port,c = 0;
     long serverHash,myHash,biggestHash,smallestHash;
     String address,Scope;
-    boolean entrance = false;
+    boolean entrance = false,found = false;
     Worker wk;
 
     Broker(){}
@@ -134,12 +133,12 @@ public class Broker extends Node implements Serializable  {
         smallestHash = HashList.size()-1;
         biggestHash = HashList.get(0);
 
+        System.out.println("edw");
         //Check if the condition is false and if the hashkey is already included in the hashtable.
         for(int i = 0; i < artistsMessage.size(); i++) {
             MegaArtistList.add(artistsMessage.get(i));
 
             for (int j = 0;j < HashList.size(); j++) {
-                System.out.println(HashList.size());
 
                 if(HashList.get(j) == getMyHash() && j != HashList.size()-1){
                     if(getMyHash() >= artistsMessage.get(i).hashCode() && HashList.get(j+1) < artistsMessage.get(i).hashCode() && !artists.contains((long)artistsMessage.get(i).hashCode())){
@@ -177,6 +176,7 @@ public class Broker extends Node implements Serializable  {
 
                 //Receives the message.
                 Message temp = (Message)in.readObject();
+                System.out.println("edw");
 
                 Scope = temp.toString();
                 receiveArtists(temp.getArtists(),connectionPub);
@@ -205,6 +205,9 @@ public class Broker extends Node implements Serializable  {
 
     public void acceptConnection() {
         try{
+            for(int i = 0 ; i < artists.size();i++){
+                System.out.println(artists.get(i));
+            }
             //Check if it's an incoming message from Broker.
             if (!entrance) {
 
@@ -216,14 +219,14 @@ public class Broker extends Node implements Serializable  {
                     connection = providerSocket.accept();
 
                     //Creates a worker/handler thread,used to read the incoming messages from other Brokers.
-                    wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists, BrokersHashtables,getMyHash());
+                    wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists, BrokersHashtables,getMyHash(),getMegaArtistList());
 
                     new Thread(wk).start();
                     System.out.println("Loading");
 
                     //Used so as to to keep the process busy while waiting for the thread's results.
                     while (!wk.getEndOfThread()) {
-                       // System.out.println("Loading");
+                      //System.out.println("Loading");
                     }
                     //Retrieve the hashtables from the worker/handler.
                     BrokersHashtables = wk.getBrokersHashtable();
@@ -241,30 +244,51 @@ public class Broker extends Node implements Serializable  {
             System.out.println(getPort() - 1);
 
             while (true) {
+                c = 0;
                 //Waits for an incoming request.
+                System.out.println("perimenw");
                 connection = providerSocket.accept();
 
                 //Creates a worker/handler thread,used to read the incoming messages from clients.
-                if(c!=0) {
-                    wk = new Worker(getMegaArtistList());
-                    c++;
+                while(c < registeredUsers.size()) {
+                    if (registeredUsers.get(c).getArg1().equals(connection.getInetAddress().getHostAddress())) {
+                        System.out.println("ed eim");
+                        System.out.println(MegaArtistList.size());
+
+                        wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists, BrokersHashtables, getMyHash(),getMegaArtistList());
+                        c++;
+                        found = true;
+                    } else {
+                        System.out.println("edw exw mpei");
+                        c++;
+                    }
                 }
-                else {
-                    wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists, BrokersHashtables,getMyHash());
+                if(!found){
+                    System.out.println("edw15");
+                    System.out.println(MegaArtistList.size());
+
+                    wk = new Worker(connection, registeredUsers, registeredPublishers, registeredBrokers, artists, BrokersHashtables, getMyHash(),getMegaArtistList());
+
+                    registeredUsers.add(new Consumer(connection.getInetAddress().getHostAddress()));
                 }
                 //Set a boolean value as true so as the worker recognises its a client and not an order broker anymore.
-                wk.setAsk(true);
                 wk.setEntrance(true);
                 System.out.println("Worker created.");
 
                 new Thread(wk).start();
+                System.out.println("Loading..");
 
                 //Used so as to to keep the process busy while waiting for the thread's results.
                 while (!wk.getEndOfThread()) {
-                    //System.out.println("Loading..");
+                    System.out.println("Loading..");
                 }
+                System.out.println("Loading..");
+
                 //Retrieve the arraylist of registered users/client from the worker/handler.
                 registeredUsers = wk.getRegisteredUsers();
+
+                found = false;
+
             }
 
         }catch (IOException ioException) {
@@ -298,8 +322,8 @@ public class Broker extends Node implements Serializable  {
         //Explained above.
         br1.notifyPublisher();
         br1.NotifyBrokers();
-        System.out.println(br1.getMyHash());
 
+        System.out.println(br1.getMyHash());
         br1.acceptConnection();
 
     }
