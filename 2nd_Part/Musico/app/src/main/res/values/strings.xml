@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Musico</string>
+    <string name="button_enter">Enter</string>
+    <string name="musico">Musico</string>
+    <string name="song_placeholder">Song</string>
+    <string name="artist_placeholder">Artist</string>
+    <string name="title_placeholder">Music at it\'s best!</string>
+    <string name="search_a_song_from">Search a song from:</string>
+    <string name="search">Search</string>
+    <string name="online_mode">Online Mode</string>
+</resources>

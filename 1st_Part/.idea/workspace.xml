@@ -1,22 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2b2e675e-3b8f-4e92-9e5d-3b82a9cec27d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spotify/Broker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spotify/Broker.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/song.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/song.mp3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Broker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Broker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Worker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Worker.java" afterDir="false" />
+    <list default="true" id="b456ec75-de73-4254-a48b-468026d8175f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../2nd_Part/Musico/app/Libs/1st_part.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MusicChunk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MusicChunk.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MusicFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MusicFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Publisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Publisher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../2nd_Part/Musico/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/../2nd_Part/Musico/.idea/caches/build_file_checksums.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../2nd_Part/Musico/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../2nd_Part/Musico/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../2nd_Part/Musico/app/src/main/java/com/example/musico/ArtistName.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../2nd_Part/Musico/app/src/main/java/com/example/musico/ArtistSearchActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../2nd_Part/Musico/app/src/main/java/com/example/musico/ArtistSearchActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../2nd_Part/Musico/app/src/main/java/com/example/musico/Broker.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../2nd_Part/Musico/app/src/main/java/com/example/musico/BrokerCommunicator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../2nd_Part/Musico/app/src/main/java/com/example/musico/Brokers.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../2nd_Part/Musico/app/src/main/java/com/example/musico/Consumer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../2nd_Part/Musico/app/src/main/java/com/example/musico/Message.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../2nd_Part/Musico/app/src/main/java/com/example/musico/MusicChunk.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../2nd_Part/Musico/app/src/main/java/com/example/musico/MusicFile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../2nd_Part/Musico/app/src/main/java/com/example/musico/Node.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../2nd_Part/Musico/app/src/main/java/com/example/musico/Publisher.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../2nd_Part/Musico/app/src/main/java/com/example/musico/PublisherScope.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../2nd_Part/Musico/app/src/main/java/com/example/musico/PublisherThread.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../2nd_Part/Musico/app/src/main/java/com/example/musico/Value.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../2nd_Part/Musico/app/src/main/java/com/example/musico/Worker.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view />
+      </state>
+    </system>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectId" id="1bEN7AazHC2V4TRCYuo6IOwAvbX" />
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="D:\Nikos\Documents\GitHub\distributed\1st_Part\.idea" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectId" id="1cRYwA2ONPQ7qloTmRPnEXUPtPC" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
@@ -27,21 +58,14 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
-  <component name="RunManager" selected="Compound.Handshake">
+  <component name="RunManager" selected="Compound.Semi-Handshake">
     <configuration name="Broker" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Broker" />
-      <module name="spotify" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Consumer" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="Consumer" />
       <module name="spotify" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -55,23 +79,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Handshake" type="CompoundRunConfigurationType">
-      <toRun name="Consumer" type="Application" />
+    <configuration name="Semi-Handshake" type="CompoundRunConfigurationType">
       <toRun name="Broker" type="Application" />
       <toRun name="Publisher" type="Application" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="CompoundRunConfigurationType">
-      <toRun name="Consumer" type="Application" />
       <toRun name="Broker" type="Application" />
       <toRun name="Publisher" type="Application" />
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Application.Publisher" />
       <item itemvalue="Application.Broker" />
-      <item itemvalue="Application.Consumer" />
-      <item itemvalue="Compound.Handshake" />
+      <item itemvalue="Application.Publisher" />
+      <item itemvalue="Compound.Semi-Handshake" />
     </list>
   </component>
   <component name="SvnConfiguration">
@@ -79,83 +100,66 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="2b2e675e-3b8f-4e92-9e5d-3b82a9cec27d" name="Default Changelist" comment="" />
-      <created>1588193122440</created>
+      <changelist id="b456ec75-de73-4254-a48b-468026d8175f" name="Default Changelist" comment="" />
+      <created>1590493108968</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1588193122440</updated>
-      <workItem from="1588193123727" duration="62000" />
-      <workItem from="1588517628734" duration="14752000" />
+      <updated>1590493108968</updated>
+      <workItem from="1590503208672" duration="952000" />
+      <workItem from="1591104371401" duration="2225000" />
+      <workItem from="1591108332795" duration="1579000" />
+      <workItem from="1591118965225" duration="706000" />
+      <workItem from="1591180217457" duration="711000" />
+      <workItem from="1591182726588" duration="1485000" />
+      <workItem from="1591194461217" duration="10000" />
+      <workItem from="1591194570713" duration="2427000" />
     </task>
-    <task id="LOCAL-00001" summary="final">
-      <created>1588454476456</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1588454476456</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="final" />
-    <option name="LAST_COMMIT_MESSAGE" value="final" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="WindowStateProjectService">
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588522030860">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="2014" y="147" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1591105376901">
+      <screen x="1920" y="0" width="1280" height="984" />
     </state>
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588522030860" />
-    <state x="689" y="304" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1588522000987">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="2014" y="147" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.0.1280.984@1920.0.1280.984" timestamp="1591105376901" />
+    <state x="2289" y="276" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1591105169056">
+      <screen x="1920" y="0" width="1280" height="984" />
     </state>
-    <state x="689" y="304" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588522000987" />
-    <state x="585" y="114" key="CommitChangelistDialog2" timestamp="1588454475273">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="2289" y="276" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1920.1040/1920.0.1280.984@1920.0.1280.984" timestamp="1591105169056" />
+    <state width="1237" height="386" key="GridCell.Tab.0.bottom" timestamp="1591203607001">
+      <screen x="1920" y="0" width="1280" height="984" />
     </state>
-    <state x="585" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1588454475273" />
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1588533924610">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1237" height="386" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1280.984@1920.0.1280.984" timestamp="1591203607001" />
+    <state width="1237" height="386" key="GridCell.Tab.0.center" timestamp="1591203607001">
+      <screen x="1920" y="0" width="1280" height="984" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1588533924610" />
-    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1588533924610">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1237" height="386" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1280.984@1920.0.1280.984" timestamp="1591203607001" />
+    <state width="1237" height="386" key="GridCell.Tab.0.left" timestamp="1591203607001">
+      <screen x="1920" y="0" width="1280" height="984" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1588533924610" />
-    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1588533924610">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1237" height="386" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1280.984@1920.0.1280.984" timestamp="1591203607001" />
+    <state width="1237" height="386" key="GridCell.Tab.0.right" timestamp="1591203607001">
+      <screen x="1920" y="0" width="1280" height="984" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1588533924610" />
-    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1588533924610">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1237" height="386" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1280.984@1920.0.1280.984" timestamp="1591203607001" />
+    <state x="2256" y="316" key="com.intellij.ide.util.TipDialog" timestamp="1591194462580">
+      <screen x="1920" y="0" width="1280" height="984" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588533924610" />
-    <state x="184" y="86" key="MergeDialog" timestamp="1588453962779">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="184" y="86" key="MergeDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588453962779" />
-    <state x="672" y="236" key="MultipleFileMergeDialog" timestamp="1588454646387">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="672" y="236" key="MultipleFileMergeDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588454646387" />
-    <state x="461" y="162" key="SettingsEditor" timestamp="1588521851295">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="461" y="162" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1588521851295" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1588528098121">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1588528098121" />
-    <state x="656" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1588517701331">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="656" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588517701331" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1588531501127">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1588531501127" />
+    <state x="2256" y="316" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/1920.0.1280.984@1920.0.1280.984" timestamp="1591194462580" />
   </component>
 </project>
