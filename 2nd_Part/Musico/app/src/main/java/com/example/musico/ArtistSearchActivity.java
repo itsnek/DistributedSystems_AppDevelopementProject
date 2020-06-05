@@ -34,22 +34,14 @@ public class ArtistSearchActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_artist_search);
 
 		communicator.start();
+		while(!Communicator.getEnd()){}
 		cons.setArtistList(communicator.getArrayList());
 
 		if(cons.getArtistList()!=null){
-			System.out.println(cons.getArtistList().size());
-
 			for (int i=0; i<cons.getArtistList().size(); i++) {
-				System.out.println("mesa eimai");
 				List.add(new recItem(R.drawable.ic_headset_black_24dp, cons.getArtistList().get(i)));
 			}
-			System.out.println(List.size());
 		}
-
-//		List.add(new recItem(R.drawable.ic_headset_black_24dp, "Sin Boy"));
-//		List.add(new recItem(R.drawable.ic_headset_black_24dp, "Jme"));
-//		List.add(new recItem(R.drawable.ic_headset_black_24dp, "Skepta"));
-		//TODO: Dynamically fill the list with the songs provided by the broker
 
 		recyclerSetup(List, cons);
 	}
