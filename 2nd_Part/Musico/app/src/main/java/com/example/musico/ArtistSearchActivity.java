@@ -17,27 +17,35 @@ import MyPackage.*;
 
 public class ArtistSearchActivity extends AppCompatActivity {
 
-
 	private String artist;
 	private RecyclerView recView;
 	private rAdapter adapter;
 	private RecyclerView.LayoutManager rLayoutManager;
-	static final String EXTRA_MESSAGE = "com.example.musico.MESSAGE";
+	static final String EXTRA_MESSAGE = "MyPackage.MESSAGE";
+	Consumer cons = new Consumer();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
+		final ArrayList<recItem> List = new ArrayList<>();
+		Communicator communicator = new Communicator();
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_artist_search);
 
-		final ArrayList<recItem> List = new ArrayList<>();
-		ArrayList<recItem> ArrayList = new ArrayList<>();
-		Consumer cons = new Consumer();
-		thread.start();
-		cons.setArtistList(thread.getData());
+		communicator.start();
+		cons.setArtistList(communicator.getArrayList());
 
-		for (int i=0; i<cons.getArtistList().size(); i++) {
-			List.add(new recItem(R.drawable.ic_headset_black_24dp, cons.getArtistList().get(i)));
+		if(cons.getArtistList()!=null){
+			System.out.println(cons.getArtistList().size());
+
+			for (int i=0; i<cons.getArtistList().size(); i++) {
+				System.out.println("mesa eimai");
+				List.add(new recItem(R.drawable.ic_headset_black_24dp, cons.getArtistList().get(i)));
+			}
+			System.out.println(List.size());
 		}
+
 //		List.add(new recItem(R.drawable.ic_headset_black_24dp, "Sin Boy"));
 //		List.add(new recItem(R.drawable.ic_headset_black_24dp, "Jme"));
 //		List.add(new recItem(R.drawable.ic_headset_black_24dp, "Skepta"));
@@ -68,23 +76,4 @@ public class ArtistSearchActivity extends AppCompatActivity {
 		});
 	}
 
-//	public void getInfo(){
-//		thread.start();
-//		thread.getData();
-//	}
-	Thread thread = new Thread(new Runnable(){
-
-		Consumer cons = new Consumer();
-
-		public List getData(){
-			return cons.getArtistList();
-		}
-
-		@Override
-		public void run() {
-
-			cons.getAllArtists();
-			//ArrayList = cons.getArtistList();
-		}
-	});
 }
