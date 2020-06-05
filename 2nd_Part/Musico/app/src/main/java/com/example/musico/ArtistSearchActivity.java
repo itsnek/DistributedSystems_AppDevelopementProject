@@ -27,8 +27,8 @@ public class ArtistSearchActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
+		Communicator communicator = new Communicator(1);
 		final ArrayList<recItem> List = new ArrayList<>();
-		Communicator communicator = new Communicator();
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_artist_search);
@@ -59,7 +59,8 @@ public class ArtistSearchActivity extends AppCompatActivity {
 			@Override
 			public void onItemClick(int position) {
 				artist = List.get(position).getArtist();
-				cons.handshake(new ArtistName(artist));
+				Communicator communicator2 = new Communicator(2,artist);
+				communicator2.start();
 				Intent intent = new Intent(ArtistSearchActivity.this, AsyncTaskActivity.class);
 				intent.putExtra (EXTRA_MESSAGE, artist);
 				intent.putExtra ("Consumer", cons);

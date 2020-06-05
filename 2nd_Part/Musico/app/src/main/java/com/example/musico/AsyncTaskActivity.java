@@ -60,10 +60,11 @@ public class AsyncTaskActivity extends AppCompatActivity {
 				song = editTxt.getText().toString();
 				Intent intent = getIntent();
                 Consumer cons = (Consumer) intent.getSerializableExtra("Consumer");
+                Communicator com = new Communicator(3,artist,song);
 				if(song.isEmpty()){
 					Toast.makeText(AsyncTaskActivity.this, "Please Enter a Song", Toast.LENGTH_SHORT).show();
 				}else {
-                    cons.requestSong (new ArtistName(artist), song);
+                    com.start();
 					if(online){
 						//ONLINE MODE
                         try {
@@ -76,7 +77,7 @@ public class AsyncTaskActivity extends AppCompatActivity {
 
 					}else{
 						//OFFLINE MODE
-                        cons.playData(song);
+						com.start();
 					}
 				}
 			}
