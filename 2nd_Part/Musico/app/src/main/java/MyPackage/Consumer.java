@@ -25,7 +25,6 @@ public class Consumer extends Node implements Serializable {
 
     String arg1,arg2;
     int hash,i = 0;
-    Broker tempBroker;
     List<Broker> BrokerList ;
     List<ArrayList<Long>> BrokerHashtables ;
     private List<String> ArtistList;
@@ -34,6 +33,7 @@ public class Consumer extends Node implements Serializable {
     private ObjectOutputStream out = null;
     private ObjectInputStream in = null;
     boolean found = false;
+    Broker tempBroker = new Broker("192.168.2.8", 50221);
 
     //Constructors
 
@@ -77,7 +77,7 @@ public class Consumer extends Node implements Serializable {
     public void getAllArtists(){
         try {
             //Creates request socket.
-            requestSocket = new Socket("192.168.2.10", 55554);
+            requestSocket = new Socket("192.168.2.8", 50221);
             out = new ObjectOutputStream(requestSocket.getOutputStream());  // Streams
             in = new ObjectInputStream(requestSocket.getInputStream());     //  used
 
@@ -106,11 +106,9 @@ public class Consumer extends Node implements Serializable {
 
         try {
             //Creates request socket.
-            requestSocket = new Socket("192.168.2.10", 55554);
+            requestSocket = new Socket("192.168.2.8", 50221);
             out = new ObjectOutputStream(requestSocket.getOutputStream());  // Streams
             in = new ObjectInputStream(requestSocket.getInputStream());     //  used
-
-            tempBroker = new Broker("192.168.2.10", 55554);
 
             Message handshake = new Message(artist.getArtistName());
 

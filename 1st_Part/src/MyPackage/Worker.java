@@ -185,6 +185,7 @@ public class Worker extends Thread {
                             out.writeObject(brokersInfo);
 
                             if (requestedSong != null) {
+                                System.out.println("mphka5");
 
                                 try {
                                     for (int i = 0; i < registeredPublishers.size(); i++) {
@@ -244,7 +245,6 @@ public class Worker extends Thread {
                     }
                 }
             } catch (IOException | ClassNotFoundException e) {
-                Class.forName("Message");
                 e.printStackTrace();
             } finally {
                 try {

@@ -60,11 +60,12 @@ public class AsyncTaskActivity extends AppCompatActivity {
 				song = editTxt.getText().toString();
 				Intent intent = getIntent();
                 Consumer cons = (Consumer) intent.getSerializableExtra("Consumer");
-                Communicator com = new Communicator(3,artist,song);
 				if(song.isEmpty()){
 					Toast.makeText(AsyncTaskActivity.this, "Please Enter a Song", Toast.LENGTH_SHORT).show();
 				}else {
-                    com.start();
+					Communicator com = new Communicator(3,artist,song);
+					com.start();
+					while(!com.getEnd()){}
 					if(online){
 						//ONLINE MODE
                         try {
@@ -76,8 +77,10 @@ public class AsyncTaskActivity extends AppCompatActivity {
                         }
 
 					}else{
+//						while(!com.getEnd()){}
 						//OFFLINE MODE
 						com.start();
+						//wait
 					}
 				}
 			}
