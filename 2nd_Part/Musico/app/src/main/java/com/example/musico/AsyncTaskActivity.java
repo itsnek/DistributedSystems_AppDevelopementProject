@@ -19,6 +19,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import MyPackage.*;
+
 public class AsyncTaskActivity extends AppCompatActivity {
 
 	private Button btn;

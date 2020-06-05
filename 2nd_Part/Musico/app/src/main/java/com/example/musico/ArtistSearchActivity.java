@@ -11,6 +11,9 @@ import com.example.musico.HelperClasses.rAdapter;
 import com.example.musico.HelperClasses.recItem;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import MyPackage.*;
 
 public class ArtistSearchActivity extends AppCompatActivity {
 
@@ -27,8 +30,11 @@ public class ArtistSearchActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_artist_search);
 
 		final ArrayList<recItem> List = new ArrayList<>();
+		ArrayList<recItem> ArrayList = new ArrayList<>();
 		Consumer cons = new Consumer();
-		getInfo();
+		thread.start();
+		cons.setArtistList(thread.getData());
+
 		for (int i=0; i<cons.getArtistList().size(); i++) {
 			List.add(new recItem(R.drawable.ic_headset_black_24dp, cons.getArtistList().get(i)));
 		}
@@ -62,14 +68,23 @@ public class ArtistSearchActivity extends AppCompatActivity {
 		});
 	}
 
-	public void getInfo(){
-		thread.start();
-	}
+//	public void getInfo(){
+//		thread.start();
+//		thread.getData();
+//	}
 	Thread thread = new Thread(new Runnable(){
+
+		Consumer cons = new Consumer();
+
+		public List getData(){
+			return cons.getArtistList();
+		}
+
 		@Override
 		public void run() {
-			Consumer cons = new Consumer();
+
 			cons.getAllArtists();
+			//ArrayList = cons.getArtistList();
 		}
 	});
 }
