@@ -1,9 +1,14 @@
 package MyPackage;
 
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
+import com.example.musico.*;
 
 import androidx.annotation.RequiresApi;
+
+import com.example.musico.AsyncTaskActivity;
+import com.example.musico.MusicPlayerActivity;
 
 import java.io.EOFException;
 import java.io.File;
@@ -33,7 +38,7 @@ public class Consumer extends Node implements Serializable {
     private ObjectOutputStream out = null;
     private ObjectInputStream in = null;
     boolean found = false;
-    Broker tempBroker = new Broker("192.168.2.8", 50221);
+    Broker tempBroker = new Broker("192.168.2.8", 55221);
 
     //Constructors
 
@@ -58,6 +63,10 @@ public class Consumer extends Node implements Serializable {
         ArtistList = artistList;
     }
 
+    public void setIn(ObjectInputStream in) {
+        this.in = in;
+    }
+
     public String getArg1() {
         return arg1;
     }
@@ -77,7 +86,7 @@ public class Consumer extends Node implements Serializable {
     public void getAllArtists(){
         try {
             //Creates request socket.
-            requestSocket = new Socket("192.168.2.8", 50221);
+            requestSocket = new Socket("192.168.2.8", 55221);
             out = new ObjectOutputStream(requestSocket.getOutputStream());  // Streams
             in = new ObjectInputStream(requestSocket.getInputStream());     //  used
 
@@ -106,7 +115,7 @@ public class Consumer extends Node implements Serializable {
 
         try {
             //Creates request socket.
-            requestSocket = new Socket("192.168.2.8", 50221);
+            requestSocket = new Socket("192.168.2.8", 55221);
             out = new ObjectOutputStream(requestSocket.getOutputStream());  // Streams
             in = new ObjectInputStream(requestSocket.getInputStream());     //  used
 
@@ -180,28 +189,40 @@ public class Consumer extends Node implements Serializable {
             System.out.println("Error!You are trying to connect to an unknown host!");
         }catch (IOException ioException) {
             ioException.printStackTrace();
+        }finally{
+
         }
 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void playData (String song){
+    public void playData (String song) {
+        //Set inputStream
+        //in;
         //Gets file's path.
         File myObj = new File("D:\\Nikos\\Documents\\GitHub\\distributed\\1st_Part\\" +song+ ".mp3");
         try {
-            while(true) {
-                if(in.readObject()!=null){
-                    break;
-                }
-            }
+//            while(true) {
+//                if(in.readObject()!=null){
+//                    break;
+//                }
+//            }
 
             //Collecting them in a queue.Another option is to collect them in a folder.
             Message temp1 = (Message) in.readObject();
 
+            while(true) {
+                System.out.println("gamw");
+                if(temp1.getChunk()!=null){
+                    System.out.println("hr8e");
+                    break;
+                }
+            }
             SongReceived.add(temp1.getChunk()); //try to read received message,the type may differ.
 
             int recievedChunks = 1;
             while (recievedChunks < temp1.getChunk().getTotalPartitions()) {
+                System.out.println("mpainw?");
 
                 Message temp = (Message) in.readObject();
 
@@ -254,6 +275,7 @@ public class Consumer extends Node implements Serializable {
         }
 
     }
+
 
     public void disconnect(){
 

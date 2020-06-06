@@ -241,6 +241,8 @@ public class Worker extends Thread {
                                 System.out.println("Object returning to client...");
 
                             }
+                            System.out.println("mphka edw ");
+
                         }
                     }
                 }

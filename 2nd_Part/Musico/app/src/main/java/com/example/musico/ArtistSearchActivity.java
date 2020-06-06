@@ -24,17 +24,19 @@ public class ArtistSearchActivity extends AppCompatActivity {
 	static final String EXTRA_MESSAGE = "MyPackage.MESSAGE";
 	Consumer cons = new Consumer();
 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
-		Communicator communicator = new Communicator(1);
+		Communicator communicator = new Communicator(cons,1);
 		final ArrayList<recItem> List = new ArrayList<>();
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_artist_search);
 
 		communicator.start();
-		while(!Communicator.getEnd()){}
+		//cons.setIn(communicator.getInputStream());
+		while(!Communicator.getEnd()){}//System.out.println("loading");}
 		cons.setArtistList(communicator.getArrayList());
 
 		if(cons.getArtistList()!=null){
@@ -59,11 +61,12 @@ public class ArtistSearchActivity extends AppCompatActivity {
 			@Override
 			public void onItemClick(int position) {
 				artist = List.get(position).getArtist();
-				Communicator communicator2 = new Communicator(2,artist);
+				Communicator communicator2 = new Communicator(cons,2,artist);
 				communicator2.start();
+				//cons.setIn(communicator2.getInputStream());
 				Intent intent = new Intent(ArtistSearchActivity.this, AsyncTaskActivity.class);
 				intent.putExtra (EXTRA_MESSAGE, artist);
-				intent.putExtra ("Consumer", cons);
+				//intent.putExtra ("Consumer", cons);
 				startActivity(intent);
 			}
 		});
