@@ -14,6 +14,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     ImageButton DiskImageButton;
+    TextView libTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +30,21 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
         DiskImageButton = (ImageButton) findViewById(R.id.Disk_Image_Button);
+        libTxt = findViewById(R.id.libText);
 
         DiskImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent s = new Intent(view.getContext(), ArtistSearchActivity.class);
                 startActivityForResult(s, 0);
+            }
+        });
+
+        libTxt.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LibraryActivity.class);
+                startActivity(intent);
             }
         });
     }

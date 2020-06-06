@@ -77,10 +77,10 @@ public class AsyncTaskActivity extends AppCompatActivity {
                         }
 
 					}else{
-//						while(!com.getEnd()){}
-						//OFFLINE MODE
 						com.start();
-						//wait
+
+						Intent inte = new Intent(AsyncTaskActivity.this, LibraryActivity.class);
+						startActivity(inte);
 					}
 				}
 			}
