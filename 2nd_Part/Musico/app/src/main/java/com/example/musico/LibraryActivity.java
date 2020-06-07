@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -18,12 +19,17 @@ public class LibraryActivity extends AppCompatActivity {
 	private rAdapterLib adapter;
 	private RecyclerView.LayoutManager rLayoutManager;
 	private ArrayList<recItem> List = new ArrayList<>();
+	Context context = getApplicationContext();
+	recItem item;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_library);
 
+		Intent inte = getIntent();
+		item = inte.getParcelableExtra("item");
+		if(!List.contains(item)){ List.add(item); }
 		recyclerSetup(List);
 	}
 
@@ -40,12 +46,14 @@ public class LibraryActivity extends AppCompatActivity {
 			@Override
 			public void onItemClick(int position) {
 				Intent intent = new Intent(LibraryActivity.this, MusicPlayerActivity.class);
+				intent.putExtra("Song", List.get(position).getSong());
 				startActivity(intent);
 			}
 
 			@Override
 			public void onDeleteClick(int position) {
 				List.remove(position);
+				//Diagrafo ap th mnhmh
 				adapter.notifyDataSetChanged();
 			}
 		});

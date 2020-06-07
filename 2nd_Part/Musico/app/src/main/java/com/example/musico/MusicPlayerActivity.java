@@ -47,15 +47,14 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
 		//Media Player
 		Intent player = getIntent();
+
 		File mp3File;
 		if (player.hasExtra("online")) {
 			mp3File = new File(Objects.requireNonNull(player.getStringExtra("file's name")));
 			boolean online = player.getBooleanExtra("online", false);
 		} else {
-			//TODO You need to insert song's name by putExtra to the point you will call MusicPlayerActivity for offline mode.
-			mp3File = new File(Objects.requireNonNull(player.getStringExtra("song.mp3")));
+			mp3File = new File(Objects.requireNonNull(player.getStringExtra("Song")));
 			boolean online = false;
-			//TODO Somewhere you need to call onDestroy.
 		}
 		mp = MediaPlayer.create(this, Uri.fromFile(mp3File));
 		mp.setLooping(false);

@@ -2,19 +2,18 @@ package com.example.musico.HelperClasses;
 
 public class recItem {
     private int imgResource, deleteImg;
-    private String artist, song, path;
+    private String artist, song;
 
     public recItem(int imgResource, String artist){
         this.imgResource = imgResource;
         this.artist = artist;
     }
 
-    public recItem(int imgResource, int deleteImg, String artist, String song, String path){
+    public recItem(int imgResource, int deleteImg, String artist, String song){
         this.imgResource = imgResource;
         this.deleteImg = deleteImg;
         this.artist = artist;
         this.song = song;
-        this.path = path;
     }
 
     public int getImgResource(){
@@ -32,6 +31,4 @@ public class recItem {
     public String getSong(){
         return song;
     }
-
-    public String getPath() { return path; }
 }

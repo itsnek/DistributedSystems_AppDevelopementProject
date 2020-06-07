@@ -8,13 +8,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.musico.HelperClasses.recItem;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +37,7 @@ public class AsyncTaskActivity extends AppCompatActivity {
 	private Switch swtch;
 	boolean online;
 	Consumer cons = new Consumer();
+	recItem newSong;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +74,10 @@ public class AsyncTaskActivity extends AppCompatActivity {
 				if(song.isEmpty()){
 					Toast.makeText(AsyncTaskActivity.this, "Please Enter a Song", Toast.LENGTH_SHORT).show();
 				}else {
-//					Communicator com = new Communicator(cons,3,artist,song);
-//					//com.setEnd(false);
-//					com.start();
-//					cons.setIn(com.getInputStream());
-
 					while(!Communicator.getEnd()){}
+
+//					Communicator com = new Communicator(3, artist, song);
+//					com.start();
 
 					if(online){
 						//ONLINE MODE
@@ -94,6 +97,8 @@ public class AsyncTaskActivity extends AppCompatActivity {
 						//com.setCase(4);
 						comm.start();
 						Intent inte = new Intent(AsyncTaskActivity.this, LibraryActivity.class);
+						newSong = new recItem(R.drawable.ic_headset_black_24dp, R.drawable.ic_delete, artist, song);
+						inte.putExtra("item", (Parcelable) newSong);
 						startActivity(inte);
 							//playSongOffline(cons);
 //						} catch (IOException e) {
