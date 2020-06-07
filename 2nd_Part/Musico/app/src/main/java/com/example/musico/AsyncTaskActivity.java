@@ -83,7 +83,6 @@ public class AsyncTaskActivity extends AppCompatActivity {
                         }
 
 					}else{
-
 						//OFFLINE MODE
 //						try {
 //							assert cons != null;
