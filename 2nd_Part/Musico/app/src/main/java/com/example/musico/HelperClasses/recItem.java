@@ -1,6 +1,9 @@
 package com.example.musico.HelperClasses;
 
-public class recItem {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class recItem implements Parcelable {
     private int imgResource, deleteImg;
     private String artist, song;
 
@@ -16,6 +19,25 @@ public class recItem {
         this.song = song;
     }
 
+    protected recItem(Parcel in) {
+        imgResource = in.readInt();
+        deleteImg = in.readInt();
+        artist = in.readString();
+        song = in.readString();
+    }
+
+    public static final Creator<recItem> CREATOR = new Creator<recItem>() {
+        @Override
+        public recItem createFromParcel(Parcel in) {
+            return new recItem(in);
+        }
+
+        @Override
+        public recItem[] newArray(int size) {
+            return new recItem[size];
+        }
+    };
+
     public int getImgResource(){
         return imgResource;
     }
@@ -30,5 +52,18 @@ public class recItem {
 
     public String getSong(){
         return song;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(imgResource);
+        dest.writeInt(deleteImg);
+        dest.writeString(artist);
+        dest.writeString(song);
     }
 }

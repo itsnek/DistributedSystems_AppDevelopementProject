@@ -19,7 +19,6 @@ public class LibraryActivity extends AppCompatActivity {
 	private rAdapterLib adapter;
 	private RecyclerView.LayoutManager rLayoutManager;
 	private ArrayList<recItem> List = new ArrayList<>();
-	Context context = getApplicationContext();
 	recItem item;
 
 	@Override
