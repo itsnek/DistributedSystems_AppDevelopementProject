@@ -20,13 +20,6 @@ import android.widget.Toast;
 
 import com.example.musico.HelperClasses.recItem;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-
 import MyPackage.*;
 
 public class AsyncTaskActivity extends AppCompatActivity {
@@ -80,9 +73,7 @@ public class AsyncTaskActivity extends AppCompatActivity {
 						//ONLINE MODE
 						Communicator comm = new Communicator(cons, getApplicationContext(),4,artist,song);
 						comm.start();
-//						cons.setIn(comm.getInputStream());
-//						Communicator com = new Communicator(cons, getApplicationContext(),5,artist,song);
-//						com.start();
+
 						inte = new Intent(AsyncTaskActivity.this, MusicPlayerActivity.class);
 						inte.putExtra("file's name", song + ".mp3");
 						inte.putExtra("online", true);
@@ -91,8 +82,8 @@ public class AsyncTaskActivity extends AppCompatActivity {
 					}else{
 						//OFFLINE MODE
 						Communicator comm = new Communicator(cons, getApplicationContext(),3,artist,song);
-
 						comm.start();
+
 						Intent inte = new Intent(AsyncTaskActivity.this, LibraryActivity.class);
 						newSong = new recItem(R.drawable.ic_headset_black_24dp, R.drawable.ic_delete, artist, song);
 						inte.putExtra("item", newSong);

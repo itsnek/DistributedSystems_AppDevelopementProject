@@ -36,8 +36,7 @@ public class ArtistSearchActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_artist_search);
 
 		communicator.start();
-		//cons.setIn(communicator.getInputStream());
-		while(!Communicator.getEnd()){}//System.out.println("loading");}
+		while(!Communicator.getEnd()){}
 		cons.setArtistList(communicator.getArrayList());
 
 		if(cons.getArtistList()!=null){
@@ -64,11 +63,10 @@ public class ArtistSearchActivity extends AppCompatActivity {
 				artist = List.get(position).getArtist();
 				Communicator communicator2 = new Communicator(cons,2,artist);
 				communicator2.start();
-				//cons.setIn(communicator2.getInputStream());
+
 				Intent intent = new Intent(ArtistSearchActivity.this, AsyncTaskActivity.class);
 				intent.putExtra (EXTRA_MESSAGE, artist);
-				//intent.putExtra ("Consumer", cons);
-				//intent.putExtra ("Communicator", (Parcelable) communicator2);
+
 				startActivity(intent);
 			}
 		});

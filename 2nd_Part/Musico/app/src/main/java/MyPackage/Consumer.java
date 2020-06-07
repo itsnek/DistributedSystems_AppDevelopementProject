@@ -64,7 +64,6 @@ public class Consumer extends Node implements Serializable {
 
     //Setters / getters
 
-
     public void setArtistList(List<String> artistList) {
         ArtistList = artistList;
     }
@@ -106,9 +105,6 @@ public class Consumer extends Node implements Serializable {
 
             ArtistList = temp.getMegaArtistList();
 
-            //Log.e(ArtistList.size());
-            Log.e(TAG, String.valueOf(ArtistList.size()));
-
         }catch (IOException ioException) {
             ioException.printStackTrace();
         }catch (ClassNotFoundException e) {
@@ -127,7 +123,6 @@ public class Consumer extends Node implements Serializable {
 
             Message handshake = new Message(artist.getArtistName());
 
-            System.out.println(artist.getArtistName().hashCode());
             //Sends artist's name.
             out.writeObject(handshake);
 
@@ -147,14 +142,12 @@ public class Consumer extends Node implements Serializable {
                 BrokerHashtables = temp.getBrokersHashtable();
 
                 for(int j = 0; j < BrokerHashtables.size(); j++){
-                    System.out.println("mphka?");
 
                     ArrayList<Long> temp2 = BrokerHashtables.get(j);
 
                     if (temp2.contains((long)artist.getArtistName().hashCode())) {
 
                         tempBroker = new Broker(BrokerList.get(j).getAddress(), BrokerList.get(j).getPort() - 1);
-                        System.out.println("edw?");
 
                         found = true;
                     }
@@ -225,12 +218,10 @@ public class Consumer extends Node implements Serializable {
             try{
                while (recievedChunks <= temp1.getChunk().getTotalPartitions()) {
                 //while (true){
-                    System.out.println("mpainw?");
 
                     Message temp = (Message) in.readObject();
 
                     SongReceived.add(temp.getChunk());
-                    System.out.println(temp.getChunk().getPartitionNumber());
 
                     if (temp.getChunk().getPartitionNumber()==temp.getChunk().getTotalPartitions()-1) break;
 
@@ -255,7 +246,6 @@ public class Consumer extends Node implements Serializable {
 
                     while (!foundChunk) {
                         if (partLookingFor == SongReceived.get(j).getPartitionNumber()) {
-                            //Files.write(Paths.get(song + ".mp3"), SongReceived.get(j).getPartition(), StandardOpenOption.APPEND);
                             fos.write(SongReceived.get(j).getPartition());
                             foundChunk = true;
                             System.out.println ("Writing File");
@@ -323,14 +313,18 @@ public class Consumer extends Node implements Serializable {
                 message = (Message) cons.getIn().readObject();
                 mChunk = message.getChunk();
                 if (partLookingFor == mChunk.getPartitionNumber()) {
-                    mp3File.createNewFile();
+                    if(!mp3File.exists()) {
+                        mp3File.createNewFile();
+                    }
                     fos.write(mChunk.getPartition());
                     partLookingFor++;
                 } else {
                     earlyChunks.add(mChunk);
                     for (int i=0; i < earlyChunks.size(); i++) {
                         if (earlyChunks.get(i).getPartitionNumber() == partLookingFor) {
-                            mp3File.createNewFile();
+                            if(!mp3File.exists()) {
+                                mp3File.createNewFile();
+                            }
                             fos.write(earlyChunks.get(i).getPartition());
                             earlyChunks.remove(i); // Remove from list part that we were looking for (remove from RAM) because we wrote it in disk.
                             partLookingFor++;
@@ -359,27 +353,5 @@ public class Consumer extends Node implements Serializable {
         }
 
     }
-
-//    public static void main(String args[]) {
-//
-//        Consumer cons1 = new Consumer();
-//        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-//        ArtistName artist = new ArtistName(myObj.nextLine()); //Client inserts the artist he wants.
-//
-//        //Handshake with a random broker and check if its the correct one and register, else try again.
-//        cons1.handshake(artist);
-//
-//        if (cons1.getFound()) {
-//            //Request artist's song.
-//            System.out.println("Which song of this artist do you want to listen?/n");
-//            cons1.requestSong(artist,myObj.nextLine());
-//
-//            //Put the incoming chunks in a file that can be played manually.
-//            cons1.playData();
-//
-//        }
-//        myObj.close();
-//        //cons1.disconnect();
-//    }
 
 }

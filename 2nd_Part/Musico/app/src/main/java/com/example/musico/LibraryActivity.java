@@ -52,7 +52,7 @@ public class LibraryActivity extends AppCompatActivity {
 			@Override
 			public void onDeleteClick(int position) {
 				List.remove(position);
-				//Diagrafo ap th mnhmh
+				//Erase from memory.
 				adapter.notifyDataSetChanged();
 			}
 		});
