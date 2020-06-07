@@ -38,6 +38,7 @@ public class AsyncTaskActivity extends AppCompatActivity {
 	boolean online;
 	Consumer cons = new Consumer();
 	recItem newSong;
+	Intent inte;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +84,10 @@ public class AsyncTaskActivity extends AppCompatActivity {
 						//ONLINE MODE
                         try {
 							playSongOnline(cons);
+							inte = new Intent(AsyncTaskActivity.this, MusicPlayerActivity.class);
+							inte.putExtra("file's name", "song.mp3");
+							inte.putExtra("online", true);
+							startActivity(inte);
                         } catch (ClassNotFoundException cnf) {
                             cnf.printStackTrace();
                         } catch (IOException io) {
@@ -90,23 +95,12 @@ public class AsyncTaskActivity extends AppCompatActivity {
                         }
 
 					}else{
-						//OFFLINE MODE
-//						try {
-//							assert cons != null;
-						Communicator comm = new Communicator(cons, getApplicationContext(),3,artist,song);
-						//com.setCase(4);
+						Communicator comm = new Communicator(cons, getApplicationContext(),3, artist, song);
 						comm.start();
 						Intent inte = new Intent(AsyncTaskActivity.this, LibraryActivity.class);
 						newSong = new recItem(R.drawable.ic_headset_black_24dp, R.drawable.ic_delete, artist, song);
-						inte.putExtra("item", (Parcelable) newSong);
+						inte.putExtra("item", newSong);
 						startActivity(inte);
-							//playSongOffline(cons);
-//						} catch (IOException e) {
-//							e.printStackTrace();
-//						} catch (ClassNotFoundException e) {
-//							e.printStackTrace();
-//						}
-
 					}
 				}
 			}
@@ -133,10 +127,6 @@ public class AsyncTaskActivity extends AppCompatActivity {
 			if (mChunk.getPartitionNumber() == 0) {
 				mp3File.createNewFile();
 				Files.write(Paths.get("song.mp3"), mChunk.getPartition());
-				player = new Intent(AsyncTaskActivity.this, MusicPlayerActivity.class);
-				player.putExtra("file's name", "song.mp3");
-				player.putExtra("online", true); // Put true to use online mode in MusicPlayerActivity.
-				startActivity(player);
 				partLookingFor++; //Now it's equal to one.
 			} else {
 				earlyChunks.add(mChunk);
@@ -149,10 +139,6 @@ public class AsyncTaskActivity extends AppCompatActivity {
 				if (partLookingFor == mChunk.getPartitionNumber()) {
 					mp3File.createNewFile();
 					Files.write(Paths.get("song.mp3"), mChunk.getPartition());
-					player = new Intent(AsyncTaskActivity.this, MusicPlayerActivity.class);
-					player.putExtra("file's name" , "song.mp3");
-					player.putExtra("online", true);
-					startActivity(player);
 					partLookingFor++;
 				} else {
 					earlyChunks.add(mChunk);
@@ -160,10 +146,6 @@ public class AsyncTaskActivity extends AppCompatActivity {
 						if (earlyChunks.get(i).getPartitionNumber() == partLookingFor) {
 							mp3File.createNewFile();
 							Files.write(Paths.get("song.mp3"), earlyChunks.get(i).getPartition());
-							player = new Intent(AsyncTaskActivity.this, MusicPlayerActivity.class);
-							player.putExtra ("file's name", "song.mp3");
-							player.putExtra ("online", true);
-							startActivity (player);
 							earlyChunks.remove(i); // Remove from list part that we were looking for (remove from RAM) because we wrote it in disk.
 							partLookingFor++;
 						}

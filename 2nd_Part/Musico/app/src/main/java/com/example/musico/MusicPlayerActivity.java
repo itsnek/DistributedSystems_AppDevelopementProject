@@ -53,7 +53,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
 			mp3File = new File(Objects.requireNonNull(player.getStringExtra("file's name")));
 			boolean online = player.getBooleanExtra("online", false);
 		} else {
-			mp3File = new File(Objects.requireNonNull(player.getStringExtra("Song")));
+			mp3File = new File(Objects.requireNonNull(player.getStringExtra("Song") + ".mp3"));
 			boolean online = false;
 		}
 		mp = MediaPlayer.create(this, Uri.fromFile(mp3File));
