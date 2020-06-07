@@ -2,7 +2,7 @@ package MyPackage;
 
 import java.io.Serializable;
 
-class MusicChunk implements Serializable {
+public class MusicChunk implements Serializable {
     private static final long serialVersionUID = 3828930004421967914L;
     private String artistName; // optional
     private String songTitle;

@@ -1,5 +1,6 @@
 package MyPackage;
 
+//import java.awt.datatransfer.MimeTypeParameterList;
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -226,8 +227,11 @@ public class Broker extends Node implements Serializable  {
                     System.out.println("Loading");
 
                     //Used so as to to keep the process busy while waiting for the thread's results.
-                    while (!wk.getEndOfThread()) {
-                        //System.out.println("Loading");
+                    while(true) {
+                        if(!wk.getEndOfThread()){
+                            System.out.println("teleiwse");
+                            break;
+                        }
                     }
                     //Retrieve the hashtables from the worker/handler.
                     BrokersHashtables = wk.getBrokersHashtable();
@@ -280,8 +284,14 @@ public class Broker extends Node implements Serializable  {
                 System.out.println("Loading..");
 
                 //Used so as to to keep the process busy while waiting for the thread's results.
-                while (!wk.getEndOfThread()) {
-                    System.out.println("Loading..");
+//                while (!wk.getEndOfThread()) {
+//                    System.out.println("Loading..");
+//                }
+                while(true) {
+                    if(!wk.getEndOfThread()){
+                        System.out.println("teleiwse");
+                        break;
+                    }
                 }
                 System.out.println("Loading..");
 
@@ -296,7 +306,7 @@ public class Broker extends Node implements Serializable  {
             ioException.printStackTrace();
         }
 
-    }
+}
 
     public void disconnect(Socket connection){
         try{

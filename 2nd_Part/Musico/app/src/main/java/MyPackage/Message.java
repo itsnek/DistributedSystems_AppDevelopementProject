@@ -98,4 +98,3 @@ public class Message implements Serializable {
     public long getMyHash() { return myHash; }
 
 }
-

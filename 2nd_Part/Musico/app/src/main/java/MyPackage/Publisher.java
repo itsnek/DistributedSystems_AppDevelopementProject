@@ -7,7 +7,6 @@ import com.mpatric.mp3agic.*;
 
 public class Publisher extends Node{
 
-    private static final long serialVersionUID = 3828930004421967914L;
     private static ArrayList <String> Artists = new ArrayList<>(30);
     private static ArrayList <String> Songs = new ArrayList<String> (300);
     private static ArrayList <MusicFile> SongFiles = new ArrayList<MusicFile> (300);
@@ -21,6 +20,7 @@ public class Publisher extends Node{
     private ObjectInputStream in = null;
     private String scope,address;
     String artistname;
+    private static final long serialVersionUID = 3828930004421967914L;
 
     //Constructors
 
@@ -89,8 +89,8 @@ public class Publisher extends Node{
 
                         if ((artistname.charAt(0) >= artistsToGet.charAt(0)) && (artistname.charAt(0) <= artistsToGet.charAt(1))) {
 
-                            MusicFile ms = new MusicFile(temp, artistname, list[i].getName());
-                            SongFiles.add(ms);
+                                MusicFile ms = new MusicFile(temp, artistname, list[i].getName());
+                                SongFiles.add(ms);
 
                         }
                     }

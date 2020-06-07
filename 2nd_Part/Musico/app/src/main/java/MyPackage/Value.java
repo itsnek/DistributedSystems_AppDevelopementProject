@@ -12,4 +12,3 @@ public class Value {
         return musicFile;
     }
 }
-

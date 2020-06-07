@@ -1,7 +1,9 @@
 package MyPackage;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 import com.example.musico.*;
 
@@ -12,6 +14,8 @@ import com.example.musico.MusicPlayerActivity;
 
 import java.io.EOFException;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -40,6 +44,7 @@ public class Consumer extends Node implements Serializable {
     boolean found = false;
     Broker tempBroker = new Broker("192.168.2.8", 55221);
     private static final long serialVersionUID = 3828930004421967914L;
+    private Context context;
 
     //Constructors
 
@@ -195,10 +200,15 @@ public class Consumer extends Node implements Serializable {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void playData (String song) {
+    public void playData (String song,Context con) throws FileNotFoundException {
+
 
         //Gets file's path.
-        File myObj = new File("D:\\Nikos\\Documents\\GitHub\\distributed\\2st_Part\\" +song+ ".mp3");
+        String filename = song+ ".mp3";
+
+        context = con;
+        File myObj = new File(this.context.getFilesDir(), filename);
+
         try {
             while(true) {
                 if(in.readObject()!=null){
@@ -208,28 +218,32 @@ public class Consumer extends Node implements Serializable {
 
             //Collecting them in a queue.Another option is to collect them in a folder.
             Message temp1 = (Message) in.readObject();
-            //if(temp1!=null){System.out.println("Komple");}
-//            while(true) {
-//                if(temp1.getChunk()!=null){
-//                    System.out.println("hr8e");
-//                    break;
-//                }
-//            }
+
             SongReceived.add(temp1.getChunk()); //try to read received message,the type may differ.
 
-            int recievedChunks = 1;
-            while (recievedChunks < temp1.getChunk().getTotalPartitions()) {
-                System.out.println("mpainw?");
+           int recievedChunks = 1;
+            try{
+               while (recievedChunks <= temp1.getChunk().getTotalPartitions()) {
+                //while (true){
+                    System.out.println("mpainw?");
 
-                Message temp = (Message) in.readObject();
+                    Message temp = (Message) in.readObject();
 
-                SongReceived.add(temp.getChunk());
-                recievedChunks++;
+                    SongReceived.add(temp.getChunk());
+                    System.out.println(temp.getChunk().getPartitionNumber());
 
+                    if (temp.getChunk().getPartitionNumber()==temp.getChunk().getTotalPartitions()-1) break;
+
+                   recievedChunks++;
+
+                }
+            }catch (EOFException eof){
+                eof.printStackTrace();
+                System.out.println("End of file.");
             }
 
             //Writes the in order in a file,which is playable.
-            try {
+            try (FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE)) {
                 int partLookingFor = 0;
 
                 for (int i=0; i<SongReceived.size(); i++) {
@@ -241,7 +255,8 @@ public class Consumer extends Node implements Serializable {
 
                     while (!foundChunk) {
                         if (partLookingFor == SongReceived.get(j).getPartitionNumber()) {
-                            Files.write(Paths.get(song + ".mp3"), SongReceived.get(j).getPartition(), StandardOpenOption.APPEND);
+                            //Files.write(Paths.get(song + ".mp3"), SongReceived.get(j).getPartition(), StandardOpenOption.APPEND);
+                            fos.write(SongReceived.get(j).getPartition());
                             foundChunk = true;
                             System.out.println ("Writing File");
 
@@ -260,6 +275,7 @@ public class Consumer extends Node implements Serializable {
                 System.out.println("error");
                 eof.printStackTrace();
             }finally {
+                System.out.println("find me at : " + context.getFilesDir());
                 System.out.println("Enjoy!");
             }
 

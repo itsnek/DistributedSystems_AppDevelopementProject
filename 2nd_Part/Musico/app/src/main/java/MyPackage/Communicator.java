@@ -1,9 +1,11 @@
 package MyPackage;
 
+import android.content.Context;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ public class Communicator extends Thread {
     String artist,song;
     private static boolean end = false;
     private ObjectInputStream in = null;
+    private Context context;
 
     public Communicator(){}
 
@@ -31,8 +34,9 @@ public class Communicator extends Thread {
         this.artist = artist;
     }
 
-    public Communicator(Consumer cons,int Case,String artist,String song){
+    public Communicator(Consumer cons, Context con, int Case, String artist, String song){
         this.cons = cons;
+        this.context = con;
         this.Case = Case;
         this.artist = artist;
         this.song = song;
@@ -43,7 +47,7 @@ public class Communicator extends Thread {
     }
 
     public ObjectInputStream getInputStream(){
-        return cons.getIn();
+        return in;
     }
 
 
@@ -71,6 +75,8 @@ public class Communicator extends Thread {
     @Override
     public void run() {
 
+        setEnd(false);
+
         switch (Case) {
             case 1 :
                 cons.getAllArtists();
@@ -84,10 +90,20 @@ public class Communicator extends Thread {
             case 3 :
                 System.out.println(getInputStream()==null);
                 setIn(cons.requestSong (new ArtistName(artist), song));
+                try {
+                    cons.playData(song,context);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
                 //setIn(cons.getIn());
                 break;
             case 4 :
-                cons.playData(song);
+                try {
+                    cons.playData(song,context);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
                 break;
         }
 

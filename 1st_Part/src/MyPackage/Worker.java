@@ -224,6 +224,7 @@ public class Worker extends Thread {
 
                                     if(chunk.getChunk()!=null){
                                         System.out.println("stelnei");
+                                        System.out.println(chunk.getChunk().getPartitionNumber());
                                     }
                                     out.writeObject(chunk);
                                     break; //It get out from while by "break;" .
@@ -238,6 +239,7 @@ public class Worker extends Thread {
 
                                     if(chunk!=null){
                                         System.out.println("stelnei");
+                                        System.out.println(chunk.getChunk().getPartitionNumber());
                                     }
                                     out.writeObject(chunk);
 

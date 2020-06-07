@@ -28,13 +28,13 @@ public class LibraryActivity extends AppCompatActivity {
 	}
 
 	private void recyclerSetup(final ArrayList<recItem> List){
-		recView = findViewById(R.id.recyclerView);
-//		recView.setHasFixedSize(true);
+		recView = findViewById(R.id.recyclerViewLib);
+		recView.setHasFixedSize(true);
 		rLayoutManager = new LinearLayoutManager(this);
 		adapter = new rAdapterLib(List);
 
-//		recView.setLayoutManager(rLayoutManager);
-//		recView.setAdapter(adapter);
+		recView.setLayoutManager(rLayoutManager);
+		recView.setAdapter(adapter);
 
 		adapter.setOnItemClickListener(new rAdapterLib.OnItemClickListener() {
 			@Override

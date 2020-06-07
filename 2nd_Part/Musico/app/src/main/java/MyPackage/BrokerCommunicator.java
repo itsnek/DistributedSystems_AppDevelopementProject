@@ -60,4 +60,3 @@ public class BrokerCommunicator extends Thread {
     }
 
 }
-

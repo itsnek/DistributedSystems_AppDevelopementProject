@@ -186,6 +186,7 @@ public class Worker extends Thread {
                             out.writeObject(brokersInfo);
 
                             if (requestedSong != null) {
+                                System.out.println("mphka5");
 
                                 try {
                                     for (int i = 0; i < registeredPublishers.size(); i++) {
@@ -221,17 +222,23 @@ public class Worker extends Thread {
 
                                     totalPartitions = chunk.getChunk().getTotalPartitions();
 
+                                    if(chunk.getChunk()!=null){
+                                        System.out.println("stelnei");
+                                    }
                                     out.writeObject(chunk);
                                     break; //It get out from while by "break;" .
 
                                 }
-
+                                System.out.println(totalPartitions);
                                 //Getting the rest chunks.
                                 int chunksSent = 1;
                                 while (chunksSent < totalPartitions) {
 
                                     Message chunk = (Message) publisherIn.readObject();
 
+                                    if(chunk!=null){
+                                        System.out.println("stelnei");
+                                    }
                                     out.writeObject(chunk);
 
                                     chunksSent++;
@@ -245,7 +252,6 @@ public class Worker extends Thread {
                     }
                 }
             } catch (IOException | ClassNotFoundException e) {
-                Class.forName("Message");
                 e.printStackTrace();
             } finally {
                 try {

@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class ArtistName implements Serializable {
     String artistName;
 
-    public ArtistName(String artistName){
+    ArtistName(String artistName){
         this.artistName = artistName;
     }
 
@@ -13,4 +13,3 @@ public class ArtistName implements Serializable {
         return artistName;
     }
 }
-

@@ -2,6 +2,9 @@ package com.example.musico;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -56,6 +59,7 @@ public class AsyncTaskActivity extends AppCompatActivity {
 		});
 		btn = findViewById(R.id.searchBtn);
 		btn.setOnClickListener(new View.OnClickListener() {
+
 			@RequiresApi(api = Build.VERSION_CODES.O)
 			@Override
 			public void onClick(View v) {
@@ -65,11 +69,11 @@ public class AsyncTaskActivity extends AppCompatActivity {
 				if(song.isEmpty()){
 					Toast.makeText(AsyncTaskActivity.this, "Please Enter a Song", Toast.LENGTH_SHORT).show();
 				}else {
-					Communicator com = new Communicator(cons,3,artist,song);
-					com.setEnd(false);
-					//System.out.println(cons.getIn()==null);
-					cons.setIn(com.getInputStream());
-					com.start();
+//					Communicator com = new Communicator(cons,3,artist,song);
+//					//com.setEnd(false);
+//					com.start();
+//					cons.setIn(com.getInputStream());
+
 					while(!Communicator.getEnd()){}
 
 					if(online){
@@ -86,7 +90,7 @@ public class AsyncTaskActivity extends AppCompatActivity {
 						//OFFLINE MODE
 //						try {
 //							assert cons != null;
-						Communicator comm = new Communicator(cons,4,artist,song);
+						Communicator comm = new Communicator(cons, getApplicationContext(),3,artist,song);
 						//com.setCase(4);
 						comm.start();
 						Intent inte = new Intent(AsyncTaskActivity.this, LibraryActivity.class);
@@ -113,9 +117,9 @@ public class AsyncTaskActivity extends AppCompatActivity {
 		ArrayList<MusicChunk> earlyChunks = new ArrayList<>();
 		File mp3File = new File("D:\\Nikos\\Documents\\GitHub\\distributed\\1st_Part\\song.mp3");
 		try {
-//            while (true) {
-//                if (cons.getIn().readObject() != null) break;
-//            }
+            while (true) {
+                if (cons.getIn().readObject() != null) break;
+            }
 
 			Message message = (Message) cons.getIn().readObject();
 			MusicChunk mChunk = message.getChunk();
@@ -173,7 +177,7 @@ public class AsyncTaskActivity extends AppCompatActivity {
 	private void playSongOffline(Consumer cons) throws IOException, ClassNotFoundException {
 		//while(!Communicator.getEnd()){System.out.println("teleiwsa");}
 
-		cons.playData(song);
+		//cons.playData(song);
 	}
 
 }
