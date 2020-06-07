@@ -39,6 +39,7 @@ public class Consumer extends Node implements Serializable {
     private ObjectInputStream in = null;
     boolean found = false;
     Broker tempBroker = new Broker("192.168.2.8", 55221);
+    private static final long serialVersionUID = 3828930004421967914L;
 
     //Constructors
 
@@ -170,7 +171,7 @@ public class Consumer extends Node implements Serializable {
         }
     }
 
-    public void requestSong(ArtistName artist,String song){
+    public ObjectInputStream requestSong(ArtistName artist,String song){
 
         try {
 
@@ -189,35 +190,31 @@ public class Consumer extends Node implements Serializable {
             System.out.println("Error!You are trying to connect to an unknown host!");
         }catch (IOException ioException) {
             ioException.printStackTrace();
-        }finally{
-
         }
-
+        return in;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void playData (String song) {
-        //Set inputStream
-        //in;
+
         //Gets file's path.
-        File myObj = new File("D:\\Nikos\\Documents\\GitHub\\distributed\\1st_Part\\" +song+ ".mp3");
+        File myObj = new File("D:\\Nikos\\Documents\\GitHub\\distributed\\2st_Part\\" +song+ ".mp3");
         try {
-//            while(true) {
-//                if(in.readObject()!=null){
-//                    break;
-//                }
-//            }
-
-            //Collecting them in a queue.Another option is to collect them in a folder.
-            Message temp1 = (Message) in.readObject();
-
             while(true) {
-                System.out.println("gamw");
-                if(temp1.getChunk()!=null){
-                    System.out.println("hr8e");
+                if(in.readObject()!=null){
                     break;
                 }
             }
+
+            //Collecting them in a queue.Another option is to collect them in a folder.
+            Message temp1 = (Message) in.readObject();
+            //if(temp1!=null){System.out.println("Komple");}
+//            while(true) {
+//                if(temp1.getChunk()!=null){
+//                    System.out.println("hr8e");
+//                    break;
+//                }
+//            }
             SongReceived.add(temp1.getChunk()); //try to read received message,the type may differ.
 
             int recievedChunks = 1;
@@ -271,7 +268,7 @@ public class Consumer extends Node implements Serializable {
             e.printStackTrace();
         }catch (IOException ioException) {
             System.out.println("Sorry,why don't have this song in our system.");
-            //ioException.printStackTrace();
+            ioException.printStackTrace();
         }
 
     }

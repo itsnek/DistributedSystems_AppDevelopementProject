@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class PublisherThread extends Thread{
 
+    private static final long serialVersionUID = 3828930004421967914L;
     private ArrayList<ArtistName> Artists = null;
     private ArrayList <MusicFile> Songs = null;
     private ArrayList<MusicChunk> Chunks = new ArrayList<>();

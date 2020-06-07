@@ -2,6 +2,7 @@ package com.example.musico;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -67,6 +68,7 @@ public class ArtistSearchActivity extends AppCompatActivity {
 				Intent intent = new Intent(ArtistSearchActivity.this, AsyncTaskActivity.class);
 				intent.putExtra (EXTRA_MESSAGE, artist);
 				//intent.putExtra ("Consumer", cons);
+				//intent.putExtra ("Communicator", (Parcelable) communicator2);
 				startActivity(intent);
 			}
 		});

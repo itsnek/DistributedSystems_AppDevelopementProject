@@ -11,6 +11,7 @@ import static java.lang.Integer.parseInt;
 
 public class Worker extends Thread {
 
+    private static final long serialVersionUID = 3828930004421967914L;
     int c = 0;
     long myHash,smallestHash;
     String requestedSong;
@@ -221,17 +222,23 @@ public class Worker extends Thread {
 
                                     totalPartitions = chunk.getChunk().getTotalPartitions();
 
+                                    if(chunk.getChunk()!=null){
+                                        System.out.println("stelnei");
+                                    }
                                     out.writeObject(chunk);
                                     break; //It get out from while by "break;" .
 
                                 }
-
+                                System.out.println(totalPartitions);
                                 //Getting the rest chunks.
                                 int chunksSent = 1;
                                 while (chunksSent < totalPartitions) {
 
                                     Message chunk = (Message) publisherIn.readObject();
 
+                                    if(chunk!=null){
+                                        System.out.println("stelnei");
+                                    }
                                     out.writeObject(chunk);
 
                                     chunksSent++;
@@ -241,8 +248,6 @@ public class Worker extends Thread {
                                 System.out.println("Object returning to client...");
 
                             }
-                            System.out.println("mphka edw ");
-
                         }
                     }
                 }

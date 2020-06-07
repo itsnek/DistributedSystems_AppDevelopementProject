@@ -11,6 +11,7 @@ import static java.lang.Integer.parseInt;
 
 public class Worker extends Thread {
 
+    private static final long serialVersionUID = 3828930004421967914L;
     int c = 0;
     long myHash,smallestHash;
     String requestedSong;

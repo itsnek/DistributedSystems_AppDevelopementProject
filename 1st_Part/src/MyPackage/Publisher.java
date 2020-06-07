@@ -20,6 +20,7 @@ public class Publisher extends Node{
     private ObjectInputStream in = null;
     private String scope,address;
     String artistname;
+    private static final long serialVersionUID = 3828930004421967914L;
 
     //Constructors
 

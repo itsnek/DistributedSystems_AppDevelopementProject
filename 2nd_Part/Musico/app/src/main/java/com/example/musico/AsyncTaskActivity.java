@@ -67,7 +67,7 @@ public class AsyncTaskActivity extends AppCompatActivity {
 				}else {
 					Communicator com = new Communicator(cons,3,artist,song);
 					com.setEnd(false);
-					System.out.println(cons.getIn()==null);
+					//System.out.println(cons.getIn()==null);
 					cons.setIn(com.getInputStream());
 					com.start();
 					while(!Communicator.getEnd()){}
@@ -87,6 +87,7 @@ public class AsyncTaskActivity extends AppCompatActivity {
 //						try {
 //							assert cons != null;
 						Communicator comm = new Communicator(cons,4,artist,song);
+						//com.setCase(4);
 						comm.start();
 						Intent inte = new Intent(AsyncTaskActivity.this, LibraryActivity.class);
 						startActivity(inte);

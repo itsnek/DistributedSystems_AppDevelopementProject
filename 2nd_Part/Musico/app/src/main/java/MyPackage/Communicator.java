@@ -55,6 +55,10 @@ public class Communicator extends Thread {
         this.end = end;
     }
 
+    public void setCase(int aCase) {
+        Case = aCase;
+    }
+
     public List<String> getArrayList() {
         return ArrayList;
     }
@@ -79,8 +83,8 @@ public class Communicator extends Thread {
                 break;
             case 3 :
                 System.out.println(getInputStream()==null);
-                cons.requestSong (new ArtistName(artist), song);
-                setIn(cons.getIn());
+                setIn(cons.requestSong (new ArtistName(artist), song));
+                //setIn(cons.getIn());
                 break;
             case 4 :
                 cons.playData(song);

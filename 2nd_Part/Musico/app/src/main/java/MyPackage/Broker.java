@@ -8,7 +8,7 @@ import java.math.*;
 
 public class Broker extends Node implements Serializable  {
 
-    private static final long serialVersionUID = 7526472295622776147L;
+    private static final long serialVersionUID = 3828930004421967914L;
     private ServerSocket providerSocket = null;
     private ServerSocket providerSocketPub = null;
     private Socket connection = null;

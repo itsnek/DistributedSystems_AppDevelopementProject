@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MusicFile {
+    private static final long serialVersionUID = 3828930004421967914L;
     private String filename; // the absolute path to file
     private String trackName;
     private String artistName;
