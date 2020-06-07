@@ -50,10 +50,10 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
 		File mp3File;
 		if (player.hasExtra("online")) {
-			mp3File = new File(Objects.requireNonNull(player.getStringExtra("file's name")));
+			mp3File = new File(Objects.requireNonNull(getApplicationContext().getFilesDir() + File.separator + player.getStringExtra("file's name") + ".mp3"));
 			boolean online = player.getBooleanExtra("online", false);
 		} else {
-			mp3File = new File(Objects.requireNonNull(player.getStringExtra("Song") + ".mp3"));
+			mp3File = new File(Objects.requireNonNull(getApplicationContext().getFilesDir() + File.separator + player.getStringExtra("Song" ) + ".mp3"));
 			boolean online = false;
 		}
 		mp = MediaPlayer.create(this, Uri.fromFile(mp3File));
@@ -61,6 +61,14 @@ public class MusicPlayerActivity extends AppCompatActivity {
 		mp.seekTo(0);
 		mp.setVolume(0.5f, 0.5f);
 		totalTime = mp.getDuration();
+
+		//Play Button
+		btn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				playBtnClick(v);
+			}
+		});
 
 		//Position Bar
 		positionBar = findViewById(R.id.seekSong);

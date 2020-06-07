@@ -204,7 +204,7 @@ public class Consumer extends Node implements Serializable {
 
 
         //Gets file's path.
-        String filename = song+ ".mp3";
+        String filename = song + ".mp3";
 
         context = con;
         File myObj = new File(this.context.getFilesDir(), filename);

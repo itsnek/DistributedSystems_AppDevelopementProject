@@ -83,6 +83,9 @@ public class AsyncTaskActivity extends AppCompatActivity {
 					if(online){
 						//ONLINE MODE
                         try {
+							Communicator comm = new Communicator(cons, getApplicationContext(),4,artist,song);
+							comm.start();
+							cons.setIn(comm.getInputStream());
 							playSongOnline(cons);
 							inte = new Intent(AsyncTaskActivity.this, MusicPlayerActivity.class);
 							inte.putExtra("file's name", "song.mp3");
@@ -95,7 +98,9 @@ public class AsyncTaskActivity extends AppCompatActivity {
                         }
 
 					}else{
-						Communicator comm = new Communicator(cons, getApplicationContext(),3, artist, song);
+						//OFFLINE MODE
+						Communicator comm = new Communicator(cons, getApplicationContext(),3,artist,song);
+
 						comm.start();
 						Intent inte = new Intent(AsyncTaskActivity.this, LibraryActivity.class);
 						newSong = new recItem(R.drawable.ic_headset_black_24dp, R.drawable.ic_delete, artist, song);
@@ -116,9 +121,9 @@ public class AsyncTaskActivity extends AppCompatActivity {
 		ArrayList<MusicChunk> earlyChunks = new ArrayList<>();
 		File mp3File = new File("D:\\Nikos\\Documents\\GitHub\\distributed\\1st_Part\\song.mp3");
 		try {
-            while (true) {
-                if (cons.getIn().readObject() != null) break;
-            }
+//            while (true) {
+//                if (cons.getIn().readObject() != null) break;
+//            }
 
 			Message message = (Message) cons.getIn().readObject();
 			MusicChunk mChunk = message.getChunk();

@@ -88,23 +88,15 @@ public class Communicator extends Thread {
                 setIn(cons.getIn());
                 break;
             case 3 :
-                System.out.println(getInputStream()==null);
                 setIn(cons.requestSong (new ArtistName(artist), song));
                 try {
                     cons.playData(song,context);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-
-                //setIn(cons.getIn());
                 break;
             case 4 :
-                try {
-                    cons.playData(song,context);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                break;
+                setIn(cons.requestSong (new ArtistName(artist), song));
         }
 
         setEnd(true);
