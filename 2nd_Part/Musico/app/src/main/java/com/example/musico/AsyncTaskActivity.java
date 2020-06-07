@@ -76,26 +76,20 @@ public class AsyncTaskActivity extends AppCompatActivity {
 					Toast.makeText(AsyncTaskActivity.this, "Please Enter a Song", Toast.LENGTH_SHORT).show();
 				}else {
 					while(!Communicator.getEnd()){}
-
 //					Communicator com = new Communicator(3, artist, song);
 //					com.start();
-
 					if(online){
 						//ONLINE MODE
-                        try {
-							Communicator comm = new Communicator(cons, getApplicationContext(),4,artist,song);
-							comm.start();
-							cons.setIn(comm.getInputStream());
-							playSongOnline(cons);
-							inte = new Intent(AsyncTaskActivity.this, MusicPlayerActivity.class);
-							inte.putExtra("file's name", "song.mp3");
-							inte.putExtra("online", true);
-							startActivity(inte);
-                        } catch (ClassNotFoundException cnf) {
-                            cnf.printStackTrace();
-                        } catch (IOException io) {
-                            io.printStackTrace();
-                        }
+						Communicator comm = new Communicator(cons, getApplicationContext(),4,artist,song);
+						comm.start();
+						cons.setIn(comm.getInputStream());
+						Communicator com = new Communicator(cons, getApplicationContext(),5,artist,song);
+						com.start();
+						//cons.playSongOnline();
+						inte = new Intent(AsyncTaskActivity.this, MusicPlayerActivity.class);
+						inte.putExtra("file's name", "song.mp3");
+						inte.putExtra("online", true);
+						startActivity(inte);
 
 					}else{
 						//OFFLINE MODE
@@ -110,59 +104,6 @@ public class AsyncTaskActivity extends AppCompatActivity {
 				}
 			}
 		});
-	}
-
-
-	@RequiresApi(api = Build.VERSION_CODES.O)
-	private void playSongOnline (Consumer cons) throws IOException, ClassNotFoundException {
-        /* This list contains chunks that came earlier than than their order. For example chunk with number 3 if it arrived earlier
-        than chunk with number 2. I delete a chunk after i use it.
-         */
-		ArrayList<MusicChunk> earlyChunks = new ArrayList<>();
-		File mp3File = new File("D:\\Nikos\\Documents\\GitHub\\distributed\\1st_Part\\song.mp3");
-		try {
-//            while (true) {
-//                if (cons.getIn().readObject() != null) break;
-//            }
-
-			Message message = (Message) cons.getIn().readObject();
-			MusicChunk mChunk = message.getChunk();
-			Intent player;
-			int partLookingFor = 0;
-			if (mChunk.getPartitionNumber() == 0) {
-				mp3File.createNewFile();
-				Files.write(Paths.get("song.mp3"), mChunk.getPartition());
-				partLookingFor++; //Now it's equal to one.
-			} else {
-				earlyChunks.add(mChunk);
-			}
-			int totalChunks = mChunk.getTotalPartitions();
-
-			while (partLookingFor < totalChunks - 1) {
-				message = (Message) cons.getIn().readObject();
-				mChunk = message.getChunk();
-				if (partLookingFor == mChunk.getPartitionNumber()) {
-					mp3File.createNewFile();
-					Files.write(Paths.get("song.mp3"), mChunk.getPartition());
-					partLookingFor++;
-				} else {
-					earlyChunks.add(mChunk);
-					for (int i=0; i < earlyChunks.size(); i++) {
-						if (earlyChunks.get(i).getPartitionNumber() == partLookingFor) {
-							mp3File.createNewFile();
-							Files.write(Paths.get("song.mp3"), earlyChunks.get(i).getPartition());
-							earlyChunks.remove(i); // Remove from list part that we were looking for (remove from RAM) because we wrote it in disk.
-							partLookingFor++;
-						}
-					}
-				}
-			}
-
-		} catch (ClassNotFoundException cnf) {
-			cnf.printStackTrace();
-		} catch (IOException io) {
-			io.printStackTrace();
-		}
 	}
 
 	@RequiresApi(api = Build.VERSION_CODES.O)
