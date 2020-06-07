@@ -71,23 +71,20 @@ public class AsyncTaskActivity extends AppCompatActivity {
 			public void onClick(View v) {
 				song = editTxt.getText().toString();
 				Intent intent = getIntent();
-                //Consumer cons = (Consumer) intent.getSerializableExtra("Consumer");
 				if(song.isEmpty()){
 					Toast.makeText(AsyncTaskActivity.this, "Please Enter a Song", Toast.LENGTH_SHORT).show();
 				}else {
 					while(!Communicator.getEnd()){}
-//					Communicator com = new Communicator(3, artist, song);
-//					com.start();
+
 					if(online){
 						//ONLINE MODE
 						Communicator comm = new Communicator(cons, getApplicationContext(),4,artist,song);
 						comm.start();
-						cons.setIn(comm.getInputStream());
-						Communicator com = new Communicator(cons, getApplicationContext(),5,artist,song);
-						com.start();
-						//cons.playSongOnline();
+//						cons.setIn(comm.getInputStream());
+//						Communicator com = new Communicator(cons, getApplicationContext(),5,artist,song);
+//						com.start();
 						inte = new Intent(AsyncTaskActivity.this, MusicPlayerActivity.class);
-						inte.putExtra("file's name", "song.mp3");
+						inte.putExtra("file's name", song + ".mp3");
 						inte.putExtra("online", true);
 						startActivity(inte);
 
@@ -104,13 +101,6 @@ public class AsyncTaskActivity extends AppCompatActivity {
 				}
 			}
 		});
-	}
-
-	@RequiresApi(api = Build.VERSION_CODES.O)
-	private void playSongOffline(Consumer cons) throws IOException, ClassNotFoundException {
-		//while(!Communicator.getEnd()){System.out.println("teleiwsa");}
-
-		//cons.playData(song);
 	}
 
 }

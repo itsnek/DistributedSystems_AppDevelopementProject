@@ -97,16 +97,15 @@ public class Communicator extends Thread {
                 break;
             case 4 :
                 setIn(cons.requestSong (new ArtistName(artist), song));
-                break;
-            case 5 :
                 try {
-                    cons.playSongOnline(cons);
+                    cons.playSongOnline(cons,context,song);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
                 break;
+
         }
 
         setEnd(true);

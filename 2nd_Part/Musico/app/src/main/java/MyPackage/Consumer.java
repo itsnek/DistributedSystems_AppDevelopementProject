@@ -291,24 +291,28 @@ public class Consumer extends Node implements Serializable {
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    void playSongOnline(Consumer cons) throws IOException, ClassNotFoundException {
+    void playSongOnline(Consumer cons,Context con,String song) throws IOException, ClassNotFoundException {
         /* This list contains chunks that came earlier than than their order. For example chunk with number 3 if it arrived earlier
         than chunk with number 2. I delete a chunk after i use it.
          */
         ArrayList<MusicChunk> earlyChunks = new ArrayList<>();
-        File mp3File = new File("D:\\Nikos\\Documents\\GitHub\\distributed\\1st_Part\\song.mp3");
-        try {
-//            while (true) {
-//                if (cons.getIn().readObject() != null) break;
-//            }
+
+        //Set path.
+        String filename = song + ".mp3";
+        context = con;
+        File mp3File = new File(this.context.getFilesDir(), filename);
+
+        try (FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE)) {
+            while (true) {
+                if (cons.getIn().readObject() != null) break;
+            }
 
             Message message = (Message) cons.getIn().readObject();
             MusicChunk mChunk = message.getChunk();
-            Intent player;
             int partLookingFor = 0;
             if (mChunk.getPartitionNumber() == 0) {
                 mp3File.createNewFile();
-                Files.write(Paths.get("song.mp3"), mChunk.getPartition());
+                fos.write(mChunk.getPartition());
                 partLookingFor++; //Now it's equal to one.
             } else {
                 earlyChunks.add(mChunk);
@@ -320,14 +324,14 @@ public class Consumer extends Node implements Serializable {
                 mChunk = message.getChunk();
                 if (partLookingFor == mChunk.getPartitionNumber()) {
                     mp3File.createNewFile();
-                    Files.write(Paths.get("song.mp3"), mChunk.getPartition());
+                    fos.write(mChunk.getPartition());
                     partLookingFor++;
                 } else {
                     earlyChunks.add(mChunk);
                     for (int i=0; i < earlyChunks.size(); i++) {
                         if (earlyChunks.get(i).getPartitionNumber() == partLookingFor) {
                             mp3File.createNewFile();
-                            Files.write(Paths.get("song.mp3"), earlyChunks.get(i).getPartition());
+                            fos.write(earlyChunks.get(i).getPartition());
                             earlyChunks.remove(i); // Remove from list part that we were looking for (remove from RAM) because we wrote it in disk.
                             partLookingFor++;
                         }

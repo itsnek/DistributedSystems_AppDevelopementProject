@@ -50,7 +50,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
 		File mp3File;
 		if (player.hasExtra("online")) {
-			mp3File = new File(Objects.requireNonNull(getApplicationContext().getFilesDir() + File.separator + player.getStringExtra("file's name") + ".mp3"));
+			mp3File = new File(Objects.requireNonNull(getApplicationContext().getFilesDir() + File.separator + player.getStringExtra("file's name") ));
 			boolean online = player.getBooleanExtra("online", false);
 		} else {
 			mp3File = new File(Objects.requireNonNull(getApplicationContext().getFilesDir() + File.separator + player.getStringExtra("Song" ) + ".mp3"));
